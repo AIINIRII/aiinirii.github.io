@@ -4,32 +4,6 @@
   
   
   <entry>
-    <title>2020年三月美赛的一些记录</title>
-    <link href="/2020/03/07/2020%E5%B9%B4%E4%B8%89%E6%9C%88%E7%BE%8E%E8%B5%9B%E7%9A%84%E4%B8%80%E4%BA%9B%E8%AE%B0%E5%BD%95/"/>
-    <url>/2020/03/07/2020%E5%B9%B4%E4%B8%89%E6%9C%88%E7%BE%8E%E8%B5%9B%E7%9A%84%E4%B8%80%E4%BA%9B%E8%AE%B0%E5%BD%95/</url>
-    
-    <content type="html"><![CDATA[<h1 id="2020年三月美赛的一些记录"><a href="#2020年三月美赛的一些记录" class="headerlink" title="2020年三月美赛的一些记录"></a>2020年三月美赛的一些记录</h1><h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>首先想到的是情感分析，我们选择利用python进行情感的分析。</p><p>利用nltk库中的情感分析工具。</p><h4 id="第一题"><a href="#第一题" class="headerlink" title="第一题"></a>第一题</h4><p>模糊综合评判</p><p>评判标准：</p><p>最后分数 = （星级+评论中的情感 *（有效字数+绿标+有效票数+有效票数占比））</p><ul><li>星级</li><li>评论情感</li><li>有效字数</li><li>绿标</li><li>有效票数</li><li>有效票数占比</li></ul><p>权重矩阵：[0.3 0.5 0.2]</p><p>[有效字数 绿标 有效票数 有效票数占比]</p><p>[星级 评论中的情感*（有效字数+绿标+有效票数+有效票数占比）]</p><p>通过产品ID；</p><h2 id="评论情感分析"><a href="#评论情感分析" class="headerlink" title="评论情感分析"></a>评论情感分析</h2><p>mention_analys_demo.txt</p><p>文本格式是:</p><ul><li>句子</li><li>消极分数</li><li>中立分数</li><li>积极分数</li><li>句意复杂度</li></ul><p>verified_purchase删去所有N</p><p>计算出各百分比:</p><ul><li>星级(1-5)    normalize</li><li>有效票数</li><li>票数占比</li></ul><p>拐点分析:</p><ul><li>hair dryer (month_sum)<ul><li>08.4-09.10 降</li><li>09.4-10.7 降</li></ul></li><li>microwave(month_sum)<ul><li>09.10-10.1 降</li></ul></li><li>pacifier(month_sum)<ul><li>08.7-09.4 升</li></ul></li></ul><h2 id="重要算法"><a href="#重要算法" class="headerlink" title="重要算法"></a>重要算法</h2><ol><li><p>RAKE算法:</p><ol><li><p>关于该算法的相关文献：./reference/有关词频分析算法的文章/</p></li><li><p>对Word排序</p><ul><li><p>原理：将整篇文章的所有单词构造成一个图，每个单词是图中的一个节点。倘若两个单词在同一句话中出现过，则这两个单词在图中相连。</p></li><li><p>分数的计算：每一个单词的分数（score）都由它在关系图中的度（degree）和它在文章中的出现次数（frequency）得出。</p><p>公式：<br>$$<br>score = \frac{degree}{frequency}<br>$$</p></li></ul></li></ol></li><li><p>情感分析算法：</p><ol><li><p>关于该算法的文献：./reference/有关NLP情感分析的文章/</p></li><li><p>情感分析：</p><ul><li><p>原理：对每句话进行拆解，对每个单词生成情感得分并运算得到最终的句子情感得分分数。</p></li><li><p>最终得到的句子情感得分分数由三部分组成：</p><ul><li>pos</li><li>neg</li><li>neu</li></ul></li><li><p>我们最终的得分（score）的计算方法：<br>$$<br>score = pos - neg<br>$$</p></li></ul></li></ol></li></ol>]]></content>
-    
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>安装anaconda并安装python环境</title>
-    <link href="/2020/03/06/%E5%AE%89%E8%A3%85anaconda%E5%B9%B6%E5%AE%89%E8%A3%85python%E7%8E%AF%E5%A2%83/"/>
-    <url>/2020/03/06/%E5%AE%89%E8%A3%85anaconda%E5%B9%B6%E5%AE%89%E8%A3%85python%E7%8E%AF%E5%A2%83/</url>
-    
-    <content type="html"><![CDATA[<h1 id="安装anaconda并安装python环境"><a href="#安装anaconda并安装python环境" class="headerlink" title="安装anaconda并安装python环境"></a>安装anaconda并安装python环境</h1><h2 id="下载anaconda"><a href="#下载anaconda" class="headerlink" title="下载anaconda"></a>下载anaconda</h2><p>去<a href="https://www.anaconda.com/" target="_blank" rel="noopener">anaconda官网</a>找到符合你版本的下载地址下载anaconda.</p><h2 id="安装虚拟环境"><a href="#安装虚拟环境" class="headerlink" title="安装虚拟环境"></a>安装虚拟环境</h2><ol><li><p>打开电脑的cmd</p></li><li><p>输入以下指令</p><pre><code class="shell">#添加清华的源conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/# 设置搜索时显示通道地址conda config --set show_channel_urls yes#以上操作会明显加快下载速度</code></pre></li></ol><p>   #这里新建一个名为YOCO的anaconda虚拟环境并且制定其python版本<br>   conda create -n YOCO python=3.6.2<br>   #进入该虚拟环境<br>   activate YOCO<br>   #于该虚拟环境中安装项目所需要的包<br>   conda install bs4=4.8.2 requests=2.14.2 opencv=4.1.0 pyqt=5.6.0 pymysql=0.7.9<br>   #使用conda list命令验证安装情况<br>   conda list</p><pre><code></code></pre>]]></content>
-    
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>关于Git用法的一些总结</title>
     <link href="/2020/02/28/use-git/"/>
     <url>/2020/02/28/use-git/</url>
