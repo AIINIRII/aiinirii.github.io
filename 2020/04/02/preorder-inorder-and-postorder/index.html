@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/image/A.jpg">
+  <link rel="icon" type="image/png" href="/image/A.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="description" content="">
+  <meta name="author" content="aiinirii">
+  <meta name="keywords" content="Technology">
+  <title>二叉树的先序遍历、中序遍历以及后序遍历 ~ aiinirii&#39;s blog</title>
+
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+<link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"  >
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>aiinirii's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" false
+         style="background: url('/image/head.jpg')no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期四, 四月 2日 2020, 12:52 下午
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    1.4k 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      4 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <hr>
+<h2 id="开始前的一些碎碎念"><a href="#开始前的一些碎碎念" class="headerlink" title="开始前的一些碎碎念"></a>开始前的一些碎碎念</h2><p>仔细算算，距离我搭建好这个博客已经有进一个月了。</p>
+<p>但。。。。？</p>
+<p>为什么我还是一篇博文也写不出来！？</p>
+<p>明明我也是有个博主梦的好嘛？</p>
+<p><img src="/image/02D461D5.png" srcset="/img/loading.gif" alt="img"></p>
+<p>果然这样下去还是不行的，要不用技术贴来水水博客好了。</p>
+<p><img src="/image/02D705CC.jpg" srcset="/img/loading.gif" alt="img"></p>
+<p>说干就干！正好最近在学习二叉树，这次就来聊聊自己对先序遍历 (pre-order) 、中序遍历 (in-order) 和后序遍历 (post-order) 的理解吧！</p>
+<hr>
+<h2 id="二叉树的结构"><a href="#二叉树的结构" class="headerlink" title="二叉树的结构"></a>二叉树的结构</h2><p>若要谈三种遍历方式，必定逃不过二叉树本身。先放上二叉树的解释。</p>
+<blockquote>
+<p>在计算机科学中，二叉树是每个结点最多有两个子树的树结构。通常子树被称作“左子树”（left subtree）和“右子树”（right subtree）。二叉树常被用于实现二叉查找树和二叉堆。</p>
+<p>一棵深度为k，且有2^k-1个结点的二叉树，称为满二叉树。这种树的特点是每一层上的结点数都是最大结点数。而在一棵二叉树中，除最后一层外，若其余层都是满的，并且或者最后一层是满的，或者是在右边缺少连续若干结点，则此二叉树为完全二叉树。具有n个结点的完全二叉树的深度为floor(log2n)+1。深度为k的完全二叉树，至少有2k-1个叶子结点，至多有2k-1个结点。</p>
+<p>来源：<a href="https://baike.baidu.com/item/%E4%BA%8C%E5%8F%89%E6%A0%91" target="_blank" rel="noopener">百度百科</a></p>
+</blockquote>
+<p>我们可以看到，二叉树确实非常非常有用(￣▽￣)~*，而二叉树的结构其实也就是：</p>
+<ul>
+<li>每个节点最多只能有两个子节点</li>
+<li>整棵树从根节点（root node）出发，到无元素存储的外部节点（external node）结束。</li>
+</ul>
+<hr>
+<h2 id="先序（pre-order）、中序（in-order）和后序（post-order）"><a href="#先序（pre-order）、中序（in-order）和后序（post-order）" class="headerlink" title="先序（pre-order）、中序（in-order）和后序（post-order）"></a>先序（pre-order）、中序（in-order）和后序（post-order）</h2><h4 id="一、先序（pre-order）"><a href="#一、先序（pre-order）" class="headerlink" title="一、先序（pre-order）"></a>一、先序（pre-order）</h4><p>那么，介绍完二叉树的结构之后问题就来了，什么是先序遍历呢？</p>
+<p>当我们去搜索一棵二叉树上所有元素的时候，我们难免需要遵守一种规律。而先序遍历的规则是这样的：</p>
+<ol>
+<li><p>首先，我们会去问候根节点，这个时候我们就可以对这个节点干些想干的事情了⁄(⁄⁄•⁄ω⁄•⁄⁄)⁄</p>
+</li>
+<li><p>之后呢，我们会按顺序干以下两件事</p>
+<p>a)  问候这个节点的左子节点，并将该节点当成新的根节点，重复步骤1 - 2直到没有新节点可以被访问</p>
+<p>b)  问候这个节点的右子节点，并将该节点当成新的根节点，重复步骤1 - 2直到没有新节点可以被访问</p>
+</li>
+</ol>
+<p>我们可以很明显地看到，这个其实是一个递归过程，而代码是这样的：</p>
+<pre><code class="java">private void queryNodePreorder(ITree tree, IPosition nowRoot) {
+    /* 这里可以对nowRoot节点干些事情 */
+    if (tree.isLeaf(nowRoot)) { // 如果nowRoot是叶节点退出递归
+        return;
+    } else {
+        // 按顺序去访问nowRoot的左右子节点
+        queryNodePreorder(tree, tree.getLeftChild(nowRoot)); 
+        queryNodePreorder(tree, tree.getRightChild(nowRoot));
+    }
+}</code></pre>
+<h4 id="二、中序（In-order）"><a href="#二、中序（In-order）" class="headerlink" title="二、中序（In-order）"></a>二、中序（In-order）</h4><p>其实中序遍历和先序遍历相差无几。下面先给出中序遍历的规则：</p>
+<ol>
+<li><p>首先，还是要找到根节点，但是不同于先序，我们暂时先不访问它</p>
+</li>
+<li><p>之后呢，不同于先序，我们会按顺序干以下四件事</p>
+<p>a)  找到这个节点的左子节点（先不访问），并将该节点当成新的根节点，重复步骤1 - 2直到找到最左的那个子节点</p>
+<p>b)  然后从这个新的节点开始访问，访问完之后访问它的父节点</p>
+<p>c)  父节点之后是父节点的右子节点，同样也是不访问，只是找到它</p>
+<p>d)  再对这个右子节点重复步骤a - c，直到将整棵树操作完</p>
+</li>
+</ol>
+<p>用文字说明有点绕了，还是放上代码吧</p>
+<pre><code class="java">private void queryNodeInorder(ITree tree, IPosition nowRoot) {
+    if (tree.isLeaf(nowRoot)) { // 如果nowRoot是叶节点退出递归
+        return;
+    } else {
+        // 按顺序去访问nowRoot的左右子节点
+        queryNodeInorder(tree, tree.getLeftChild(nowRoot)); 
+        /* 不同于先序，我们会在这里对nowRoot节点干事情 */
+        queryNodeInorder(tree, tree.getRightChild(nowRoot));
+    }
+}</code></pre>
+<h4 id="三、后序（post-order）"><a href="#三、后序（post-order）" class="headerlink" title="三、后序（post-order）"></a>三、后序（post-order）</h4><p>说实话，我现在还不太清楚后序为什么叫（post-order）。。但原理还是很清晰的：</p>
+<ol>
+<li><p>首先，还是要找到根节点，但是不同于先序，我们暂时先不访问它</p>
+</li>
+<li><p>然后我们会按顺序干下面几件事：</p>
+<p>a)  找到左子节点，不访问</p>
+<p>b)  找到该节点的左子节点，并重复此步骤，直到找到叶节点</p>
+<p>c)  访问该叶节点</p>
+<p>d)  访问该叶节点的父节点的右子节点</p>
+<p>e)  将该右子节点当成新的根节点重复操作a - d</p>
+<p>f )  访问完右子节点后访问根节点</p>
+</li>
+</ol>
+<p>(；´д｀)ゞ这文字写得我都恶心了。。。</p>
+<p>还是放上代码吧，简单易懂：</p>
+<pre><code class="java">private void queryNodePostorder(ITree tree, IPosition nowRoot) {
+    if (tree.isLeaf(nowRoot)) { // 如果nowRoot是叶节点退出递归
+        return;
+    } else {
+        // 按顺序去访问nowRoot的左右子节点
+        queryNodePostorder(tree, tree.getLeftChild(nowRoot)); 
+        queryNodePostorder(tree, tree.getRightChild(nowRoot));
+        /* 在这里对nowRoot节点进行访问 */
+    }
+}</code></pre>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇博文大概就是这样啦，先序、中序和后序，再也不会傻傻分不清楚了ヽ(￣▽￣)ﾉ</p>
+<p>下篇博文打算聊聊如何用先序、中序和后序的组合看出原来的二叉树结构，希望自己能坚持下去呀！~</p>
+<p>٩꒰▽ ꒱۶⁼³₌₃ 学习去咯</p>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">数据结构</a>
+                
+                  <a class="hover-with-bg" href="/tags/%E7%A5%9E%E5%A5%87%E7%9A%84%E6%8A%80%E6%9C%AF%E6%B0%B4%E6%96%87">神奇的技术水文</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h5"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      <script src="https://utteranc.es/client.js"
+        repo="AIINIRII/repo"
+        issue-term="title"
+        label="Comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+    <!-- 不蒜子统计PV -->
+    
+    &nbsp;<span id="busuanzi_container_site_pv"></span>总访问量 
+          <span id="busuanzi_value_site_pv"></span> 次&nbsp;
+  
+  
+    <!-- 不蒜子统计UV -->
+    
+    &nbsp;<span id="busuanzi_container_site_uv"></span>总访客数 
+            <span id="busuanzi_value_site_uv"></span> 人&nbsp;
+  
+  <br>
+
+
+
+    
+
+
+    <!-- cnzz Analytics icon -->
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  <script src="/js/post.js" ></script>
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+    <script>
+      $(document).ready(function () {
+        tocbot.init({
+          tocSelector: '#tocbot',
+          contentSelector: '.post-content',
+          headingSelector: 'h1,h2,h3,h4,h5,h6',
+          linkClass: 'tocbot-link',
+          activeLinkClass: 'tocbot-active-link',
+          listClass: 'tocbot-list',
+          isCollapsedClass: 'tocbot-is-collapsed',
+          collapsibleClass: 'tocbot-is-collapsible',
+          scrollSmooth: true,
+        });
+      });
+    </script>
+  
+
+
+
+  <script src="/lib/smoothscroll/SmoothScroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+    <!-- Google Analytics -->
+    <script>
+      (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+          (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+          m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+      })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+      ga('create', 'UA-162280636-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  
+
+  
+
+  
+
+  <!-- cnzz Analytics -->
+  
+
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "二叉树的先序遍历、中序遍历以及后序遍历&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "§"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="/lib/fancybox/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
+
+
+
+
+
+
+
+
+</body>
+</html>
