@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>房地产自动定价（二）</title>
+    <link href="/2020/04/05/Housing-Evaluation-AUTO-Part-2/"/>
+    <url>/2020/04/05/Housing-Evaluation-AUTO-Part-2/</url>
+    
+    <content type="html"><![CDATA[<hr><h1 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h1><p>昨天，我确实爬到了我所需要的数据集，但是为了让后期的机器学习算法运行地更为顺利，我觉得非常有必要做一期数据预处理。在进行数据预处理之前，我想先给大家看一下我的数据库结构。</p><p><img src="/image/image-20200405215248645.png" srcset="/img/loading.gif" alt="image-20200405215248645"></p><p><img src="/image/image-20200405215310864.png" srcset="/img/loading.gif" alt="image-20200405215310864"></p><p>虽说只是草草一撇，但是我们可以发现其中有很多数据格式都不够统一，其中甚至有些显示的是暂无数据。</p><p>不妨来一列列地统一化吧~ヽ(￣▽￣)ノ</p><hr><h2 id="house-title"><a href="#house-title" class="headerlink" title="house_title"></a>house_title</h2><p>这列很明显的我们可以看到后面的 “**平米” 的数据和之后的house_area产生了数据重复，我们需要做的是将 “**平米” 数据给剔除。</p><p>因为涉及到字符串切片，我们的流程就只好放在python中了（而非MySQL）。</p><pre><code class="python">def house_title_format(self):    cousor_r = self.db.cursor()    cousor_w = self.db.cursor()    sqlR = &quot;SELECT house_id, house_title FROM house_info;&quot;    sqlW = &quot;UPDATE house_info SET house_title = %s, rooms_type = %s WHERE house_id = %s;&quot;    cousor_r.execute(sqlR)    result_set = cousor_r.fetchall()    for row in result_set:        house_id = row[0]        house_title = row[1]        title = house_title.split(&quot; &quot;)[0]        rooms = house_title.split(&quot; &quot;)[1]        cousor_w.execute(sqlW, (title, rooms, str(house_id)))    self.db.commit()</code></pre><p><img src="/image/1929C022.jpg" srcset="/img/loading.gif" alt="img"></p><p>事实上我好像忘了测试就跑原数据集了。还好苍天有眼，没毁了数据。既然想起来了，赶紧先备个份嘻嘻。</p><hr><h2 id="house-towards"><a href="#house-towards" class="headerlink" title="house towards"></a>house towards</h2><p>好了我回来了，刚刚真是惊心动魄，这下我存好数据库了，实在不行就删库重来呗!</p><p><img src="/image/19311CA8.jpg" srcset="/img/loading.gif" alt="img"></p><p><strong>house floor</strong>先不处理，那个太难了。先把<strong>house towards</strong>这列处理下。</p><p>对<strong>house towards</strong>这列做了去重查询之后，发现它们的数据格式大同小异，都是 “ 南 北 东 “ 类似如此的格式（即<em>方向+空格+方向+…</em>）除此之外还有一些”暂无数据”的小可爱。那其实就很简单啦。</p><p>在经过了一番操作之后，我成功地按照{‘南’: 0, ‘北’: 1, ‘东’: 2, ‘西’: 3, ‘西南’: 4, ‘东南’: 5, ‘东北’: 6, ‘西北’: 7}的方式把数据转化成功了。</p><p>下一个是谁，我来看看(oﾟ▽ﾟ)o</p><hr><h2 id="house-type"><a href="#house-type" class="headerlink" title="house_type"></a>house_type</h2><p>因为乍一看其实house_type和house_towards的处理差不多，好啦，那就先处理它。</p><p><img src="/image/image-20200406211723141.png" srcset="/img/loading.gif" alt="image-20200406211723141"></p><p>成功了，我按照这个表格进行了转码，这下就都处理完啦。</p><hr><p><img src="/image/198DB3D7.jpg" srcset="/img/loading.gif" alt="img"></p><p>那么数据预处理就结束了，接下来，为了让数据更加充足，我想做一下每个地点的经纬度的抓取~希望能成功啊！</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>神奇的技术水文</tag>
+      
+      <tag>ML</tag>
+      
+      <tag>数据挖掘</tag>
+      
+      <tag>爬虫</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>房地产自动定价（一）</title>
     <link href="/2020/04/04/Housing-Evaluation-AUTO-Part-1/"/>
     <url>/2020/04/04/Housing-Evaluation-AUTO-Part-1/</url>
