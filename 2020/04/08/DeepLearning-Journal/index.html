@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/image/A.jpg">
+  <link rel="icon" type="image/png" href="/image/A.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="description" content="">
+  <meta name="author" content="aiinirii">
+  <meta name="keywords" content="Technology">
+  <title>深度学习日记-卷积神经网络实现 ~ aiinirii&#39;s blog</title>
+
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+<link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-bright.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"  >
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>aiinirii's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" false
+         style="background: url('/image/head.jpg')no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期三, 四月 8日 2020, 9:23 晚上
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    1.1k 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      6 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <hr>
+<h1 id="Outline-of-the-Assignment"><a href="#Outline-of-the-Assignment" class="headerlink" title="Outline of the Assignment"></a>Outline of the Assignment</h1><ul>
+<li>Convolution functions, including:<ul>
+<li>Zero Padding</li>
+<li>Convolve window </li>
+<li>Convolution forward</li>
+</ul>
+</li>
+<li>Pooling functions, including:<ul>
+<li>Pooling forward</li>
+<li>Create mask </li>
+<li>Distribute value</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="Convolution-function"><a href="#Convolution-function" class="headerlink" title="Convolution function"></a>Convolution function</h2><hr>
+<h3 id="Zero-Padding"><a href="#Zero-Padding" class="headerlink" title="Zero Padding"></a>Zero Padding</h3><p>Firstly, we need to implement a function called Zero Padding, the code is as below.</p>
+<pre><code class="python">def zero_pad(X, pad):
+    X_pad = np.pad(X, ((0,0), (pad, pad), (pad, pad), (0,0)), mode=&#39;constant&#39;, constant_values = (0,0))
+    return X_pad</code></pre>
+<p>We can see that with using numpy, it is very easy to be implement.</p>
+<hr>
+<h3 id="Single-step-of-convolution"><a href="#Single-step-of-convolution" class="headerlink" title="Single step of convolution"></a>Single step of convolution</h3><p>Secondly, we need to implement the single step of convolution. </p>
+<pre><code class="python">def conv_single_step(a_slice_prev, W, b):
+    &quot;&quot;&quot;
+    Apply one filter defined by parameters W on a single slice (a_slice_prev) of the output activation 
+    of the previous layer.
+
+    Arguments:
+    a_slice_prev -- slice of input data of shape (f, f, n_C_prev)
+    W -- Weight parameters contained in a window - matrix of shape (f, f, n_C_prev)
+    b -- Bias parameters contained in a window - matrix of shape (1, 1, 1)
+
+    Returns:
+    Z -- a scalar value, the result of convolving the sliding window (W, b) on a slice x of the input data
+    &quot;&quot;&quot;
+    # Element-wise product between a_slice_prev and W. Do not add the bias yet.
+    s = np.multiply(W, a_slice_prev)
+    # Sum over all entries of the volume s.
+    Z = np.sum(s)
+    # Add bias b to Z. Cast b to a float() so that Z results in a scalar value.
+    Z = np.add(Z, float(b))
+
+    return Z</code></pre>
+<hr>
+<h3 id="Convolutional-Neural-Networks-Forward-pass"><a href="#Convolutional-Neural-Networks-Forward-pass" class="headerlink" title="Convolutional Neural Networks - Forward pass"></a>Convolutional Neural Networks - Forward pass</h3><p>Then, do the forward pass part, which is using the function before to do the whole layer.</p>
+<p>Where:</p>
+<p>$$ n_H = \lfloor \frac{n_{H_{prev}} - f + 2 \times pad}{stride} \rfloor +1 $$<br>$$ n_W = \lfloor \frac{n_{W_{prev}} - f + 2 \times pad}{stride} \rfloor +1 $$<br>$$ n_C = \text{number of filters used in the convolution}$$</p>
+<pre><code class="python">def conv_forward(A_prev, W, b, hparameters):
+    &quot;&quot;&quot;
+    Implements the forward propagation for a convolution function
+
+    Arguments:
+    A_prev -- output activations of the previous layer, 
+        numpy array of shape (m, n_H_prev, n_W_prev, n_C_prev)
+    W -- Weights, numpy array of shape (f, f, n_C_prev, n_C)
+    b -- Biases, numpy array of shape (1, 1, 1, n_C)
+    hparameters -- python dictionary containing &quot;stride&quot; and &quot;pad&quot;
+
+    Returns:
+    Z -- conv output, numpy array of shape (m, n_H, n_W, n_C)
+    cache -- cache of values needed for the conv_backward() function
+    &quot;&quot;&quot;
+
+    # Retrieve dimensions from A_prev&#39;s shape (≈1 line)  
+    (m, n_H_prev, n_W_prev, n_C_prev) = np.shape(A_prev)
+
+    # Retrieve dimensions from W&#39;s shape (≈1 line)
+    (f, f, n_C_prev, n_C) = np.shape(W)
+
+    # Retrieve information from &quot;hparameters&quot; (≈2 lines)
+    stride = hparameters[&#39;stride&#39;]
+    pad = hparameters[&#39;pad&#39;]
+
+    # Compute the dimensions of the CONV output volume using the formula given above. 
+    # Hint: use int() to apply the &#39;floor&#39; operation. (≈2 lines)
+    n_H = int((n_H_prev - f + 2 * pad)/stride) + 1
+    n_W = int((n_W_prev - f + 2 * pad)/stride) + 1
+
+    # Initialize the output volume Z with zeros. (≈1 line)
+    Z = np.zeros((m, n_H, n_W, n_C))
+
+    # Create A_prev_pad by padding A_prev
+    A_prev_pad = zero_pad(X=A_prev, pad=pad)
+
+    for i in range(m):               # loop over the batch of training examples
+        a_prev_pad = np.squeeze(A_prev_pad[i, :, :, :])               # Select ith training example&#39;s padded activation
+        for h in range(n_H):           # loop over vertical axis of the output volume
+            # Find the vertical start and end of the current &quot;slice&quot; (≈2 lines)
+            vert_start = h * stride
+            vert_end = h * stride + f
+
+            for w in range(n_W):       # loop over horizontal axis of the output volume
+                # Find the horizontal start and end of the current &quot;slice&quot; (≈2 lines)
+                horiz_start = w * stride
+                horiz_end = w * stride + f
+
+                for c in range(n_C):   # loop over channels (= #filters) of the output volume
+
+                    # Use the corners to define the (3D) slice of a_prev_pad (See Hint above the cell). (≈1 line)
+                    a_slice_prev = a_prev_pad[vert_start:vert_end, horiz_start:horiz_end, :]
+
+                    # Convolve the (3D) slice with the correct filter W and bias b, to get back one output neuron. (≈3 line)
+                    weights = W[: ,: , :, c]
+                    biases = b[:, :, :, c]
+                    Z[i, h, w, c] = conv_single_step(a_slice_prev=a_slice_prev, b=biases, W=weights)
+
+
+    # Making sure your output shape is correct
+    assert(Z.shape == (m, n_H, n_W, n_C))
+
+    # Save information in &quot;cache&quot; for the backprop
+    cache = (A_prev, W, b, hparameters)
+
+    return Z, cache</code></pre>
+<p>DON’T FORGET TO MULTIPLY STRIDE!!!</p>
+<hr>
+<h3 id="Pooling-Layer"><a href="#Pooling-Layer" class="headerlink" title="Pooling Layer"></a>Pooling Layer</h3><pre><code class="python">def pool_forward(A_prev, hparameters, mode = &quot;max&quot;):
+    &quot;&quot;&quot;
+    Implements the forward pass of the pooling layer
+
+    Arguments:
+    A_prev -- Input data, numpy array of shape (m, n_H_prev, n_W_prev, n_C_prev)
+    hparameters -- python dictionary containing &quot;f&quot; and &quot;stride&quot;
+    mode -- the pooling mode you would like to use, defined as a string (&quot;max&quot; or &quot;average&quot;)
+
+    Returns:
+    A -- output of the pool layer, a numpy array of shape (m, n_H, n_W, n_C)
+    cache -- cache used in the backward pass of the pooling layer, contains the input and hparameters 
+    &quot;&quot;&quot;
+
+    # Retrieve dimensions from the input shape
+    (m, n_H_prev, n_W_prev, n_C_prev) = A_prev.shape
+
+    # Retrieve hyperparameters from &quot;hparameters&quot;
+    f = hparameters[&quot;f&quot;]
+    stride = hparameters[&quot;stride&quot;]
+
+    # Define the dimensions of the output
+    n_H = int(1 + (n_H_prev - f) / stride)
+    n_W = int(1 + (n_W_prev - f) / stride)
+    n_C = n_C_prev
+
+    # Initialize output matrix A
+    A = np.zeros((m, n_H, n_W, n_C))              
+
+    for i in range(m):                         # loop over the training examples
+        for h in range(n_H):                     # loop on the vertical axis of the output volume
+            # Find the vertical start and end of the current &quot;slice&quot; (≈2 lines)
+            vert_start = h * stride 
+            vert_end = h * stride + f
+
+            for w in range(n_W):                 # loop on the horizontal axis of the output volume
+                # Find the vertical start and end of the current &quot;slice&quot; (≈2 lines)
+                horiz_start = w * stride
+                horiz_end = w * stride + f
+
+                for c in range (n_C):            # loop over the channels of the output volume
+
+                    # Use the corners to define the current slice on the ith training example of A_prev, channel c. (≈1 line)
+                    a_prev_slice = A_prev[i, vert_start:vert_end, horiz_start:horiz_end, c]
+
+                    # Compute the pooling operation on the slice. 
+                    # Use an if statement to differentiate the modes. 
+                    # Use np.max and np.mean.
+                    if mode == &quot;max&quot;:
+                        A[i, h, w, c] = np.max(a_prev_slice)
+                    elif mode == &quot;average&quot;:
+                        A[i, h, w, c] = np.mean(a_prev_slice)
+
+    # Store the input and hparameters in &quot;cache&quot; for pool_backward()
+    cache = (A_prev, hparameters)
+
+    # Making sure your output shape is correct
+    assert(A.shape == (m, n_H, n_W, n_C))
+
+    return A, cache</code></pre>
+<p>The code here just like the conv_forward.</p>
+<hr>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/%E7%A5%9E%E5%A5%87%E7%9A%84%E6%8A%80%E6%9C%AF%E6%B0%B4%E6%96%87">神奇的技术水文</a>
+                
+                  <a class="hover-with-bg" href="/tags/DL">DL</a>
+                
+                  <a class="hover-with-bg" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86">图像处理</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h5"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      <script src="https://utteranc.es/client.js"
+        repo="AIINIRII/repo"
+        issue-term="title"
+        label="Comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+    <!-- 不蒜子统计PV -->
+    
+    &nbsp;<span id="busuanzi_container_site_pv"></span>总访问量 
+          <span id="busuanzi_value_site_pv"></span> 次&nbsp;
+  
+  
+    <!-- 不蒜子统计UV -->
+    
+    &nbsp;<span id="busuanzi_container_site_uv"></span>总访客数 
+            <span id="busuanzi_value_site_uv"></span> 人&nbsp;
+  
+  <br>
+
+
+
+    
+
+
+    <!-- cnzz Analytics icon -->
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  <script src="/js/post.js" ></script>
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+    <script>
+      $(document).ready(function () {
+        tocbot.init({
+          tocSelector: '#tocbot',
+          contentSelector: '.post-content',
+          headingSelector: 'h1,h2,h3,h4,h5,h6',
+          linkClass: 'tocbot-link',
+          activeLinkClass: 'tocbot-active-link',
+          listClass: 'tocbot-list',
+          isCollapsedClass: 'tocbot-is-collapsed',
+          collapsibleClass: 'tocbot-is-collapsible',
+          scrollSmooth: true,
+        });
+      });
+    </script>
+  
+
+
+
+  <script src="/lib/smoothscroll/SmoothScroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+    <!-- Google Analytics -->
+    <script>
+      (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+          (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+          m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+      })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+      ga('create', 'UA-162280636-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  
+
+  
+
+  
+
+  <!-- cnzz Analytics -->
+  
+
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "深度学习日记-卷积神经网络实现&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "§"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="/lib/fancybox/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML" ></script>
+
+  
+
+
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
+
+
+
+
+
+
+
+
+</body>
+</html>
