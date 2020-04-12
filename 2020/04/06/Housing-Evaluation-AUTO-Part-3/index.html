@@ -204,8 +204,8 @@
 <p>这里采用了两层RELU去进行拟合。</p>
 <hr>
 <h1 id="模型的初尝试"><a href="#模型的初尝试" class="headerlink" title="模型的初尝试"></a>模型的初尝试</h1><pre><code class="python">def scheduler(epoch):
-    # 每隔100个epoch，学习率减小为原来的1/10
-    if epoch % 10 == 0 and epoch != 0:
+    # 每隔100个epoch，学习率减小为原来的1/3
+    if epoch % 100 == 0 and epoch != 0:
         lr = tf.keras.backend.get_value(model.optimizer.lr)
         tf.keras.backend.set_value(model.optimizer.lr, lr * 0.3)
         print(&quot;lr changed to {}&quot;.format(lr * 0.3))
@@ -298,6 +298,8 @@ test data: 30147/30147 - 2s - loss: 24309.7117 - mae: 106.6957</code></pre>
 <p>虽然依旧很高，但是比起之前来说好很多了呢</p>
 <p><img src="/image/332F77F9.jpg" srcset="/img/loading.gif" alt="img"></p>
 <p>今天暂时先这样吧，先睡一觉，想想是不是能有什么好方法ε=(´ο｀*)))唉</p>
+<hr>
+<p>git仓库链接：<a href="https://github.com/AIINIRII/HousingEvaluation/" target="_blank" rel="noopener">https://github.com/AIINIRII/HousingEvaluation/</a></p>
 
             <hr>
           </div>
