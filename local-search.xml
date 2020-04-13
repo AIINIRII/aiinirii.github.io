@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>Jupyter+Pycharm+anaconda 环境搭建时的报错</title>
+    <link href="/2020/04/13/Jupyter-Pycharm-anaconda-Bug/"/>
+    <url>/2020/04/13/Jupyter-Pycharm-anaconda-Bug/</url>
+    
+    <content type="html"><![CDATA[<p>今天突然发现，Pycharm里原来也可以集成Jupyter！</p><p>然后，本人便兴冲冲地去实现了Jupyter+Pycharm+anaconda的环境部署。。。</p><p>然而。。。事情并没有想象的那么简单。。</p><p><img src="/image/05A03442.jpg" srcset="/img/loading.gif" alt="img"></p><hr><p>在成功地安装完了环境之后，本人十分愉（zi）快（xin）地点击了运行cell，以下是报错：</p><pre><code class="shell">Traceback (most recent call last):  File &quot;D:\Program Files\anaconda\envs\torchPro\lib\site-packages\tornado\web.py&quot;, line 1703, in _execute    result = await result  File &quot;D:\Program Files\anaconda\envs\torchPro\lib\site-packages\tornado\gen.py&quot;, line 742, in run    yielded = self.gen.throw(*exc_info)  # type: ignore  File &quot;D:\Program Files\anaconda\envs\torchPro\lib\site-packages\notebook\services\sessions\handlers.py&quot;, line 72, in post    type=mtype))  File &quot;D:\Program Files\anaconda\envs\torchPro\lib\site-packages\tornado\gen.py&quot;, line 735, in run    value = future.result()  File &quot;D:\Program Files\anaconda\envs\torchPro\lib\site-packages\tornado\gen.py&quot;, line 742, in run    yielded = self.gen.throw(*exc_info)  # type: ignore  File &quot;D:\Program Files\anaconda\envs\torchPro\lib\site-packages\notebook\services\sessions\sessionmanager.py&quot;, line 88, in create_session    kernel_id = yield self.start_kernel_for_session(session_id, path, name, type, kernel_name)  File &quot;D:\Program Files\anaconda\envs\torchPro\lib\site-packages\tornado\gen.py&quot;, line 735, in run    value = future.result()  File &quot;D:\Program Files\anaconda\envs\torchPro\lib\site-packages\tornado\gen.py&quot;, line 742, in run    yielded = self.gen.throw(*exc_info)  # type: ignore  File &quot;D:\Program Files\anaconda\envs\torchPro\lib\site-packages\notebook\services\sessions\sessionmanager.py&quot;, line 101, in start_kernel_for_session    self.kernel_manager.start_kernel(path=kernel_path, kernel_name=kernel_name)  File &quot;D:\Program Files\anaconda\envs\torchPro\lib\site-packages\tornado\gen.py&quot;, line 735, in run    value = future.result()  File &quot;D:\Program Files\anaconda\envs\torchPro\lib\site-packages\tornado\gen.py&quot;, line 209, in wrapper    yielded = next(result)  File &quot;D:\Program Files\anaconda\envs\torchPro\lib\site-packages\notebook\services\kernels\kernelmanager.py&quot;, line 168, in start_kernel    super(MappingKernelManager, self).start_kernel(**kwargs)  File &quot;D:\Program Files\anaconda\envs\torchPro\lib\site-packages\jupyter_client\multikernelmanager.py&quot;, line 158, in start_kernel    km.start_kernel(**kwargs)  File &quot;D:\Program Files\anaconda\envs\torchPro\lib\site-packages\jupyter_client\manager.py&quot;, line 305, in start_kernel    self.kernel = self._launch_kernel(kernel_cmd, **kw)  File &quot;D:\Program Files\anaconda\envs\torchPro\lib\site-packages\jupyter_client\manager.py&quot;, line 212, in _launch_kernel    return launch_kernel(kernel_cmd, **kw)  File &quot;D:\Program Files\anaconda\envs\torchPro\lib\site-packages\jupyter_client\launcher.py&quot;, line 135, in launch_kernel    proc = Popen(cmd, **kwargs)  File &quot;D:\Program Files\anaconda\envs\torchPro\lib\subprocess.py&quot;, line 800, in __init__    restore_signals, start_new_session)  File &quot;D:\Program Files\anaconda\envs\torchPro\lib\subprocess.py&quot;, line 1207, in _execute_child    startupinfo)FileNotFoundError: [WinError 2] 系统找不到指定的文件。</code></pre><p>接下来 进入报错的那个文件 D:\Program Files\anaconda\envs\torchPro\lib\subprocess.py</p><pre><code class="python">hp, ht, pid, tid = _winapi.CreateProcess(executable, args,                                         # no special security                                         None, None,                                         int(not close_fds),                                         creationflags,                                         env,                                         os.fspath(cwd) if cwd is not None else None,                                         startupinfo)</code></pre><p>我确确实实地带着这串代码去网上转了好几圈，，结果还是找不出问题所在。o(╥﹏╥)o</p><p>不过最后当我切回Pycharm运行界面时，我发现</p><p><img src="/image/image-20200413194003178.png" srcset="/img/loading.gif" alt="image-20200413194003178"></p><p>我之前选的是上面那个，也没搞太清楚是怎么回事，但是选了Python 3 以后就解决了。。</p><p><img src="/image/image-20200413194213258.png" srcset="/img/loading.gif" alt="image-20200413194213258"></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>神奇的技术水文</tag>
+      
+      <tag>Pycharm</tag>
+      
+      <tag>anaconda</tag>
+      
+      <tag>Jupyter</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>深度学习日记-卷积神经网络实现</title>
     <link href="/2020/04/08/DeepLearning-Journal/"/>
     <url>/2020/04/08/DeepLearning-Journal/</url>
