@@ -18,7 +18,7 @@
   <meta name="description" content="">
   <meta name="author" content="aiinirii">
   <meta name="keywords" content="Technology">
-  <title>标签 - 数据挖掘 ~ aiinirii&#39;s blog</title>
+  <title>「解决」anaconda下cl.exe缺失的报错 ~ aiinirii&#39;s blog</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -41,7 +41,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -108,7 +108,7 @@
   </div>
 </nav>
 
-    <div class="view intro-2" id="background" parallax=true
+    <div class="view intro-2" id="background" false
          style="background: url('/image/head.jpg')no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
@@ -118,6 +118,41 @@
               
             </span>
 
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期二, 四月 14日 2020, 6:14 晚上
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    227 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      1 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
             
           </div>
 
@@ -129,48 +164,83 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-<!--  <p class="h4">共计 3 篇文章</p>-->
-  <hr>
-  
-    
       
-      <p class="h5">2020</p>
-    
-    <a href="/2020/04/06/Housing-Evaluation-AUTO-Part-3/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">房地产自动定价（三）</span>
-      <span style="float: right;">04-06</span>
-    </a>
-  
-    
-    <a href="/2020/04/05/Housing-Evaluation-AUTO-Part-2/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">房地产自动定价（二）</span>
-      <span style="float: right;">04-05</span>
-    </a>
-  
-    
-    <a href="/2020/04/04/Housing-Evaluation-AUTO-Part-1/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">房地产自动定价（一）</span>
-      <span style="float: right;">04-04</span>
-    </a>
-  
-</div>
 
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p>今天很崩溃，为了配置<a href="https://github.com/open-mmlab/mmdetection" target="_blank" rel="noopener">mmdetection</a>所需的环境，我真可谓是煞费苦心。这里记录一个让我止步不前的报错。</p>
+<pre><code class="shell">    cl.exe /c /nologo /Ox /W3 /GL /DNDEBUG /MD &quot;-ID:\Program Files\anaconda\envs\open_mmlab\lib\site-packages\numpy\core\include&quot; &quot;-ID:\Program Files\anaconda\envs\open_mmlab\include&quot; &quot;-ID:\Program Files\anaconda\envs\open_mmlab\include&quot; /EHsc /Tp./mmcv/video/optflow_warp/flow_warp.cpp /Fobuild\temp.win-amd64-3.7\Release\./mmcv/video/optflow_warp/flow_warp.obj
+    error: command &#39;cl.exe&#39; failed: No such file or directory</code></pre>
+<p>奇怪了啊，为什么会报错找不到cl.exe呢？我是装了vstool的啊？？？</p>
+<p>在网上找了一圈之后，也没有任何解答。</p>
+<p>后来突然，当我不小心没activate就进行安装指令的时候。。。我发现。。他他他可以了？？</p>
+<p>原来是anaconda的锅。</p>
+<p>于是去网上就这个问题找了一会儿，发现原理其实很简单，就是anaconda环境里没有Cpython。于是：</p>
+<pre><code class="shell">pip install cpython</code></pre>
+<p>就解决了。</p>
 
-
-              </div>
-            </div>
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/anaconda">anaconda</a>
+                
+                  <a class="hover-with-bg" href="/tags/visual%20studio">visual studio</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h5"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      <script src="https://utteranc.es/client.js"
+        repo="AIINIRII/repo"
+        issue-term="title"
+        label="Comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -249,6 +319,26 @@
 
 
 
+  <script src="/js/post.js" ></script>
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+    <script>
+      $(document).ready(function () {
+        tocbot.init({
+          tocSelector: '#tocbot',
+          contentSelector: '.post-content',
+          headingSelector: 'h1,h2,h3,h4,h5,h6',
+          linkClass: 'tocbot-link',
+          activeLinkClass: 'tocbot-active-link',
+          listClass: 'tocbot-list',
+          isCollapsedClass: 'tocbot-is-collapsed',
+          collapsibleClass: 'tocbot-is-collapsible',
+          scrollSmooth: true,
+        });
+      });
+    </script>
+  
+
 
 
   <script src="/lib/smoothscroll/SmoothScroll.min.js" ></script>
@@ -307,7 +397,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "标签 - 数据挖掘&nbsp;",
+        "「解决」anaconda下cl.exe缺失的报错&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
