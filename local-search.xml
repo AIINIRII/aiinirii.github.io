@@ -4,6 +4,29 @@
   
   
   <entry>
+    <title>Mybatis 笔记</title>
+    <link href="/2020/06/07/Mybatis-notes/"/>
+    <url>/2020/06/07/Mybatis-notes/</url>
+    
+    <content type="html"><![CDATA[<p>终于，本:herb::baby_chick:结束了长达一个多月的DDL战争，重拾旧爱。</p><p>接下来几天要开始按照 Mybatis -&gt; Spring -&gt; Spring MVC 的流程爬一遍！</p><p><img src="/image/017C679B.jpg" srcset="/img/loading.gif" alt="img"></p><hr><h3 id="一、-XML-配置-与基础-CURD-的-XML-实现"><a href="#一、-XML-配置-与基础-CURD-的-XML-实现" class="headerlink" title="一、 XML 配置 与基础 CURD 的 XML 实现"></a>一、 XML 配置 与基础 CURD 的 XML 实现</h3><h5 id="Maven-XML-dependencies-配置"><a href="#Maven-XML-dependencies-配置" class="headerlink" title="Maven XML dependencies 配置"></a>Maven XML dependencies 配置</h5><pre><code class="xml">&lt;dependencies&gt;    &lt;dependency&gt;        &lt;groupId&gt;junit&lt;/groupId&gt;        &lt;artifactId&gt;junit&lt;/artifactId&gt;        &lt;version&gt;4.13&lt;/version&gt;        &lt;scope&gt;test&lt;/scope&gt;    &lt;/dependency&gt;    &lt;dependency&gt;        &lt;groupId&gt;log4j&lt;/groupId&gt;        &lt;artifactId&gt;log4j&lt;/artifactId&gt;        &lt;version&gt;1.2.12&lt;/version&gt;    &lt;/dependency&gt;    &lt;dependency&gt;        &lt;groupId&gt;mysql&lt;/groupId&gt;        &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;        &lt;version&gt;5.1.49&lt;/version&gt;    &lt;/dependency&gt;    &lt;dependency&gt;        &lt;groupId&gt;org.mybatis&lt;/groupId&gt;        &lt;artifactId&gt;mybatis&lt;/artifactId&gt;        &lt;version&gt;3.5.4&lt;/version&gt;    &lt;/dependency&gt;&lt;/dependencies&gt;</code></pre><h5 id="SqlMapConfig-xml"><a href="#SqlMapConfig-xml" class="headerlink" title="SqlMapConfig.xml"></a>SqlMapConfig.xml</h5><pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;&lt;!DOCTYPE configuration        PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;        &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;&lt;configuration&gt;    &lt;environments default=&quot;mysql&quot;&gt;        &lt;environment id=&quot;mysql&quot;&gt;            &lt;transactionManager type=&quot;JDBC&quot;/&gt;            &lt;dataSource type=&quot;POOLED&quot;&gt;                &lt;property name=&quot;driver&quot; value=&quot;com.mysql.jdbc.Driver&quot;/&gt;                &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://localhost:3306/mybatisdb&quot;/&gt;                &lt;property name=&quot;username&quot; value=&quot;***&quot;/&gt;                &lt;property name=&quot;password&quot; value=&quot;***&quot;/&gt;            &lt;/dataSource&gt;        &lt;/environment&gt;    &lt;/environments&gt;    &lt;mappers&gt;        &lt;mapper resource=&quot;mybatis\dao\IUserMapper.xml&quot;/&gt;    &lt;/mappers&gt;&lt;/configuration&gt;</code></pre><h5 id="IUserMapper-xml-（这是我自己写的项目中的-IUserMapper-的配置）"><a href="#IUserMapper-xml-（这是我自己写的项目中的-IUserMapper-的配置）" class="headerlink" title="IUserMapper.xml （这是我自己写的项目中的 IUserMapper 的配置）"></a>IUserMapper.xml （这是我自己写的项目中的 IUserMapper 的配置）</h5><pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;&lt;!DOCTYPE mapper        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;&lt;mapper namespace=&quot;mybatis.dao.IUserDao&quot;&gt;    &lt;select id=&quot;findAll&quot; resultType=&quot;mybatis.entity.User&quot;&gt;        select * from User    &lt;/select&gt;    &lt;select id=&quot;findById&quot; resultType=&quot;mybatis.entity.User&quot; parameterType=&quot;Integer&quot;&gt;        select * from User where id=#{uid}    &lt;/select&gt;    &lt;delete id=&quot;removeById&quot; parameterType=&quot;Integer&quot;&gt;        delete from User where id=#{uid}    &lt;/delete&gt;    &lt;insert id=&quot;insertUser&quot; parameterType=&quot;mybatis.entity.User&quot;&gt;        &lt;selectKey keyProperty=&quot;id&quot; keyColumn=&quot;id&quot; order=&quot;AFTER&quot; resultType=&quot;Integer&quot;&gt;            select last_insert_id()        &lt;/selectKey&gt;        insert into User(username, address, sex, birthday) values (#{username}, #{address}, #{sex}, #{birthday})    &lt;/insert&gt;    &lt;update id=&quot;updateById&quot; parameterType=&quot;mybatis.entity.User&quot;&gt;        update user set username=#{username}, birthday=#{birthday}, address=#{address}, sex=#{sex} where id=#{id}    &lt;/update&gt;    &lt;select id=&quot;findByIdQueryVo&quot; resultType=&quot;mybatis.entity.User&quot; parameterType=&quot;Integer&quot;&gt;        select * from User where id=#{user.uid}    &lt;/select&gt;&lt;/mapper&gt;</code></pre><h5 id="Dao-类实现（同样也是例子）"><a href="#Dao-类实现（同样也是例子）" class="headerlink" title="Dao 类实现（同样也是例子）"></a>Dao 类实现（同样也是例子）</h5><pre><code class="java">public interface IUserDao {    List&lt;User&gt; findAll();    User findById(Integer id);    void removeById(Integer id);    void insertUser(User user);    void updateById(User user);    User findByIdQueryVo(Integer id);}</code></pre><hr><h3 id="二、-延时加载-（懒加载）"><a href="#二、-延时加载-（懒加载）" class="headerlink" title="二、 延时加载 （懒加载）"></a>二、 延时加载 （懒加载）</h3><pre><code class="xml">&lt;resultMap id=&quot;userMap&quot; type=&quot;user&quot;&gt;    &lt;id property=&quot;id&quot; column=&quot;id&quot;/&gt;    &lt;id property=&quot;username&quot; column=&quot;username&quot;/&gt;    &lt;id property=&quot;sex&quot; column=&quot;sex&quot;/&gt;    &lt;id property=&quot;birthday&quot; column=&quot;birthday&quot;/&gt;    &lt;!-- 懒加载部分 --&gt;    &lt;assoociation property=&quot;bill&quot; colume=&quot;bid&quot; javaType=&quot;bill&quot; select=&quot;*.findById&quot;/&gt;&lt;/resultMap&gt;&lt;select id=&quot;findAll&quot; resultMap=&quot;userMap&quot;&gt;    select * from user&lt;/select&gt;&lt;select id=&quot;findById&quot; resultType=&quot;bill&quot;&gt;    select * from bills where id = #{bid}&lt;/select&gt;</code></pre><p>同时还需要开启延迟加载的开关</p><pre><code class="xml">&lt;settings&gt;    &lt;!-- 懒加载开启 --&gt;    &lt;setting name=&quot;lazyLoadingEnabled&quot; value=&quot;true&quot;/&gt;    &lt;!-- 按需加载 --&gt;    &lt;setting name=&quot;aggressiveLazyLoading&quot; value=&quot;false&quot;/&gt;&lt;/settings&gt;</code></pre><hr><h3 id="三、-缓存"><a href="#三、-缓存" class="headerlink" title="三、 缓存"></a>三、 缓存</h3><p>减小和数据库的交互次数，提升效率。</p><p>缓存目标数据：</p><ul><li>经常查询的数据</li><li>不经常改变的数据</li><li>数据的正确与否对最终结果影响不大<ul><li>例如银行数据之类的，股市数据之类的都不能用缓存，查询之间不允许有延迟，必须时刻保证数据真实性。</li></ul></li></ul><h5 id="多级缓存"><a href="#多级缓存" class="headerlink" title="多级缓存"></a>多级缓存</h5><ul><li><p>一级缓存</p><ul><li><p>每次执行查询之后，SqlSession 会为我们提供一块区域来进行缓存。</p></li><li><p>例如，短时间内查询两个相同的对象，那么这两个将会共享同一个内存空间。两者的 reference 相等。</p></li><li><p>当 SqlSession 对象使用 clearCache 方法清空缓存之后，将不会有一级缓存。</p></li><li><p>调用 update 方法之后它也会清空一级缓存。</p></li></ul></li><li><p>二级缓存</p><ul><li><p>指的 Mybatis 中 SqlSessionFactory 的缓存。</p></li><li><p>各种由该 SqlSessionFactory 生产的 SqlSession 都共享该缓存。</p></li><li><p>配置方式：</p><ul><li><p>Mybatis 框架支持二级缓存</p><pre><code class="xml">  &lt;settings&gt;      &lt;setting name=&quot;cacheEnabled&quot; value=&quot;true&quot;/&gt;  &lt;/settings&gt;</code></pre></li><li><p>映射文件支持二级缓存</p></li><li><p>操作支持二级缓存</p><pre><code class="xml">  &lt;mapper&gt;      &lt;cache/&gt;      &lt;select useCache=&quot;true&quot;&gt;          select * from user      &lt;/select&gt;  &lt;/mapper&gt;</code></pre></li></ul></li><li><p>创建新对象，但是不查询。</p></li></ul></li></ul><hr><h3 id="四、-注解开发"><a href="#四、-注解开发" class="headerlink" title="四、 注解开发"></a>四、 注解开发</h3><p><em>对于CRUD来说一共有四个注解，@Select, @Insert, @Update, @Delete</em></p><p><em>CRUD: Create, Retrieve, Update, Delete</em></p><p>注解与 xml 不能同时存在！</p><p>注解在 Dao 文件中的表现形式:</p><pre><code class="java">public interface IUserDao{    @Select(&quot;select * from User where id=#{id}&quot;)    @Results(id=&quot;userMap&quot;,             value={                @Result(id=true, colume=&quot;id&quot;, property=&quot;userId&quot;),                @Result(colume=&quot;username&quot;, property=&quot;userName&quot;)            })    List&lt;User&gt; findUser(Integer id);    @Select(&quot;select * from User&quot;)    @ResultMap(value={&quot;userMap&quot;, })    List&lt;User&gt; findAllUser();}</code></pre><h5 id="一对一查询"><a href="#一对一查询" class="headerlink" title="一对一查询"></a>一对一查询</h5><p>通常使用 EAGER。</p><pre><code class="java">public interface IAccountDao{    @Select(&quot;select * from account&quot;)    @Results(id=&quot;accountMap&quot;,             value={                @Result(id=true, colume=&quot;id&quot;, property=&quot;Id&quot;),                @Result(colume=&quot;uid&quot;, property=&quot;uid&quot;),                @Result(property=&quot;user&quot;, column=&quot;uid&quot;, one=@One(select=&quot;*.IUserDao.findUser&quot;,                                                                 fetchType=FetchType.EAGER))            })    List&lt;Account&gt; findAccount(Integer id);}</code></pre><h5 id="一对多查询"><a href="#一对多查询" class="headerlink" title="一对多查询"></a>一对多查询</h5><p>通常使用 LAZY。</p><pre><code class="java">public interface IAccountDao{    @Select(&quot;select * from account&quot;)    @Results(id=&quot;accountMap&quot;,             value={                @Result(id=true, colume=&quot;id&quot;, property=&quot;Id&quot;),                @Result(colume=&quot;uid&quot;, property=&quot;uid&quot;),                @Result(property=&quot;user&quot;, column=&quot;uid&quot;, many=@Many(select=&quot;*.IUserDao.findUser&quot;,                                                                 fetchType=FetchType.LAZY))            })    List&lt;Account&gt; findAccount(Integer id);}</code></pre><h5 id="二级缓存"><a href="#二级缓存" class="headerlink" title="二级缓存"></a>二级缓存</h5><pre><code class="java">public interface IAccountDao{    @Select(&quot;select * from account&quot;)    @Results(id=&quot;accountMap&quot;,             value={                @Result(id=true, colume=&quot;id&quot;, property=&quot;Id&quot;),                @Result(colume=&quot;uid&quot;, property=&quot;uid&quot;),                @Result(property=&quot;user&quot;, column=&quot;uid&quot;, many=@Many(select=&quot;*.IUserDao.findUser&quot;,                                                                 fetchType=FetchType.LAZY))            })    List&lt;Account&gt; findAccount(Integer id);}</code></pre>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>神奇的技术水文</tag>
+      
+      <tag>Java</tag>
+      
+      <tag>Mybatis</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>ModuleNotFoundError</title>
     <link href="/2020/04/14/ModuleNotFoundError/"/>
     <url>/2020/04/14/ModuleNotFoundError/</url>
@@ -52,6 +75,18 @@
     
     
     
+    <tags>
+      
+      <tag>神奇的技术水文</tag>
+      
+      <tag>Pycharm</tag>
+      
+      <tag>anaconda</tag>
+      
+      <tag>Jupyter</tag>
+      
+    </tags>
+    
   </entry>
   
   
@@ -64,6 +99,16 @@
     <content type="html"><![CDATA[<hr><h1 id="Outline-of-the-Assignment"><a href="#Outline-of-the-Assignment" class="headerlink" title="Outline of the Assignment"></a>Outline of the Assignment</h1><ul><li>Convolution functions, including:<ul><li>Zero Padding</li><li>Convolve window </li><li>Convolution forward</li></ul></li><li>Pooling functions, including:<ul><li>Pooling forward</li><li>Create mask </li><li>Distribute value</li></ul></li></ul><hr><h2 id="Convolution-function"><a href="#Convolution-function" class="headerlink" title="Convolution function"></a>Convolution function</h2><hr><h3 id="Zero-Padding"><a href="#Zero-Padding" class="headerlink" title="Zero Padding"></a>Zero Padding</h3><p>Firstly, we need to implement a function called Zero Padding, the code is as below.</p><pre><code class="python">def zero_pad(X, pad):    X_pad = np.pad(X, ((0,0), (pad, pad), (pad, pad), (0,0)), mode=&#39;constant&#39;, constant_values = (0,0))    return X_pad</code></pre><p>We can see that with using numpy, it is very easy to be implement.</p><hr><h3 id="Single-step-of-convolution"><a href="#Single-step-of-convolution" class="headerlink" title="Single step of convolution"></a>Single step of convolution</h3><p>Secondly, we need to implement the single step of convolution. </p><pre><code class="python">def conv_single_step(a_slice_prev, W, b):    &quot;&quot;&quot;    Apply one filter defined by parameters W on a single slice (a_slice_prev) of the output activation     of the previous layer.    Arguments:    a_slice_prev -- slice of input data of shape (f, f, n_C_prev)    W -- Weight parameters contained in a window - matrix of shape (f, f, n_C_prev)    b -- Bias parameters contained in a window - matrix of shape (1, 1, 1)    Returns:    Z -- a scalar value, the result of convolving the sliding window (W, b) on a slice x of the input data    &quot;&quot;&quot;    # Element-wise product between a_slice_prev and W. Do not add the bias yet.    s = np.multiply(W, a_slice_prev)    # Sum over all entries of the volume s.    Z = np.sum(s)    # Add bias b to Z. Cast b to a float() so that Z results in a scalar value.    Z = np.add(Z, float(b))    return Z</code></pre><hr><h3 id="Convolutional-Neural-Networks-Forward-pass"><a href="#Convolutional-Neural-Networks-Forward-pass" class="headerlink" title="Convolutional Neural Networks - Forward pass"></a>Convolutional Neural Networks - Forward pass</h3><p>Then, do the forward pass part, which is using the function before to do the whole layer.</p><p>Where:</p><p>$$ n_H = \lfloor \frac{n_{H_{prev}} - f + 2 \times pad}{stride} \rfloor +1 $$<br>$$ n_W = \lfloor \frac{n_{W_{prev}} - f + 2 \times pad}{stride} \rfloor +1 $$<br>$$ n_C = \text{number of filters used in the convolution}$$</p><pre><code class="python">def conv_forward(A_prev, W, b, hparameters):    &quot;&quot;&quot;    Implements the forward propagation for a convolution function    Arguments:    A_prev -- output activations of the previous layer,         numpy array of shape (m, n_H_prev, n_W_prev, n_C_prev)    W -- Weights, numpy array of shape (f, f, n_C_prev, n_C)    b -- Biases, numpy array of shape (1, 1, 1, n_C)    hparameters -- python dictionary containing &quot;stride&quot; and &quot;pad&quot;    Returns:    Z -- conv output, numpy array of shape (m, n_H, n_W, n_C)    cache -- cache of values needed for the conv_backward() function    &quot;&quot;&quot;    # Retrieve dimensions from A_prev&#39;s shape (≈1 line)      (m, n_H_prev, n_W_prev, n_C_prev) = np.shape(A_prev)    # Retrieve dimensions from W&#39;s shape (≈1 line)    (f, f, n_C_prev, n_C) = np.shape(W)    # Retrieve information from &quot;hparameters&quot; (≈2 lines)    stride = hparameters[&#39;stride&#39;]    pad = hparameters[&#39;pad&#39;]    # Compute the dimensions of the CONV output volume using the formula given above.     # Hint: use int() to apply the &#39;floor&#39; operation. (≈2 lines)    n_H = int((n_H_prev - f + 2 * pad)/stride) + 1    n_W = int((n_W_prev - f + 2 * pad)/stride) + 1    # Initialize the output volume Z with zeros. (≈1 line)    Z = np.zeros((m, n_H, n_W, n_C))    # Create A_prev_pad by padding A_prev    A_prev_pad = zero_pad(X=A_prev, pad=pad)    for i in range(m):               # loop over the batch of training examples        a_prev_pad = np.squeeze(A_prev_pad[i, :, :, :])               # Select ith training example&#39;s padded activation        for h in range(n_H):           # loop over vertical axis of the output volume            # Find the vertical start and end of the current &quot;slice&quot; (≈2 lines)            vert_start = h * stride            vert_end = h * stride + f            for w in range(n_W):       # loop over horizontal axis of the output volume                # Find the horizontal start and end of the current &quot;slice&quot; (≈2 lines)                horiz_start = w * stride                horiz_end = w * stride + f                for c in range(n_C):   # loop over channels (= #filters) of the output volume                    # Use the corners to define the (3D) slice of a_prev_pad (See Hint above the cell). (≈1 line)                    a_slice_prev = a_prev_pad[vert_start:vert_end, horiz_start:horiz_end, :]                    # Convolve the (3D) slice with the correct filter W and bias b, to get back one output neuron. (≈3 line)                    weights = W[: ,: , :, c]                    biases = b[:, :, :, c]                    Z[i, h, w, c] = conv_single_step(a_slice_prev=a_slice_prev, b=biases, W=weights)    # Making sure your output shape is correct    assert(Z.shape == (m, n_H, n_W, n_C))    # Save information in &quot;cache&quot; for the backprop    cache = (A_prev, W, b, hparameters)    return Z, cache</code></pre><p>DON’T FORGET TO MULTIPLY STRIDE!!!</p><hr><h3 id="Pooling-Layer"><a href="#Pooling-Layer" class="headerlink" title="Pooling Layer"></a>Pooling Layer</h3><pre><code class="python">def pool_forward(A_prev, hparameters, mode = &quot;max&quot;):    &quot;&quot;&quot;    Implements the forward pass of the pooling layer    Arguments:    A_prev -- Input data, numpy array of shape (m, n_H_prev, n_W_prev, n_C_prev)    hparameters -- python dictionary containing &quot;f&quot; and &quot;stride&quot;    mode -- the pooling mode you would like to use, defined as a string (&quot;max&quot; or &quot;average&quot;)    Returns:    A -- output of the pool layer, a numpy array of shape (m, n_H, n_W, n_C)    cache -- cache used in the backward pass of the pooling layer, contains the input and hparameters     &quot;&quot;&quot;    # Retrieve dimensions from the input shape    (m, n_H_prev, n_W_prev, n_C_prev) = A_prev.shape    # Retrieve hyperparameters from &quot;hparameters&quot;    f = hparameters[&quot;f&quot;]    stride = hparameters[&quot;stride&quot;]    # Define the dimensions of the output    n_H = int(1 + (n_H_prev - f) / stride)    n_W = int(1 + (n_W_prev - f) / stride)    n_C = n_C_prev    # Initialize output matrix A    A = np.zeros((m, n_H, n_W, n_C))                  for i in range(m):                         # loop over the training examples        for h in range(n_H):                     # loop on the vertical axis of the output volume            # Find the vertical start and end of the current &quot;slice&quot; (≈2 lines)            vert_start = h * stride             vert_end = h * stride + f            for w in range(n_W):                 # loop on the horizontal axis of the output volume                # Find the vertical start and end of the current &quot;slice&quot; (≈2 lines)                horiz_start = w * stride                horiz_end = w * stride + f                for c in range (n_C):            # loop over the channels of the output volume                    # Use the corners to define the current slice on the ith training example of A_prev, channel c. (≈1 line)                    a_prev_slice = A_prev[i, vert_start:vert_end, horiz_start:horiz_end, c]                    # Compute the pooling operation on the slice.                     # Use an if statement to differentiate the modes.                     # Use np.max and np.mean.                    if mode == &quot;max&quot;:                        A[i, h, w, c] = np.max(a_prev_slice)                    elif mode == &quot;average&quot;:                        A[i, h, w, c] = np.mean(a_prev_slice)    # Store the input and hparameters in &quot;cache&quot; for pool_backward()    cache = (A_prev, hparameters)    # Making sure your output shape is correct    assert(A.shape == (m, n_H, n_W, n_C))    return A, cache</code></pre><p>The code here just like the conv_forward.</p><hr>]]></content>
     
     
+    
+    <tags>
+      
+      <tag>神奇的技术水文</tag>
+      
+      <tag>DL</tag>
+      
+      <tag>图像处理</tag>
+      
+    </tags>
     
   </entry>
   
@@ -78,6 +123,18 @@
     
     
     
+    <tags>
+      
+      <tag>神奇的技术水文</tag>
+      
+      <tag>ML</tag>
+      
+      <tag>数据挖掘</tag>
+      
+      <tag>TensorFlow</tag>
+      
+    </tags>
+    
   </entry>
   
   
@@ -90,6 +147,18 @@
     <content type="html"><![CDATA[<hr><h1 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h1><p>昨天，我确实爬到了我所需要的数据集，但是为了让后期的机器学习算法运行地更为顺利，我觉得非常有必要做一期数据预处理。在进行数据预处理之前，我想先给大家看一下我的数据库结构。</p><p><img src="/image/image-20200405215248645.png" srcset="/img/loading.gif" alt="image-20200405215248645"></p><p><img src="/image/image-20200405215310864.png" srcset="/img/loading.gif" alt="image-20200405215310864"></p><p>虽说只是草草一撇，但是我们可以发现其中有很多数据格式都不够统一，其中甚至有些显示的是暂无数据。</p><p>不妨来一列列地统一化吧~ヽ(￣▽￣)ノ</p><hr><h2 id="house-title"><a href="#house-title" class="headerlink" title="house_title"></a>house_title</h2><p>这列很明显的我们可以看到后面的 “**平米” 的数据和之后的house_area产生了数据重复，我们需要做的是将 “**平米” 数据给剔除。</p><p>因为涉及到字符串切片，我们的流程就只好放在python中了（而非MySQL）。</p><pre><code class="python">def house_title_format(self):    cousor_r = self.db.cursor()    cousor_w = self.db.cursor()    sqlR = &quot;SELECT house_id, house_title FROM house_info;&quot;    sqlW = &quot;UPDATE house_info SET house_title = %s, rooms_type = %s WHERE house_id = %s;&quot;    cousor_r.execute(sqlR)    result_set = cousor_r.fetchall()    for row in result_set:        house_id = row[0]        house_title = row[1]        title = house_title.split(&quot; &quot;)[0]        rooms = house_title.split(&quot; &quot;)[1]        cousor_w.execute(sqlW, (title, rooms, str(house_id)))    self.db.commit()</code></pre><p><img src="/image/1929C022.jpg" srcset="/img/loading.gif" alt="img"></p><p>事实上我好像忘了测试就跑原数据集了。还好苍天有眼，没毁了数据。既然想起来了，赶紧先备个份嘻嘻。</p><hr><h2 id="house-towards"><a href="#house-towards" class="headerlink" title="house towards"></a>house towards</h2><p>好了我回来了，刚刚真是惊心动魄，这下我存好数据库了，实在不行就删库重来呗!</p><p><img src="/image/19311CA8.jpg" srcset="/img/loading.gif" alt="img"></p><p><strong>house floor</strong>先不处理，那个太难了。先把<strong>house towards</strong>这列处理下。</p><p>对<strong>house towards</strong>这列做了去重查询之后，发现它们的数据格式大同小异，都是 “ 南 北 东 “ 类似如此的格式（即<em>方向+空格+方向+…</em>）除此之外还有一些”暂无数据”的小可爱。那其实就很简单啦。</p><p>在经过了一番操作之后，我成功地按照{‘南’: 0, ‘北’: 1, ‘东’: 2, ‘西’: 3, ‘西南’: 4, ‘东南’: 5, ‘东北’: 6, ‘西北’: 7}的方式把数据转化成功了。</p><p>下一个是谁，我来看看(oﾟ▽ﾟ)o</p><hr><h2 id="house-type"><a href="#house-type" class="headerlink" title="house_type"></a>house_type</h2><p>因为乍一看其实house_type和house_towards的处理差不多，好啦，那就先处理它。</p><p><img src="/image/image-20200406211723141.png" srcset="/img/loading.gif" alt="image-20200406211723141"></p><p>成功了，我按照这个表格进行了转码，这下就都处理完啦。</p><hr><p><img src="/image/198DB3D7.jpg" srcset="/img/loading.gif" alt="img"></p><p>那么数据预处理就结束了，接下来，为了让数据更加充足，我想做一下每个地点的经纬度的抓取~希望能成功啊！</p><hr><p>git仓库链接：<a href="https://github.com/AIINIRII/HousingEvaluation/" target="_blank" rel="noopener">https://github.com/AIINIRII/HousingEvaluation/</a></p>]]></content>
     
     
+    
+    <tags>
+      
+      <tag>神奇的技术水文</tag>
+      
+      <tag>ML</tag>
+      
+      <tag>数据挖掘</tag>
+      
+      <tag>爬虫</tag>
+      
+    </tags>
     
   </entry>
   
@@ -104,6 +173,18 @@
     
     
     
+    <tags>
+      
+      <tag>神奇的技术水文</tag>
+      
+      <tag>ML</tag>
+      
+      <tag>数据挖掘</tag>
+      
+      <tag>爬虫</tag>
+      
+    </tags>
+    
   </entry>
   
   
@@ -116,6 +197,14 @@
     <content type="html"><![CDATA[<hr><h2 id="开始前的一些碎碎念"><a href="#开始前的一些碎碎念" class="headerlink" title="开始前的一些碎碎念"></a>开始前的一些碎碎念</h2><p>仔细算算，距离我搭建好这个博客已经有进一个月了。</p><p>但。。。。？</p><p>为什么我还是一篇博文也写不出来！？</p><p>明明我也是有个博主梦的好嘛？</p><p><img src="/image/02D461D5.png" srcset="/img/loading.gif" alt="img"></p><p>果然这样下去还是不行的，要不用技术贴来水水博客好了。</p><p><img src="/image/02D705CC.jpg" srcset="/img/loading.gif" alt="img"></p><p>说干就干！正好最近在学习二叉树，这次就来聊聊自己对先序遍历 (pre-order) 、中序遍历 (in-order) 和后序遍历 (post-order) 的理解吧！</p><hr><h2 id="二叉树的结构"><a href="#二叉树的结构" class="headerlink" title="二叉树的结构"></a>二叉树的结构</h2><p>若要谈三种遍历方式，必定逃不过二叉树本身。先放上二叉树的解释。</p><blockquote><p>在计算机科学中，二叉树是每个结点最多有两个子树的树结构。通常子树被称作“左子树”（left subtree）和“右子树”（right subtree）。二叉树常被用于实现二叉查找树和二叉堆。</p><p>一棵深度为k，且有2^k-1个结点的二叉树，称为满二叉树。这种树的特点是每一层上的结点数都是最大结点数。而在一棵二叉树中，除最后一层外，若其余层都是满的，并且或者最后一层是满的，或者是在右边缺少连续若干结点，则此二叉树为完全二叉树。具有n个结点的完全二叉树的深度为floor(log2n)+1。深度为k的完全二叉树，至少有2k-1个叶子结点，至多有2k-1个结点。</p><p>来源：<a href="https://baike.baidu.com/item/%E4%BA%8C%E5%8F%89%E6%A0%91" target="_blank" rel="noopener">百度百科</a></p></blockquote><p>我们可以看到，二叉树确实非常非常有用(￣▽￣)~*，而二叉树的结构其实也就是：</p><ul><li>每个节点最多只能有两个子节点</li><li>整棵树从根节点（root node）出发，到无元素存储的外部节点（external node）结束。</li></ul><hr><h2 id="先序（pre-order）、中序（in-order）和后序（post-order）"><a href="#先序（pre-order）、中序（in-order）和后序（post-order）" class="headerlink" title="先序（pre-order）、中序（in-order）和后序（post-order）"></a>先序（pre-order）、中序（in-order）和后序（post-order）</h2><h4 id="一、先序（pre-order）"><a href="#一、先序（pre-order）" class="headerlink" title="一、先序（pre-order）"></a>一、先序（pre-order）</h4><p>那么，介绍完二叉树的结构之后问题就来了，什么是先序遍历呢？</p><p>当我们去搜索一棵二叉树上所有元素的时候，我们难免需要遵守一种规律。而先序遍历的规则是这样的：</p><ol><li><p>首先，我们会去问候根节点，这个时候我们就可以对这个节点干些想干的事情了⁄(⁄⁄•⁄ω⁄•⁄⁄)⁄</p></li><li><p>之后呢，我们会按顺序干以下两件事</p><p>a)  问候这个节点的左子节点，并将该节点当成新的根节点，重复步骤1 - 2直到没有新节点可以被访问</p><p>b)  问候这个节点的右子节点，并将该节点当成新的根节点，重复步骤1 - 2直到没有新节点可以被访问</p></li></ol><p>我们可以很明显地看到，这个其实是一个递归过程，而代码是这样的：</p><pre><code class="java">private void queryNodePreorder(ITree tree, IPosition nowRoot) {    /* 这里可以对nowRoot节点干些事情 */    if (tree.isLeaf(nowRoot)) { // 如果nowRoot是叶节点退出递归        return;    } else {        // 按顺序去访问nowRoot的左右子节点        queryNodePreorder(tree, tree.getLeftChild(nowRoot));         queryNodePreorder(tree, tree.getRightChild(nowRoot));    }}</code></pre><h4 id="二、中序（In-order）"><a href="#二、中序（In-order）" class="headerlink" title="二、中序（In-order）"></a>二、中序（In-order）</h4><p>其实中序遍历和先序遍历相差无几。下面先给出中序遍历的规则：</p><ol><li><p>首先，还是要找到根节点，但是不同于先序，我们暂时先不访问它</p></li><li><p>之后呢，不同于先序，我们会按顺序干以下四件事</p><p>a)  找到这个节点的左子节点（先不访问），并将该节点当成新的根节点，重复步骤1 - 2直到找到最左的那个子节点</p><p>b)  然后从这个新的节点开始访问，访问完之后访问它的父节点</p><p>c)  父节点之后是父节点的右子节点，同样也是不访问，只是找到它</p><p>d)  再对这个右子节点重复步骤a - c，直到将整棵树操作完</p></li></ol><p>用文字说明有点绕了，还是放上代码吧</p><pre><code class="java">private void queryNodeInorder(ITree tree, IPosition nowRoot) {    if (tree.isLeaf(nowRoot)) { // 如果nowRoot是叶节点退出递归        return;    } else {        // 按顺序去访问nowRoot的左右子节点        queryNodeInorder(tree, tree.getLeftChild(nowRoot));         /* 不同于先序，我们会在这里对nowRoot节点干事情 */        queryNodeInorder(tree, tree.getRightChild(nowRoot));    }}</code></pre><h4 id="三、后序（post-order）"><a href="#三、后序（post-order）" class="headerlink" title="三、后序（post-order）"></a>三、后序（post-order）</h4><p>说实话，我现在还不太清楚后序为什么叫（post-order）。。但原理还是很清晰的：</p><ol><li><p>首先，还是要找到根节点，但是不同于先序，我们暂时先不访问它</p></li><li><p>然后我们会按顺序干下面几件事：</p><p>a)  找到左子节点，不访问</p><p>b)  找到该节点的左子节点，并重复此步骤，直到找到叶节点</p><p>c)  访问该叶节点</p><p>d)  访问该叶节点的父节点的右子节点</p><p>e)  将该右子节点当成新的根节点重复操作a - d</p><p>f )  访问完右子节点后访问根节点</p></li></ol><p>(；´д｀)ゞ这文字写得我都恶心了。。。</p><p>还是放上代码吧，简单易懂：</p><pre><code class="java">private void queryNodePostorder(ITree tree, IPosition nowRoot) {    if (tree.isLeaf(nowRoot)) { // 如果nowRoot是叶节点退出递归        return;    } else {        // 按顺序去访问nowRoot的左右子节点        queryNodePostorder(tree, tree.getLeftChild(nowRoot));         queryNodePostorder(tree, tree.getRightChild(nowRoot));        /* 在这里对nowRoot节点进行访问 */    }}</code></pre><hr><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇博文大概就是这样啦，先序、中序和后序，再也不会傻傻分不清楚了ヽ(￣▽￣)ﾉ</p><p>下篇博文打算聊聊如何用先序、中序和后序的组合看出原来的二叉树结构，希望自己能坚持下去呀！~</p><p>٩꒰▽ ꒱۶⁼³₌₃ 学习去咯</p>]]></content>
     
     
+    
+    <tags>
+      
+      <tag>神奇的技术水文</tag>
+      
+      <tag>数据结构</tag>
+      
+    </tags>
     
   </entry>
   

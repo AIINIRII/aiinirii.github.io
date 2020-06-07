@@ -18,7 +18,7 @@
   <meta name="description" content="">
   <meta name="author" content="aiinirii">
   <meta name="keywords" content="Technology">
-  <title>房地产自动定价（三） ~ aiinirii&#39;s blog</title>
+  <title>Mybatis 笔记 ~ aiinirii&#39;s blog</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -123,7 +123,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  星期一, 四月 6日 2020, 9:21 晚上
+                  星期日, 六月 7日 2020, 5:34 下午
                 </p>
               
 
@@ -132,7 +132,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    1.1k 字
+                    1.4k 字
                   </span>&nbsp;
                 
 
@@ -140,7 +140,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      5 分钟
+                      7 分钟
                   </span>&nbsp;
                 
 
@@ -173,133 +173,237 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
-            <p>数据的爬取和预处理都结束了。接下来，我打算利用简单的BP网络模型去对这些数据进行一个简单的拟合。这里，我用到了TensorFlow的2.1.0版本。</p>
+            <p>终于，本:herb::baby_chick:结束了长达一个多月的DDL战争，重拾旧爱。</p>
+<p>接下来几天要开始按照 Mybatis -&gt; Spring -&gt; Spring MVC 的流程爬一遍！</p>
+<p><img src="/image/017C679B.jpg" srcset="/img/loading.gif" alt="img"></p>
 <hr>
-<h1 id="输入输出选择"><a href="#输入输出选择" class="headerlink" title="输入输出选择"></a>输入输出选择</h1><p>因为打算先跑跑BP神经网络看看效果，所以输入输出先不选的过于复杂。</p>
-<p>INPUT: place_id, house_type, house_area, house_towards</p>
-<p>OUTPUT: house_price</p>
-<p>这四个输入数据分别是</p>
-<ol>
-<li>地区的id（我已经自行为每个地区进行了编号，例如安定门：1）</li>
-<li>房屋的类型（我也已编了号，例如板楼：0）</li>
-<li>房屋的面积（单位为平方米）</li>
-<li>房屋的朝向（我也编了号，例如南：0)</li>
-</ol>
-<p>而输出数据为房屋的成交价格（单位万元）</p>
-<hr>
-<h1 id="数据处理"><a href="#数据处理" class="headerlink" title="数据处理"></a>数据处理</h1><p>将数据集整理并扁平化之后，输入数据X_data变成了一个大小为（150731，310）的数据集，其中310=4+8+297+1；我采用了one_hot的编码方式将房屋的朝向、类型以及面积均变成了一个个列向量，在这之后我把他们合并到一起，其中4代表的是4种房屋类型，8代表的是8种朝向，297代表的是297种地区，这个列向量的最后一个元素是房屋的面积。</p>
-<hr>
-<h1 id="开始模型搭建"><a href="#开始模型搭建" class="headerlink" title="开始模型搭建"></a>开始模型搭建</h1><pre><code class="python">def model_build(n):
-    # shape of X_train: (120584, 310), shape of X_test: (30147, 310)
-    model = tf.keras.models.Sequential([
-        tf.keras.layers.Dense(64, input_shape=(n,)),
-        tf.keras.layers.Activation(&#39;relu&#39;),
-        tf.keras.layers.Dense(64),
-        tf.keras.layers.Activation(&#39;relu&#39;),
-        tf.keras.layers.Dense(1)
-    ])
+<h3 id="一、-XML-配置-与基础-CURD-的-XML-实现"><a href="#一、-XML-配置-与基础-CURD-的-XML-实现" class="headerlink" title="一、 XML 配置 与基础 CURD 的 XML 实现"></a>一、 XML 配置 与基础 CURD 的 XML 实现</h3><h5 id="Maven-XML-dependencies-配置"><a href="#Maven-XML-dependencies-配置" class="headerlink" title="Maven XML dependencies 配置"></a>Maven XML dependencies 配置</h5><pre><code class="xml">&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;junit&lt;/groupId&gt;
+        &lt;artifactId&gt;junit&lt;/artifactId&gt;
+        &lt;version&gt;4.13&lt;/version&gt;
+        &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;log4j&lt;/groupId&gt;
+        &lt;artifactId&gt;log4j&lt;/artifactId&gt;
+        &lt;version&gt;1.2.12&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;mysql&lt;/groupId&gt;
+        &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+        &lt;version&gt;5.1.49&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+        &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
+        &lt;version&gt;3.5.4&lt;/version&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;</code></pre>
+<h5 id="SqlMapConfig-xml"><a href="#SqlMapConfig-xml" class="headerlink" title="SqlMapConfig.xml"></a>SqlMapConfig.xml</h5><pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE configuration
+        PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;
+&lt;configuration&gt;
+    &lt;environments default=&quot;mysql&quot;&gt;
+        &lt;environment id=&quot;mysql&quot;&gt;
+            &lt;transactionManager type=&quot;JDBC&quot;/&gt;
+            &lt;dataSource type=&quot;POOLED&quot;&gt;
+                &lt;property name=&quot;driver&quot; value=&quot;com.mysql.jdbc.Driver&quot;/&gt;
+                &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://localhost:3306/mybatisdb&quot;/&gt;
+                &lt;property name=&quot;username&quot; value=&quot;***&quot;/&gt;
+                &lt;property name=&quot;password&quot; value=&quot;***&quot;/&gt;
+            &lt;/dataSource&gt;
+        &lt;/environment&gt;
+    &lt;/environments&gt;
 
-    model.compile(optimizer=Adam(learning_rate=0.1), loss=&#39;mse&#39;, metrics=[&#39;mae&#39;])
-    return model</code></pre>
-<p>这里采用了两层RELU去进行拟合。</p>
+    &lt;mappers&gt;
+        &lt;mapper resource=&quot;mybatis\dao\IUserMapper.xml&quot;/&gt;
+    &lt;/mappers&gt;
+&lt;/configuration&gt;</code></pre>
+<h5 id="IUserMapper-xml-（这是我自己写的项目中的-IUserMapper-的配置）"><a href="#IUserMapper-xml-（这是我自己写的项目中的-IUserMapper-的配置）" class="headerlink" title="IUserMapper.xml （这是我自己写的项目中的 IUserMapper 的配置）"></a>IUserMapper.xml （这是我自己写的项目中的 IUserMapper 的配置）</h5><pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE mapper
+        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+
+&lt;mapper namespace=&quot;mybatis.dao.IUserDao&quot;&gt;
+    &lt;select id=&quot;findAll&quot; resultType=&quot;mybatis.entity.User&quot;&gt;
+        select * from User
+    &lt;/select&gt;
+
+    &lt;select id=&quot;findById&quot; resultType=&quot;mybatis.entity.User&quot; parameterType=&quot;Integer&quot;&gt;
+        select * from User where id=#{uid}
+    &lt;/select&gt;
+
+    &lt;delete id=&quot;removeById&quot; parameterType=&quot;Integer&quot;&gt;
+        delete from User where id=#{uid}
+    &lt;/delete&gt;
+
+    &lt;insert id=&quot;insertUser&quot; parameterType=&quot;mybatis.entity.User&quot;&gt;
+        &lt;selectKey keyProperty=&quot;id&quot; keyColumn=&quot;id&quot; order=&quot;AFTER&quot; resultType=&quot;Integer&quot;&gt;
+            select last_insert_id()
+        &lt;/selectKey&gt;
+        insert into User(username, address, sex, birthday) values (#{username}, #{address}, #{sex}, #{birthday})
+    &lt;/insert&gt;
+
+    &lt;update id=&quot;updateById&quot; parameterType=&quot;mybatis.entity.User&quot;&gt;
+        update user set username=#{username}, birthday=#{birthday}, address=#{address}, sex=#{sex} where id=#{id}
+    &lt;/update&gt;
+
+    &lt;select id=&quot;findByIdQueryVo&quot; resultType=&quot;mybatis.entity.User&quot; parameterType=&quot;Integer&quot;&gt;
+        select * from User where id=#{user.uid}
+    &lt;/select&gt;
+&lt;/mapper&gt;</code></pre>
+<h5 id="Dao-类实现（同样也是例子）"><a href="#Dao-类实现（同样也是例子）" class="headerlink" title="Dao 类实现（同样也是例子）"></a>Dao 类实现（同样也是例子）</h5><pre><code class="java">public interface IUserDao {
+    List&lt;User&gt; findAll();
+
+    User findById(Integer id);
+
+    void removeById(Integer id);
+
+    void insertUser(User user);
+
+    void updateById(User user);
+
+    User findByIdQueryVo(Integer id);
+}</code></pre>
 <hr>
-<h1 id="模型的初尝试"><a href="#模型的初尝试" class="headerlink" title="模型的初尝试"></a>模型的初尝试</h1><pre><code class="python">def scheduler(epoch):
-    # 每隔100个epoch，学习率减小为原来的1/3
-    if epoch % 100 == 0 and epoch != 0:
-        lr = tf.keras.backend.get_value(model.optimizer.lr)
-        tf.keras.backend.set_value(model.optimizer.lr, lr * 0.3)
-        print(&quot;lr changed to {}&quot;.format(lr * 0.3))
-    return tf.keras.backend.get_value(model.optimizer.lr)
+<h3 id="二、-延时加载-（懒加载）"><a href="#二、-延时加载-（懒加载）" class="headerlink" title="二、 延时加载 （懒加载）"></a>二、 延时加载 （懒加载）</h3><pre><code class="xml">&lt;resultMap id=&quot;userMap&quot; type=&quot;user&quot;&gt;
+    &lt;id property=&quot;id&quot; column=&quot;id&quot;/&gt;
+    &lt;id property=&quot;username&quot; column=&quot;username&quot;/&gt;
+    &lt;id property=&quot;sex&quot; column=&quot;sex&quot;/&gt;
+    &lt;id property=&quot;birthday&quot; column=&quot;birthday&quot;/&gt;
 
+    &lt;!-- 懒加载部分 --&gt;
+    &lt;assoociation property=&quot;bill&quot; colume=&quot;bid&quot; javaType=&quot;bill&quot; select=&quot;*.findById&quot;/&gt;
+&lt;/resultMap&gt;
 
-if __name__ == &#39;__main__&#39;:
-    # print(f&quot;X&#39;s shape: {X.shape}, Y&#39;s shape: {Y.shape}&quot;)
-    EPOCHS = 200
-    X_train, Y_train, X_test, Y_test = load_div_dataset()  # load data set
+&lt;select id=&quot;findAll&quot; resultMap=&quot;userMap&quot;&gt;
+    select * from user
+&lt;/select&gt;
 
-    # data normalization
-    mean = X_train.mean(axis=0)
-    std = X_train.std(axis=0)
-    X_train -= mean
-    X_train /= std
-    X_test -= mean
-    X_test /= std
+&lt;select id=&quot;findById&quot; resultType=&quot;bill&quot;&gt;
+    select * from bills where id = #{bid}
+&lt;/select&gt;</code></pre>
+<p>同时还需要开启延迟加载的开关</p>
+<pre><code class="xml">&lt;settings&gt;
+    &lt;!-- 懒加载开启 --&gt;
+    &lt;setting name=&quot;lazyLoadingEnabled&quot; value=&quot;true&quot;/&gt;
 
-    reduce_lr = LearningRateScheduler(scheduler)
-    model = model_build(X_train.shape[1])  # build model
-    model.summary()  # print the structure of model
-
-    # training begin
-    history = model.fit(X_train, Y_train, epochs=EPOCHS, batch_size=128, validation_split=0.2,
-                        verbose=2, callbacks=[reduce_lr])
-    # save the model
-    model.save(&quot;model\\model_weight.model&quot;, overwrite=True)
-    # evaluate model
-    print(&quot;train data: &quot;, end=&quot;&quot;)
-    model.evaluate(X_train, Y_train, verbose=2)
-    print(&quot;test data: &quot;, end=&quot;&quot;)
-    model.evaluate(X_test, Y_test, verbose=2)
-</code></pre>
+    &lt;!-- 按需加载 --&gt;
+    &lt;setting name=&quot;aggressiveLazyLoading&quot; value=&quot;false&quot;/&gt;
+&lt;/settings&gt;</code></pre>
 <hr>
-<h1 id="第一次结果"><a href="#第一次结果" class="headerlink" title="第一次结果"></a>第一次结果</h1><p>不得不说，看到了第一次的结果之后我是崩溃的。</p>
-<p><img src="/image/331C896B.gif" srcset="/img/loading.gif" alt="img"></p>
-<p>为什么loss和mae这么高，我明明已经。很努力了啊！</p>
-<pre><code class="python">train data: 120584/120584 - 7s - loss: 105549.9276 - mae: 218.9371
-test data: 30147/30147 - 2s - loss: 105881.7860 - mae: 217.9669</code></pre>
-<p>你可能对mae不太了解？？</p>
-<p>大概就是说，对每一笔预测，都会有大概218万元的误差。。。。</p>
-<p>那还预测个锤子啊hhh</p>
+<h3 id="三、-缓存"><a href="#三、-缓存" class="headerlink" title="三、 缓存"></a>三、 缓存</h3><p>减小和数据库的交互次数，提升效率。</p>
+<p>缓存目标数据：</p>
+<ul>
+<li>经常查询的数据</li>
+<li>不经常改变的数据</li>
+<li>数据的正确与否对最终结果影响不大<ul>
+<li>例如银行数据之类的，股市数据之类的都不能用缓存，查询之间不允许有延迟，必须时刻保证数据真实性。</li>
+</ul>
+</li>
+</ul>
+<h5 id="多级缓存"><a href="#多级缓存" class="headerlink" title="多级缓存"></a>多级缓存</h5><ul>
+<li><p>一级缓存</p>
+<ul>
+<li><p>每次执行查询之后，SqlSession 会为我们提供一块区域来进行缓存。</p>
+</li>
+<li><p>例如，短时间内查询两个相同的对象，那么这两个将会共享同一个内存空间。两者的 reference 相等。</p>
+</li>
+<li><p>当 SqlSession 对象使用 clearCache 方法清空缓存之后，将不会有一级缓存。</p>
+</li>
+<li><p>调用 update 方法之后它也会清空一级缓存。</p>
+</li>
+</ul>
+</li>
+<li><p>二级缓存</p>
+<ul>
+<li><p>指的 Mybatis 中 SqlSessionFactory 的缓存。</p>
+</li>
+<li><p>各种由该 SqlSessionFactory 生产的 SqlSession 都共享该缓存。</p>
+</li>
+<li><p>配置方式：</p>
+<ul>
+<li><p>Mybatis 框架支持二级缓存</p>
+<pre><code class="xml">  &lt;settings&gt;
+      &lt;setting name=&quot;cacheEnabled&quot; value=&quot;true&quot;/&gt;
+  &lt;/settings&gt;</code></pre>
+</li>
+<li><p>映射文件支持二级缓存</p>
+</li>
+<li><p>操作支持二级缓存</p>
+<pre><code class="xml">  &lt;mapper&gt;
+      &lt;cache/&gt;
+      &lt;select useCache=&quot;true&quot;&gt;
+          select * from user
+      &lt;/select&gt;
+  &lt;/mapper&gt;</code></pre>
+</li>
+</ul>
+</li>
+<li><p>创建新对象，但是不查询。</p>
+</li>
+</ul>
+</li>
+</ul>
 <hr>
-<h1 id="一些改良"><a href="#一些改良" class="headerlink" title="一些改良"></a>一些改良</h1><p>休息了一会儿平静了一下，我发现，这个结果至少说明了我们的代码能跑，至少说明了没有过拟合O(∩_∩)O。</p>
-<p>分析之后发现，这么离谱的结果反映的是bias偏大。那么有几个解决的措施：</p>
-<ol>
-<li>加训练数据</li>
-<li>加深网络</li>
-<li>加长训练时间</li>
-<li>用更好的优化方法</li>
-<li>换个神经网络结构</li>
-</ol>
-<p>我发现。。好像除了优化神经网络我没什么可以做的~ </p>
-<p>于是，我回头去把网络加深了一层。。但突然意识到！诶，我用的是one_hot那么之前的那段normalization是不是有问题！</p>
-<pre><code class="python"># data normalization
-mean = X_train.mean(axis=0)
-std = X_train.std(axis=0)
-X_train -= mean
-X_train /= std
-X_test -= mean
-X_test /= std</code></pre>
-<p>这样做法，我的std必是0啊，那肯定会出问题的！！</p>
-<p>所以，经过深思熟虑，我把我的normalization part改成了下面这样：</p>
-<pre><code class="python"># data normalization
-mean_area = X_train[:, -1].mean(axis=0)
-std_area = X_train[:, -1].std(axis=0)
-print(f&quot;X_train_area_data: {X_train[:, -1]}&quot;)
-X_train[:, -1] -= mean_area
-X_train[:, -1] /= std_area
-X_test[:, -1] -= mean_area
-X_test[:, -1] /= std_area
-print(f&quot;After normalization: X_train_area_data: {X_train[:, -1]}&quot;)
-</code></pre>
-<p>这么改完之后，我又顺便把我的网络加深了一层：</p>
-<pre><code class="python">model = tf.keras.models.Sequential([
-    tf.keras.layers.Dense(128, input_shape=(n,)),
-    tf.keras.layers.Activation(&#39;relu&#39;),
-    tf.keras.layers.Dense(128),
-    tf.keras.layers.Activation(&#39;relu&#39;),
-    tf.keras.layers.Dense(128),
-    tf.keras.layers.Activation(&#39;relu&#39;),
-    tf.keras.layers.Dense(1)
-])</code></pre>
-<p>果不其然，这么一改之后，在epoch=200的时候mae就下降到了100左右：</p>
-<pre><code class="python">train data: 120584/120584 - 7s - loss: 21548.4162 - mae: 102.1043
-test data: 30147/30147 - 2s - loss: 24309.7117 - mae: 106.6957</code></pre>
-<p><img src="/image/image-20200412122802652.png" srcset="/img/loading.gif" alt="image-20200412122802652"></p>
-<p><img src="/image/image-20200412122814216.png" srcset="/img/loading.gif" alt="image-20200412122814216"></p>
-<p>虽然依旧很高，但是比起之前来说好很多了呢</p>
-<p><img src="/image/332F77F9.jpg" srcset="/img/loading.gif" alt="img"></p>
-<p>今天暂时先这样吧，先睡一觉，想想是不是能有什么好方法ε=(´ο｀*)))唉</p>
-<hr>
-<p>git仓库链接：<a href="https://github.com/AIINIRII/HousingEvaluation/" target="_blank" rel="noopener">https://github.com/AIINIRII/HousingEvaluation/</a></p>
+<h3 id="四、-注解开发"><a href="#四、-注解开发" class="headerlink" title="四、 注解开发"></a>四、 注解开发</h3><p><em>对于CRUD来说一共有四个注解，@Select, @Insert, @Update, @Delete</em></p>
+<p><em>CRUD: Create, Retrieve, Update, Delete</em></p>
+<p>注解与 xml 不能同时存在！</p>
+<p>注解在 Dao 文件中的表现形式:</p>
+<pre><code class="java">public interface IUserDao{
+
+    @Select(&quot;select * from User where id=#{id}&quot;)
+    @Results(id=&quot;userMap&quot;, 
+            value={
+                @Result(id=true, colume=&quot;id&quot;, property=&quot;userId&quot;),
+                @Result(colume=&quot;username&quot;, property=&quot;userName&quot;)
+            })
+    List&lt;User&gt; findUser(Integer id);
+
+    @Select(&quot;select * from User&quot;)
+    @ResultMap(value={&quot;userMap&quot;, })
+    List&lt;User&gt; findAllUser();
+}</code></pre>
+<h5 id="一对一查询"><a href="#一对一查询" class="headerlink" title="一对一查询"></a>一对一查询</h5><p>通常使用 EAGER。</p>
+<pre><code class="java">public interface IAccountDao{
+
+    @Select(&quot;select * from account&quot;)
+    @Results(id=&quot;accountMap&quot;, 
+            value={
+                @Result(id=true, colume=&quot;id&quot;, property=&quot;Id&quot;),
+                @Result(colume=&quot;uid&quot;, property=&quot;uid&quot;),
+                @Result(property=&quot;user&quot;, column=&quot;uid&quot;, one=@One(select=&quot;*.IUserDao.findUser&quot;, 
+                                                                fetchType=FetchType.EAGER))
+            })
+    List&lt;Account&gt; findAccount(Integer id);
+}</code></pre>
+<h5 id="一对多查询"><a href="#一对多查询" class="headerlink" title="一对多查询"></a>一对多查询</h5><p>通常使用 LAZY。</p>
+<pre><code class="java">public interface IAccountDao{
+
+    @Select(&quot;select * from account&quot;)
+    @Results(id=&quot;accountMap&quot;, 
+            value={
+                @Result(id=true, colume=&quot;id&quot;, property=&quot;Id&quot;),
+                @Result(colume=&quot;uid&quot;, property=&quot;uid&quot;),
+                @Result(property=&quot;user&quot;, column=&quot;uid&quot;, many=@Many(select=&quot;*.IUserDao.findUser&quot;, 
+                                                                fetchType=FetchType.LAZY))
+            })
+    List&lt;Account&gt; findAccount(Integer id);
+}</code></pre>
+<h5 id="二级缓存"><a href="#二级缓存" class="headerlink" title="二级缓存"></a>二级缓存</h5><pre><code class="java">public interface IAccountDao{
+
+    @Select(&quot;select * from account&quot;)
+    @Results(id=&quot;accountMap&quot;, 
+            value={
+                @Result(id=true, colume=&quot;id&quot;, property=&quot;Id&quot;),
+                @Result(colume=&quot;uid&quot;, property=&quot;uid&quot;),
+                @Result(property=&quot;user&quot;, column=&quot;uid&quot;, many=@Many(select=&quot;*.IUserDao.findUser&quot;, 
+                                                                fetchType=FetchType.LAZY))
+            })
+    List&lt;Account&gt; findAccount(Integer id);
+}</code></pre>
 
             <hr>
           </div>
@@ -313,11 +417,9 @@ test data: 30147/30147 - 2s - loss: 24309.7117 - mae: 106.6957</code></pre>
                 
                   <a class="hover-with-bg" href="/tags/%E7%A5%9E%E5%A5%87%E7%9A%84%E6%8A%80%E6%9C%AF%E6%B0%B4%E6%96%87">神奇的技术水文</a>
                 
-                  <a class="hover-with-bg" href="/tags/ML">ML</a>
+                  <a class="hover-with-bg" href="/tags/Java">Java</a>
                 
-                  <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98">数据挖掘</a>
-                
-                  <a class="hover-with-bg" href="/tags/TensorFlow">TensorFlow</a>
+                  <a class="hover-with-bg" href="/tags/Mybatis">Mybatis</a>
                 
               </span>
             
@@ -518,7 +620,7 @@ test data: 30147/30147 - 2s - loss: 24309.7117 - mae: 106.6957</code></pre>
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "房地产自动定价（三）&nbsp;",
+        "Mybatis 笔记&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
