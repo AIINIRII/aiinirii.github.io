@@ -18,7 +18,7 @@
   <meta name="description" content="">
   <meta name="author" content="aiinirii">
   <meta name="keywords" content="Technology">
-  <title>Spring 笔记（一） ~ aiinirii&#39;s blog</title>
+  <title>Maven 项目目录管理 ~ aiinirii&#39;s blog</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -115,7 +115,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  星期一, 六月 8日 2020, 3:37 下午
+                  星期五, 六月 5日 2020, 1:46 下午
                 </p>
               
 
@@ -124,7 +124,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    1.2k 字
+                    747 字
                   </span>&nbsp;
                 
 
@@ -132,7 +132,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      5 分钟
+                      3 分钟
                   </span>&nbsp;
                 
 
@@ -165,176 +165,58 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
-            <h1 id="为什么要用-Spring"><a href="#为什么要用-Spring" class="headerlink" title="为什么要用 Spring"></a>为什么要用 Spring</h1><p>为了解耦！</p>
-<p>那么何为解耦？</p>
-<h2 id="耦合"><a href="#耦合" class="headerlink" title="耦合"></a>耦合</h2><p>指程序间的依赖关系：</p>
+            <p>最近在尝试用 Maven 写项目，但奈何功夫不到家，刚开始就被 Maven 项目的目录安排给难住了。</p>
+<p><img src="/image/00678B33.jpg" srcset="/img/loading.gif" alt="img"></p>
+<p>先介绍一下情况，我的项目（project）将会分为若干模块（module）。</p>
+<p>大概是下面这样的情况：</p>
+<pre><code>- project
+    - module 1
+    - module 2
+    - module 3</code></pre><p>而我仔细一想，这个问题其实可以分成几个小问题：</p>
 <ul>
-<li><p>包括类之间的依赖</p>
-</li>
-<li><p>包括方法之间的依赖</p>
-</li>
+<li>如何命名项目的 groupId 和 artifactId。</li>
+<li>子 Maven 项目和父 Maven 项目之间的关系。</li>
 </ul>
-<h2 id="解耦"><a href="#解耦" class="headerlink" title="解耦"></a>解耦</h2><ul>
-<li><p>降低程序间的依赖关系</p>
-</li>
-<li><p>做到编译的时候不依赖（报错？），运行时才依赖。</p>
-</li>
-</ul>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ul>
-<li>用反射来创建对象。</li>
-<li>读取配置文件来读取要创建的对象的全限定类名。</li>
-</ul>
+<p>话不多说，切入正题。</p>
 <hr>
-<h1 id="IOC-容器详解"><a href="#IOC-容器详解" class="headerlink" title="IOC 容器详解"></a>IOC 容器详解</h1><p><strong>IOC: Inversion of Control</strong></p>
-<p><em>关键词：工厂模式，单例模式，线程安全。</em></p>
-<ul>
-<li><em>单例模式实现思路：新建静态 Map 共享 value 。</em></li>
-</ul>
-<p>原来：</p>
-<pre><code class="java">private IUserDao userDao = new UserDaoImpl();</code></pre>
-<p>IOC 实现：</p>
-<pre><code class="java">private IUserDao userDao = (IUserDao) BeanFactory.getBean(&quot;userDao&quot;);</code></pre>
-<p>作用：控制反转，将控制权转移给 BeanFactory，从而割断与 Dao 层的直接联系，从而达到解耦。</p>
-<p><em>注：以上的例子里，userDao 的新建对象任务已经交给了工厂。这样操作之后，编译时不会有依赖，但是运行时会有依赖。</em></p>
-<p>IOC 的本质：把创建对象的权力交给框架。</p>
+<h1 id="如何命名项目的-groupId-和-artifactId"><a href="#如何命名项目的-groupId-和-artifactId" class="headerlink" title="如何命名项目的 groupId 和 artifactId"></a>如何命名项目的 groupId 和 artifactId</h1><p>首先，我们需要知道的是这里的 groupId 和 artifactId 其实代表的是项目的坐标。</p>
+<p>举个例子，</p>
+<pre><code class="xml">&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+&lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;</code></pre>
+<p>这两行实际上就可以帮助我们定位这个项目，它将会在 org/apache/maven/plugins/maven-compiler-plugin/ 这个文件夹下。</p>
+<p>那其实我们的问题就迎刃而解了，假如说，在 aiinirii.xyz 这个域名下我想要建一个名为 proj 的项目。</p>
+<p><img src="/image/image-20200608145503912.png" srcset="/img/loading.gif" alt="image-20200608145503912"></p>
+<p>这里要注意的，Location 其实和 GroupId 并无关系，其实只是源代码的存储路径，在 Maven 项目 Install 之后其实会直接被载入本地的 Maven 仓库中的 xyz/aiinirii/proj 目录下，只需要保证不会与其他坐标产生冲突就可以。</p>
 <hr>
-<h1 id="Spring-中的-IOC"><a href="#Spring-中的-IOC" class="headerlink" title="Spring 中的 IOC"></a>Spring 中的 IOC</h1><p>ApplicationContext 的三个常用实现类：</p>
-<ul>
-<li>ClassPathXmlApplicationContext：加载类路径下的配置文件，必须要在类路径下，否则免谈。（常用）</li>
-<li>FileSystemXmlApplicationContext：加载磁盘任意路径下的配置文件。</li>
-<li>AnnotationConfigApplicationContext：用于读取注解容器。（常用）</li>
-</ul>
-<pre><code class="java">ApplicationContext applicationContext = new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;); // 运行这行时已经创建了对象。
+<h1 id="子-Maven-项目和父-Maven-项目之间的关系"><a href="#子-Maven-项目和父-Maven-项目之间的关系" class="headerlink" title="子 Maven 项目和父 Maven 项目之间的关系"></a>子 Maven 项目和父 Maven 项目之间的关系</h1><p>讲清楚了如何命名项目，接下来再介绍一下如果像我一样，多项目之间有父子依赖关系怎么办？</p>
+<p>首先，我们需要建一个父项目，例如设置 groupId 和 artifactId 分别为：</p>
+<pre><code class="xml">&lt;groupId&gt;xyz.aiinirii&lt;/groupId&gt;
+&lt;artifactId&gt;learn&lt;/artifactId&gt;</code></pre>
+<p>这个父项目将会有若干个子项目，这里我新建一个名为 spring 的项目当例子：</p>
+<pre><code class="xml">&lt;parent&gt;
+    &lt;artifactId&gt;learn&lt;/artifactId&gt;
+    &lt;groupId&gt;xyz.aiinirii&lt;/groupId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+&lt;/parent&gt;
+&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
 
-IAccountService accountService = applicationContext.getBean(&quot;accountService&quot;, IAccountService.class);
-IAccountDao accountDao = applicationContext.getBean(&quot;accountDao&quot;, IAccountDao.class);</code></pre>
-<p>或者用 BeanFactory 实现：</p>
-<pre><code class="java">Resource resource = new ClassPathResource(&quot;applicationContext.xml&quot;);
-BeanFactory beanFactory = new DefaultListableBeanFactory();
-BeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader((BeanDefinitionRegistry) beanFactory);
-beanDefinitionReader.loadBeanDefinitions(resource);
-
-// 只有当创建了 Bean 之后才创建对象。
-IAccountService accountService = beanFactory.getBean(&quot;accountService&quot;, IAccountService.class);
-IAccountDao accountDao = beanFactory.getBean(&quot;accountDao&quot;, IAccountDao.class);
-
-System.out.println(&quot;accountDao = &quot; + accountDao);
-System.out.println(&quot;accountService = &quot; + accountService);</code></pre>
-<ul>
-<li>ApplicationContext 适用于单例对象，BeanFactory 适用于多例对象。</li>
-<li>ApplicationContext 采用立即方式加载，BeanFactory 采用延迟方式加载。</li>
-</ul>
+&lt;groupId&gt;xyz.aiinirii.learn&lt;/groupId&gt;
+&lt;artifactId&gt;spring&lt;/artifactId&gt;</code></pre>
+<p>建完该子项目之后，需要将父项目的 pom.xml 文件改成：</p>
+<pre><code class="xml">&lt;groupId&gt;xyz.aiinirii&lt;/groupId&gt;
+&lt;artifactId&gt;learn&lt;/artifactId&gt;
+&lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+&lt;modules&gt;
+    &lt;module&gt;spring&lt;/module&gt;
+&lt;/modules&gt;</code></pre>
+<p>可以看到，两者的关联已经产生了。在 Maven 软件部署之后，新建的这个名为 spring 的项目将会根据它的 groupId 成为父项目 learn 目录下的一个子项目。</p>
+<p>两者之间的关系是，父项目中引入的包，子项目中不需要再次调配，我们可以发现，这种方式可以保证同一父项目下的各个子项目的环境的统一，同时还便于管理。</p>
 <hr>
-<h1 id="Spring-中-Bean-的管理细节"><a href="#Spring-中-Bean-的管理细节" class="headerlink" title="Spring 中 Bean 的管理细节"></a>Spring 中 Bean 的管理细节</h1><h3 id="创建-Bean-对象的三种方式"><a href="#创建-Bean-对象的三种方式" class="headerlink" title="创建 Bean 对象的三种方式"></a>创建 Bean 对象的三种方式</h3><ol>
-<li><p>使用默认构造函数来创建Bean对象</p>
-<p> <em>如果没有默认构造函数，则无法创建Bean对象</em></p>
-<pre><code class="xml"> &lt;bean id=&quot;ClassId&quot; class=&quot;ClassName&quot;/&gt;</code></pre>
-</li>
-<li><p>用某个类中的方法创建对象并存入Spring容器</p>
-<pre><code class="xml"> &lt;bean id=&quot;FactoryId&quot; class=&quot;ClassName&quot;/&gt;
- &lt;bean id=&quot;ClassId&quot; factory-bean=&quot;FactoryBeanName&quot; factory-method=&quot;MethodInFactory&quot;/&gt;</code></pre>
-</li>
-<li><p>使用类中的静态方法创建对象并存入Spring容器</p>
-<pre><code class="xml"> &lt;bean id=&quot;ClassId&quot; class=&quot;FactoryName&quot; factory-method=&quot;MethodInFactory&quot;/&gt;</code></pre>
-</li>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ol>
+<li>项目打包之后的路径（groupId）使用域名反写的方式。</li>
+<li>artifactId 及项目名称，最终会被安置在 groupId 路径下。</li>
+<li>使用多模块开发的方式，可以统一管理 Maven 项目环境。</li>
 </ol>
-<hr>
-<h3 id="Bean-对象的作用范围"><a href="#Bean-对象的作用范围" class="headerlink" title="Bean 对象的作用范围"></a>Bean 对象的作用范围</h3><p>对象默认为单例，如果要调整则更改scope参数。</p>
-<pre><code class="xml">&lt;bean id=&quot;ClassId&quot; class=&quot;ClassName&quot; scope=&quot;singleton&quot;/&gt;</code></pre>
-<p>参数可以为：</p>
-<ul>
-<li>singleton：单例（缺省值）</li>
-<li>prototype：多例</li>
-<li>request：web请求范围</li>
-<li>session：web会话范围</li>
-<li>global-session：集群环境的会话范围 - 负载均衡状况下产生的global-session</li>
-</ul>
-<hr>
-<h3 id="Bean-对象的生命周期"><a href="#Bean-对象的生命周期" class="headerlink" title="Bean 对象的生命周期"></a>Bean 对象的生命周期</h3><ol>
-<li>单例对象<ul>
-<li>容器创建时对象产生</li>
-<li>容器存在时对象存在</li>
-<li>容器销毁时对象关闭</li>
-</ul>
-</li>
-<li>多例对象<ul>
-<li>使用容器获得对象时产生</li>
-<li>只要没有关闭对象，对象就会存在</li>
-<li>Java的垃圾回收机制</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h1 id="Spring-的依赖注入"><a href="#Spring-的依赖注入" class="headerlink" title="Spring 的依赖注入"></a>Spring 的依赖注入</h1><p><em>依赖注入：Dependency Injection</em></p>
-<p>我们将依赖关系的管理都交给 Spring。而我们所需要做的就是在配置文件中说明。</p>
-<hr>
-<h3 id="三种注入数据类型："><a href="#三种注入数据类型：" class="headerlink" title="三种注入数据类型："></a>三种注入数据类型：</h3><ol>
-<li><p>基本类型和 String</p>
-<p> 直接填入value</p>
-</li>
-<li><p>其他 Bean 类型</p>
-<p> 新建 Bean 并引用</p>
-<pre><code class="xml"> &lt;bean id=&quot;ClassId&quot; class=&quot;ClassName&quot;&gt;
-     &lt;constructor-arg name=&quot;BeanName&quot; ref=&quot;BeanId&quot;/&gt;
- &lt;/bean&gt;
-
- &lt;bean id=&quot;BeanId&quot; class=&quot;BeanClassName&quot;/&gt;</code></pre>
-</li>
-<li><p>复杂类型/集合类型</p>
-<pre><code class="xml"> &lt;bean id=&quot;ClassId&quot; class=&quot;ClassName&quot;&gt;
-     &lt;property name=&quot;setName&quot;&gt;
-         &lt;set&gt;
-             &lt;value&gt;AAA&lt;/value&gt;
-             &lt;value&gt;BBB&lt;/value&gt;
-             &lt;value&gt;CCC&lt;/value&gt;
-         &lt;/set&gt;
-     &lt;/property&gt;
-     &lt;property name=&quot;listName&quot;&gt;
-         &lt;list&gt;
-             &lt;value&gt;AAA&lt;/value&gt;
-             &lt;value&gt;BBB&lt;/value&gt;
-             &lt;value&gt;CCC&lt;/value&gt;
-         &lt;/list&gt;
-     &lt;/property&gt;
-     &lt;!-- 除此之外还有 map array props 等等标签，其中 list set array 可以互换 map props 可以互换--&gt;
- &lt;/bean&gt;</code></pre>
-</li>
-</ol>
-<hr>
-<h3 id="三种注入方式："><a href="#三种注入方式：" class="headerlink" title="三种注入方式："></a>三种注入方式：</h3><ol>
-<li><p>使用构造函数</p>
-<p> 使用的标签：constructor-arg</p>
-<p> 其中的属性：</p>
-<ul>
-<li><p>type</p>
-<p>  指定类型</p>
-</li>
-<li><p>index</p>
-<p>  指定参数索引的位置（从0开始）</p>
-</li>
-<li><p>name</p>
-<p>  指定给构造函数中指定的参数赋值 （常用）</p>
-</li>
-<li><p>value</p>
-<p>  提供基本类型或String类型的数据</p>
-</li>
-<li><p>ref</p>
-<p>  其他Bean对象的 ID，在IOC中出现过的对象都可以</p>
-</li>
-</ul>
-</li>
-<li><p>使用set方法（常用）</p>
-<p> 使用的标签：property</p>
-<pre><code class="xml"> &lt;bean id=&quot;ClassId&quot; class=&quot;ClassName&quot;&gt;
-     &lt;property name=&quot;[set]name&quot; value=&quot;value&quot;/&gt;
- &lt;/bean&gt;</code></pre>
-</li>
-<li><p>使用注解：见笔记（二）</p>
-</li>
-</ol>
-<hr>
-<p>课程链接：</p>
-<p><a href="https://www.bilibili.com/video/BV1Sb411s7vP?from=search&amp;seid=11893869544331926521" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1Sb411s7vP?from=search&amp;seid=11893869544331926521</a></p>
 
             <hr>
           </div>
@@ -348,9 +230,9 @@ System.out.println(&quot;accountService = &quot; + accountService);</code></pre>
                 
                   <a class="hover-with-bg" href="/tags/Java">Java</a>
                 
-                  <a class="hover-with-bg" href="/tags/CS">CS</a>
+                  <a class="hover-with-bg" href="/tags/Maven">Maven</a>
                 
-                  <a class="hover-with-bg" href="/tags/Spring">Spring</a>
+                  <a class="hover-with-bg" href="/tags/CS">CS</a>
                 
               </span>
             
@@ -551,7 +433,7 @@ System.out.println(&quot;accountService = &quot; + accountService);</code></pre>
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Spring 笔记（一）&nbsp;",
+        "Maven 项目目录管理&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

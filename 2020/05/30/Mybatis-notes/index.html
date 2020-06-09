@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/image/A.jpg">
+  <link rel="icon" type="image/png" href="/image/A.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="description" content="">
+  <meta name="author" content="aiinirii">
+  <meta name="keywords" content="Technology">
+  <title>Mybatis 笔记 ~ aiinirii&#39;s blog</title>
+
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+<link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-bright.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"  >
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>aiinirii's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" false
+         style="background: url('/image/head.jpg')no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期六, 五月 30日 2020, 5:34 下午
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    1.4k 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      7 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p>终于，本:herb::baby_chick:结束了长达一个多月的DDL战争，重拾旧爱。</p>
+<p>接下来几天要开始按照 Mybatis -&gt; Spring -&gt; Spring MVC 的流程爬一遍！</p>
+<p><img src="/image/017C679B.jpg" srcset="/img/loading.gif" alt="img"></p>
+<hr>
+<h3 id="一、-XML-配置-与基础-CURD-的-XML-实现"><a href="#一、-XML-配置-与基础-CURD-的-XML-实现" class="headerlink" title="一、 XML 配置 与基础 CURD 的 XML 实现"></a>一、 XML 配置 与基础 CURD 的 XML 实现</h3><h5 id="Maven-XML-dependencies-配置"><a href="#Maven-XML-dependencies-配置" class="headerlink" title="Maven XML dependencies 配置"></a>Maven XML dependencies 配置</h5><pre><code class="xml">&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;junit&lt;/groupId&gt;
+        &lt;artifactId&gt;junit&lt;/artifactId&gt;
+        &lt;version&gt;4.13&lt;/version&gt;
+        &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;log4j&lt;/groupId&gt;
+        &lt;artifactId&gt;log4j&lt;/artifactId&gt;
+        &lt;version&gt;1.2.12&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;mysql&lt;/groupId&gt;
+        &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+        &lt;version&gt;5.1.49&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+        &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
+        &lt;version&gt;3.5.4&lt;/version&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;</code></pre>
+<h5 id="SqlMapConfig-xml"><a href="#SqlMapConfig-xml" class="headerlink" title="SqlMapConfig.xml"></a>SqlMapConfig.xml</h5><pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE configuration
+        PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;
+&lt;configuration&gt;
+    &lt;environments default=&quot;mysql&quot;&gt;
+        &lt;environment id=&quot;mysql&quot;&gt;
+            &lt;transactionManager type=&quot;JDBC&quot;/&gt;
+            &lt;dataSource type=&quot;POOLED&quot;&gt;
+                &lt;property name=&quot;driver&quot; value=&quot;com.mysql.jdbc.Driver&quot;/&gt;
+                &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://localhost:3306/mybatisdb&quot;/&gt;
+                &lt;property name=&quot;username&quot; value=&quot;***&quot;/&gt;
+                &lt;property name=&quot;password&quot; value=&quot;***&quot;/&gt;
+            &lt;/dataSource&gt;
+        &lt;/environment&gt;
+    &lt;/environments&gt;
+
+    &lt;mappers&gt;
+        &lt;mapper resource=&quot;mybatis\dao\IUserMapper.xml&quot;/&gt;
+    &lt;/mappers&gt;
+&lt;/configuration&gt;</code></pre>
+<h5 id="IUserMapper-xml-（这是我自己写的项目中的-IUserMapper-的配置）"><a href="#IUserMapper-xml-（这是我自己写的项目中的-IUserMapper-的配置）" class="headerlink" title="IUserMapper.xml （这是我自己写的项目中的 IUserMapper 的配置）"></a>IUserMapper.xml （这是我自己写的项目中的 IUserMapper 的配置）</h5><pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE mapper
+        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+
+&lt;mapper namespace=&quot;mybatis.dao.IUserDao&quot;&gt;
+    &lt;select id=&quot;findAll&quot; resultType=&quot;mybatis.entity.User&quot;&gt;
+        select * from User
+    &lt;/select&gt;
+
+    &lt;select id=&quot;findById&quot; resultType=&quot;mybatis.entity.User&quot; parameterType=&quot;Integer&quot;&gt;
+        select * from User where id=#{uid}
+    &lt;/select&gt;
+
+    &lt;delete id=&quot;removeById&quot; parameterType=&quot;Integer&quot;&gt;
+        delete from User where id=#{uid}
+    &lt;/delete&gt;
+
+    &lt;insert id=&quot;insertUser&quot; parameterType=&quot;mybatis.entity.User&quot;&gt;
+        &lt;selectKey keyProperty=&quot;id&quot; keyColumn=&quot;id&quot; order=&quot;AFTER&quot; resultType=&quot;Integer&quot;&gt;
+            select last_insert_id()
+        &lt;/selectKey&gt;
+        insert into User(username, address, sex, birthday) values (#{username}, #{address}, #{sex}, #{birthday})
+    &lt;/insert&gt;
+
+    &lt;update id=&quot;updateById&quot; parameterType=&quot;mybatis.entity.User&quot;&gt;
+        update user set username=#{username}, birthday=#{birthday}, address=#{address}, sex=#{sex} where id=#{id}
+    &lt;/update&gt;
+
+    &lt;select id=&quot;findByIdQueryVo&quot; resultType=&quot;mybatis.entity.User&quot; parameterType=&quot;Integer&quot;&gt;
+        select * from User where id=#{user.uid}
+    &lt;/select&gt;
+&lt;/mapper&gt;</code></pre>
+<h5 id="Dao-类实现（同样也是例子）"><a href="#Dao-类实现（同样也是例子）" class="headerlink" title="Dao 类实现（同样也是例子）"></a>Dao 类实现（同样也是例子）</h5><pre><code class="java">public interface IUserDao {
+    List&lt;User&gt; findAll();
+
+    User findById(Integer id);
+
+    void removeById(Integer id);
+
+    void insertUser(User user);
+
+    void updateById(User user);
+
+    User findByIdQueryVo(Integer id);
+}</code></pre>
+<hr>
+<h3 id="二、-延时加载-（懒加载）"><a href="#二、-延时加载-（懒加载）" class="headerlink" title="二、 延时加载 （懒加载）"></a>二、 延时加载 （懒加载）</h3><pre><code class="xml">&lt;resultMap id=&quot;userMap&quot; type=&quot;user&quot;&gt;
+    &lt;id property=&quot;id&quot; column=&quot;id&quot;/&gt;
+    &lt;id property=&quot;username&quot; column=&quot;username&quot;/&gt;
+    &lt;id property=&quot;sex&quot; column=&quot;sex&quot;/&gt;
+    &lt;id property=&quot;birthday&quot; column=&quot;birthday&quot;/&gt;
+
+    &lt;!-- 懒加载部分 --&gt;
+    &lt;assoociation property=&quot;bill&quot; colume=&quot;bid&quot; javaType=&quot;bill&quot; select=&quot;*.findById&quot;/&gt;
+&lt;/resultMap&gt;
+
+&lt;select id=&quot;findAll&quot; resultMap=&quot;userMap&quot;&gt;
+    select * from user
+&lt;/select&gt;
+
+&lt;select id=&quot;findById&quot; resultType=&quot;bill&quot;&gt;
+    select * from bills where id = #{bid}
+&lt;/select&gt;</code></pre>
+<p>同时还需要开启延迟加载的开关</p>
+<pre><code class="xml">&lt;settings&gt;
+    &lt;!-- 懒加载开启 --&gt;
+    &lt;setting name=&quot;lazyLoadingEnabled&quot; value=&quot;true&quot;/&gt;
+
+    &lt;!-- 按需加载 --&gt;
+    &lt;setting name=&quot;aggressiveLazyLoading&quot; value=&quot;false&quot;/&gt;
+&lt;/settings&gt;</code></pre>
+<hr>
+<h3 id="三、-缓存"><a href="#三、-缓存" class="headerlink" title="三、 缓存"></a>三、 缓存</h3><p>减小和数据库的交互次数，提升效率。</p>
+<p>缓存目标数据：</p>
+<ul>
+<li>经常查询的数据</li>
+<li>不经常改变的数据</li>
+<li>数据的正确与否对最终结果影响不大<ul>
+<li>例如银行数据之类的，股市数据之类的都不能用缓存，查询之间不允许有延迟，必须时刻保证数据真实性。</li>
+</ul>
+</li>
+</ul>
+<h5 id="多级缓存"><a href="#多级缓存" class="headerlink" title="多级缓存"></a>多级缓存</h5><ul>
+<li><p>一级缓存</p>
+<ul>
+<li><p>每次执行查询之后，SqlSession 会为我们提供一块区域来进行缓存。</p>
+</li>
+<li><p>例如，短时间内查询两个相同的对象，那么这两个将会共享同一个内存空间。两者的 reference 相等。</p>
+</li>
+<li><p>当 SqlSession 对象使用 clearCache 方法清空缓存之后，将不会有一级缓存。</p>
+</li>
+<li><p>调用 update 方法之后它也会清空一级缓存。</p>
+</li>
+</ul>
+</li>
+<li><p>二级缓存</p>
+<ul>
+<li><p>指的 Mybatis 中 SqlSessionFactory 的缓存。</p>
+</li>
+<li><p>各种由该 SqlSessionFactory 生产的 SqlSession 都共享该缓存。</p>
+</li>
+<li><p>配置方式：</p>
+<ul>
+<li><p>Mybatis 框架支持二级缓存</p>
+<pre><code class="xml">  &lt;settings&gt;
+      &lt;setting name=&quot;cacheEnabled&quot; value=&quot;true&quot;/&gt;
+  &lt;/settings&gt;</code></pre>
+</li>
+<li><p>映射文件支持二级缓存</p>
+</li>
+<li><p>操作支持二级缓存</p>
+<pre><code class="xml">  &lt;mapper&gt;
+      &lt;cache/&gt;
+      &lt;select useCache=&quot;true&quot;&gt;
+          select * from user
+      &lt;/select&gt;
+  &lt;/mapper&gt;</code></pre>
+</li>
+</ul>
+</li>
+<li><p>创建新对象，但是不查询。</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="四、-注解开发"><a href="#四、-注解开发" class="headerlink" title="四、 注解开发"></a>四、 注解开发</h3><p><em>对于CRUD来说一共有四个注解，@Select, @Insert, @Update, @Delete</em></p>
+<p><em>CRUD: Create, Retrieve, Update, Delete</em></p>
+<p>注解与 xml 不能同时存在！</p>
+<p>注解在 Dao 文件中的表现形式:</p>
+<pre><code class="java">public interface IUserDao{
+
+    @Select(&quot;select * from User where id=#{id}&quot;)
+    @Results(id=&quot;userMap&quot;, 
+            value={
+                @Result(id=true, colume=&quot;id&quot;, property=&quot;userId&quot;),
+                @Result(colume=&quot;username&quot;, property=&quot;userName&quot;)
+            })
+    List&lt;User&gt; findUser(Integer id);
+
+    @Select(&quot;select * from User&quot;)
+    @ResultMap(value={&quot;userMap&quot;, })
+    List&lt;User&gt; findAllUser();
+}</code></pre>
+<h5 id="一对一查询"><a href="#一对一查询" class="headerlink" title="一对一查询"></a>一对一查询</h5><p>通常使用 EAGER。</p>
+<pre><code class="java">public interface IAccountDao{
+
+    @Select(&quot;select * from account&quot;)
+    @Results(id=&quot;accountMap&quot;, 
+            value={
+                @Result(id=true, colume=&quot;id&quot;, property=&quot;Id&quot;),
+                @Result(colume=&quot;uid&quot;, property=&quot;uid&quot;),
+                @Result(property=&quot;user&quot;, column=&quot;uid&quot;, one=@One(select=&quot;*.IUserDao.findUser&quot;, 
+                                                                fetchType=FetchType.EAGER))
+            })
+    List&lt;Account&gt; findAccount(Integer id);
+}</code></pre>
+<h5 id="一对多查询"><a href="#一对多查询" class="headerlink" title="一对多查询"></a>一对多查询</h5><p>通常使用 LAZY。</p>
+<pre><code class="java">public interface IAccountDao{
+
+    @Select(&quot;select * from account&quot;)
+    @Results(id=&quot;accountMap&quot;, 
+            value={
+                @Result(id=true, colume=&quot;id&quot;, property=&quot;Id&quot;),
+                @Result(colume=&quot;uid&quot;, property=&quot;uid&quot;),
+                @Result(property=&quot;user&quot;, column=&quot;uid&quot;, many=@Many(select=&quot;*.IUserDao.findUser&quot;, 
+                                                                fetchType=FetchType.LAZY))
+            })
+    List&lt;Account&gt; findAccount(Integer id);
+}</code></pre>
+<h5 id="二级缓存"><a href="#二级缓存" class="headerlink" title="二级缓存"></a>二级缓存</h5><pre><code class="java">public interface IAccountDao{
+
+    @Select(&quot;select * from account&quot;)
+    @Results(id=&quot;accountMap&quot;, 
+            value={
+                @Result(id=true, colume=&quot;id&quot;, property=&quot;Id&quot;),
+                @Result(colume=&quot;uid&quot;, property=&quot;uid&quot;),
+                @Result(property=&quot;user&quot;, column=&quot;uid&quot;, many=@Many(select=&quot;*.IUserDao.findUser&quot;, 
+                                                                fetchType=FetchType.LAZY))
+            })
+    List&lt;Account&gt; findAccount(Integer id);
+}</code></pre>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/Java">Java</a>
+                
+                  <a class="hover-with-bg" href="/tags/Mybatis">Mybatis</a>
+                
+                  <a class="hover-with-bg" href="/tags/CS">CS</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h5"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      <script src="https://utteranc.es/client.js"
+        repo="AIINIRII/repo"
+        issue-term="title"
+        label="Comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+    <!-- 不蒜子统计PV -->
+    
+    &nbsp;<span id="busuanzi_container_site_pv"></span>总访问量 
+          <span id="busuanzi_value_site_pv"></span> 次&nbsp;
+  
+  
+    <!-- 不蒜子统计UV -->
+    
+    &nbsp;<span id="busuanzi_container_site_uv"></span>总访客数 
+            <span id="busuanzi_value_site_uv"></span> 人&nbsp;
+  
+  <br>
+
+
+
+    
+
+
+    <!-- cnzz Analytics icon -->
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  <script src="/js/post.js" ></script>
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+    <script>
+      $(document).ready(function () {
+        tocbot.init({
+          tocSelector: '#tocbot',
+          contentSelector: '.post-content',
+          headingSelector: 'h1,h2,h3,h4,h5,h6',
+          linkClass: 'tocbot-link',
+          activeLinkClass: 'tocbot-active-link',
+          listClass: 'tocbot-list',
+          isCollapsedClass: 'tocbot-is-collapsed',
+          collapsibleClass: 'tocbot-is-collapsible',
+          scrollSmooth: true,
+        });
+      });
+    </script>
+  
+
+
+
+  <script src="/lib/smoothscroll/SmoothScroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+    <!-- Google Analytics -->
+    <script>
+      (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+          (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+          m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+      })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+      ga('create', 'UA-162280636-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  
+
+  
+
+  
+
+  <!-- cnzz Analytics -->
+  
+
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Mybatis 笔记&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "§"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="/lib/fancybox/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
+
+
+
+
+
+
+
+
+</body>
+</html>

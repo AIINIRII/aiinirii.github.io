@@ -18,7 +18,7 @@
   <meta name="description" content="">
   <meta name="author" content="aiinirii">
   <meta name="keywords" content="Technology">
-  <title>Mybatis 笔记 ~ aiinirii&#39;s blog</title>
+  <title>项目命名宝典 ~ aiinirii&#39;s blog</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -115,7 +115,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  星期日, 六月 7日 2020, 5:34 下午
+                  星期二, 六月 2日 2020, 1:13 下午
                 </p>
               
 
@@ -124,7 +124,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    1.4k 字
+                    660 字
                   </span>&nbsp;
                 
 
@@ -132,7 +132,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      7 分钟
+                      2 分钟
                   </span>&nbsp;
                 
 
@@ -165,237 +165,54 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
-            <p>终于，本:herb::baby_chick:结束了长达一个多月的DDL战争，重拾旧爱。</p>
-<p>接下来几天要开始按照 Mybatis -&gt; Spring -&gt; Spring MVC 的流程爬一遍！</p>
-<p><img src="/image/017C679B.jpg" srcset="/img/loading.gif" alt="img"></p>
+            <p>如何给项目命名？想必各位 coder 都常为此苦恼不已。这里我稍微整理了一下几个比较规范的命名规则，主要还是自己看啦！</p>
+<p>欢迎大家补充哦 :-)</p>
 <hr>
-<h3 id="一、-XML-配置-与基础-CURD-的-XML-实现"><a href="#一、-XML-配置-与基础-CURD-的-XML-实现" class="headerlink" title="一、 XML 配置 与基础 CURD 的 XML 实现"></a>一、 XML 配置 与基础 CURD 的 XML 实现</h3><h5 id="Maven-XML-dependencies-配置"><a href="#Maven-XML-dependencies-配置" class="headerlink" title="Maven XML dependencies 配置"></a>Maven XML dependencies 配置</h5><pre><code class="xml">&lt;dependencies&gt;
-    &lt;dependency&gt;
-        &lt;groupId&gt;junit&lt;/groupId&gt;
-        &lt;artifactId&gt;junit&lt;/artifactId&gt;
-        &lt;version&gt;4.13&lt;/version&gt;
-        &lt;scope&gt;test&lt;/scope&gt;
-    &lt;/dependency&gt;
-    &lt;dependency&gt;
-        &lt;groupId&gt;log4j&lt;/groupId&gt;
-        &lt;artifactId&gt;log4j&lt;/artifactId&gt;
-        &lt;version&gt;1.2.12&lt;/version&gt;
-    &lt;/dependency&gt;
-    &lt;dependency&gt;
-        &lt;groupId&gt;mysql&lt;/groupId&gt;
-        &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
-        &lt;version&gt;5.1.49&lt;/version&gt;
-    &lt;/dependency&gt;
-    &lt;dependency&gt;
-        &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
-        &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
-        &lt;version&gt;3.5.4&lt;/version&gt;
-    &lt;/dependency&gt;
-&lt;/dependencies&gt;</code></pre>
-<h5 id="SqlMapConfig-xml"><a href="#SqlMapConfig-xml" class="headerlink" title="SqlMapConfig.xml"></a>SqlMapConfig.xml</h5><pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
-&lt;!DOCTYPE configuration
-        PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;
-        &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;
-&lt;configuration&gt;
-    &lt;environments default=&quot;mysql&quot;&gt;
-        &lt;environment id=&quot;mysql&quot;&gt;
-            &lt;transactionManager type=&quot;JDBC&quot;/&gt;
-            &lt;dataSource type=&quot;POOLED&quot;&gt;
-                &lt;property name=&quot;driver&quot; value=&quot;com.mysql.jdbc.Driver&quot;/&gt;
-                &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://localhost:3306/mybatisdb&quot;/&gt;
-                &lt;property name=&quot;username&quot; value=&quot;***&quot;/&gt;
-                &lt;property name=&quot;password&quot; value=&quot;***&quot;/&gt;
-            &lt;/dataSource&gt;
-        &lt;/environment&gt;
-    &lt;/environments&gt;
+<h2 id="一、项目名"><a href="#一、项目名" class="headerlink" title="一、项目名"></a>一、项目名</h2><p>全部小写，比如 cms、workdesk、jobserver 等</p>
+<h2 id="二、java相关命名"><a href="#二、java相关命名" class="headerlink" title="二、java相关命名"></a>二、java相关命名</h2><ol>
+<li><p>类命名：每音节单词前的第一个字母大写，比如 FieldInfo、Expression 等</p>
+</li>
+<li><p>普通变量(包括spring里的变量引用命名)：第一个单词前小写，以后每个单词第一个字母大写，比如：password、primaryFlag</p>
+</li>
+<li><p>静态变量：全部大写，多个单词则以_分开，比如BOOLEAN_FLAG</p>
+</li>
+<li><p>包package命名：全部小写,比如 com.joinspider.workdesk</p>
+</li>
+<li><p>类名、变量名是名字组合，多名词顺序和中文顺序一样，比如 ScriptEngine</p>
+</li>
+<li><p>属性也可以是形容词 + 名词</p>
+</li>
+<li><p>常量可使用上述规则，如果为了体现多个常量是一组的概念，也可以被修饰前置，比如：VAR_START，VAR_END.</p>
+</li>
+<li><p>方法是动词 + 名字或者只有动词</p>
+</li>
+<li><p>Import 需要指出 import 哪一个类，禁止 import 整个 package</p>
+</li>
+</ol>
+<pre><code>```java
+import java.util.*; //错误
 
-    &lt;mappers&gt;
-        &lt;mapper resource=&quot;mybatis\dao\IUserMapper.xml&quot;/&gt;
-    &lt;/mappers&gt;
-&lt;/configuration&gt;</code></pre>
-<h5 id="IUserMapper-xml-（这是我自己写的项目中的-IUserMapper-的配置）"><a href="#IUserMapper-xml-（这是我自己写的项目中的-IUserMapper-的配置）" class="headerlink" title="IUserMapper.xml （这是我自己写的项目中的 IUserMapper 的配置）"></a>IUserMapper.xml （这是我自己写的项目中的 IUserMapper 的配置）</h5><pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
-&lt;!DOCTYPE mapper
-        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
-        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
-
-&lt;mapper namespace=&quot;mybatis.dao.IUserDao&quot;&gt;
-    &lt;select id=&quot;findAll&quot; resultType=&quot;mybatis.entity.User&quot;&gt;
-        select * from User
-    &lt;/select&gt;
-
-    &lt;select id=&quot;findById&quot; resultType=&quot;mybatis.entity.User&quot; parameterType=&quot;Integer&quot;&gt;
-        select * from User where id=#{uid}
-    &lt;/select&gt;
-
-    &lt;delete id=&quot;removeById&quot; parameterType=&quot;Integer&quot;&gt;
-        delete from User where id=#{uid}
-    &lt;/delete&gt;
-
-    &lt;insert id=&quot;insertUser&quot; parameterType=&quot;mybatis.entity.User&quot;&gt;
-        &lt;selectKey keyProperty=&quot;id&quot; keyColumn=&quot;id&quot; order=&quot;AFTER&quot; resultType=&quot;Integer&quot;&gt;
-            select last_insert_id()
-        &lt;/selectKey&gt;
-        insert into User(username, address, sex, birthday) values (#{username}, #{address}, #{sex}, #{birthday})
-    &lt;/insert&gt;
-
-    &lt;update id=&quot;updateById&quot; parameterType=&quot;mybatis.entity.User&quot;&gt;
-        update user set username=#{username}, birthday=#{birthday}, address=#{address}, sex=#{sex} where id=#{id}
-    &lt;/update&gt;
-
-    &lt;select id=&quot;findByIdQueryVo&quot; resultType=&quot;mybatis.entity.User&quot; parameterType=&quot;Integer&quot;&gt;
-        select * from User where id=#{user.uid}
-    &lt;/select&gt;
-&lt;/mapper&gt;</code></pre>
-<h5 id="Dao-类实现（同样也是例子）"><a href="#Dao-类实现（同样也是例子）" class="headerlink" title="Dao 类实现（同样也是例子）"></a>Dao 类实现（同样也是例子）</h5><pre><code class="java">public interface IUserDao {
-    List&lt;User&gt; findAll();
-
-    User findById(Integer id);
-
-    void removeById(Integer id);
-
-    void insertUser(User user);
-
-    void updateById(User user);
-
-    User findByIdQueryVo(Integer id);
-}</code></pre>
+import java.util.HashMap; //正确
+```</code></pre><ol start="10">
+<li>Test Class 名的格式为“测试对象 Class 名 *<em>+ Test *</em>”</li>
+<li>进行测试或 Package 测试的所有的 Class 名的格式为“<strong>AllTest *<em>”或“Package 名 *</em>+ Test</strong>”</li>
+<li>生成 Object 的 Method 名的格式是“**”create” + **Object 名”</li>
+<li>转换 Method 名的格式是“<strong>“to” +</strong> Object 名”</li>
+<li>在查询方法中应使用find作为前缀</li>
+</ol>
+<h2 id="三、属性文件-properties定义变量命名"><a href="#三、属性文件-properties定义变量命名" class="headerlink" title="三、属性文件.properties定义变量命名"></a>三、属性文件.properties定义变量命名</h2><p>object.a_b_c 格式，全部小写，其中 object 是宿主，a_b_c 多个单词下划线分开。</p>
+<p>例：hibernate.cache.use_second_level_cache、hibernate.cache.provider_class、hibernate.cache.provider_configuration_file_resource_path</p>
+<h2 id="四、xml-文件命名"><a href="#四、xml-文件命名" class="headerlink" title="四、xml 文件命名"></a>四、xml 文件命名</h2><p>全部小写，-符号是其 xml 的用途说明，类似 applicationContext 属习惯命名。比如 springmvc-servlet.xml、workdesk-manager.xml、workdesk-servlet.xml、applicationContext-basic.xml 等<br>xml里的内容多个字符间以-隔开，比如 param-name、filter-mapping等</p>
+<h2 id="五、普通文件命名-jsp-js-img-等"><a href="#五、普通文件命名-jsp-js-img-等" class="headerlink" title="五、普通文件命名( jsp, js, img 等)"></a>五、普通文件命名( jsp, js, img 等)</h2><p>和 Java 普通变量规范相同</p>
+<h2 id="六、属性文件-properties"><a href="#六、属性文件-properties" class="headerlink" title="六、属性文件 properties"></a>六、属性文件 properties</h2><p>以下划线隔开：errors_zh_CN.properties，hibernate_test.properties</p>
+<h2 id="七、数据库命名："><a href="#七、数据库命名：" class="headerlink" title="七、数据库命名："></a>七、数据库命名：</h2><p>表、字段命名全部大写，多个单词以_隔开</p>
+<h2 id="八、包名命名规范"><a href="#八、包名命名规范" class="headerlink" title="八、包名命名规范"></a>八、包名命名规范</h2><p>我们知道，一般公司命名为“com.公司名.项目名.模块名…”。</p>
+<p>这里事实上 “com” 代表的是该公司的域名。</p>
+<p>除了 com 之外，域又分为 org、com、cn 等等许多，其中 org 为非营利组织，com 为商业组织。</p>
+<p><strong>如果没有域名的话，你可以以自创的独一无二的域名开头，最重要的其实是防止发生冲突。</strong></p>
 <hr>
-<h3 id="二、-延时加载-（懒加载）"><a href="#二、-延时加载-（懒加载）" class="headerlink" title="二、 延时加载 （懒加载）"></a>二、 延时加载 （懒加载）</h3><pre><code class="xml">&lt;resultMap id=&quot;userMap&quot; type=&quot;user&quot;&gt;
-    &lt;id property=&quot;id&quot; column=&quot;id&quot;/&gt;
-    &lt;id property=&quot;username&quot; column=&quot;username&quot;/&gt;
-    &lt;id property=&quot;sex&quot; column=&quot;sex&quot;/&gt;
-    &lt;id property=&quot;birthday&quot; column=&quot;birthday&quot;/&gt;
-
-    &lt;!-- 懒加载部分 --&gt;
-    &lt;assoociation property=&quot;bill&quot; colume=&quot;bid&quot; javaType=&quot;bill&quot; select=&quot;*.findById&quot;/&gt;
-&lt;/resultMap&gt;
-
-&lt;select id=&quot;findAll&quot; resultMap=&quot;userMap&quot;&gt;
-    select * from user
-&lt;/select&gt;
-
-&lt;select id=&quot;findById&quot; resultType=&quot;bill&quot;&gt;
-    select * from bills where id = #{bid}
-&lt;/select&gt;</code></pre>
-<p>同时还需要开启延迟加载的开关</p>
-<pre><code class="xml">&lt;settings&gt;
-    &lt;!-- 懒加载开启 --&gt;
-    &lt;setting name=&quot;lazyLoadingEnabled&quot; value=&quot;true&quot;/&gt;
-
-    &lt;!-- 按需加载 --&gt;
-    &lt;setting name=&quot;aggressiveLazyLoading&quot; value=&quot;false&quot;/&gt;
-&lt;/settings&gt;</code></pre>
-<hr>
-<h3 id="三、-缓存"><a href="#三、-缓存" class="headerlink" title="三、 缓存"></a>三、 缓存</h3><p>减小和数据库的交互次数，提升效率。</p>
-<p>缓存目标数据：</p>
-<ul>
-<li>经常查询的数据</li>
-<li>不经常改变的数据</li>
-<li>数据的正确与否对最终结果影响不大<ul>
-<li>例如银行数据之类的，股市数据之类的都不能用缓存，查询之间不允许有延迟，必须时刻保证数据真实性。</li>
-</ul>
-</li>
-</ul>
-<h5 id="多级缓存"><a href="#多级缓存" class="headerlink" title="多级缓存"></a>多级缓存</h5><ul>
-<li><p>一级缓存</p>
-<ul>
-<li><p>每次执行查询之后，SqlSession 会为我们提供一块区域来进行缓存。</p>
-</li>
-<li><p>例如，短时间内查询两个相同的对象，那么这两个将会共享同一个内存空间。两者的 reference 相等。</p>
-</li>
-<li><p>当 SqlSession 对象使用 clearCache 方法清空缓存之后，将不会有一级缓存。</p>
-</li>
-<li><p>调用 update 方法之后它也会清空一级缓存。</p>
-</li>
-</ul>
-</li>
-<li><p>二级缓存</p>
-<ul>
-<li><p>指的 Mybatis 中 SqlSessionFactory 的缓存。</p>
-</li>
-<li><p>各种由该 SqlSessionFactory 生产的 SqlSession 都共享该缓存。</p>
-</li>
-<li><p>配置方式：</p>
-<ul>
-<li><p>Mybatis 框架支持二级缓存</p>
-<pre><code class="xml">  &lt;settings&gt;
-      &lt;setting name=&quot;cacheEnabled&quot; value=&quot;true&quot;/&gt;
-  &lt;/settings&gt;</code></pre>
-</li>
-<li><p>映射文件支持二级缓存</p>
-</li>
-<li><p>操作支持二级缓存</p>
-<pre><code class="xml">  &lt;mapper&gt;
-      &lt;cache/&gt;
-      &lt;select useCache=&quot;true&quot;&gt;
-          select * from user
-      &lt;/select&gt;
-  &lt;/mapper&gt;</code></pre>
-</li>
-</ul>
-</li>
-<li><p>创建新对象，但是不查询。</p>
-</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h3 id="四、-注解开发"><a href="#四、-注解开发" class="headerlink" title="四、 注解开发"></a>四、 注解开发</h3><p><em>对于CRUD来说一共有四个注解，@Select, @Insert, @Update, @Delete</em></p>
-<p><em>CRUD: Create, Retrieve, Update, Delete</em></p>
-<p>注解与 xml 不能同时存在！</p>
-<p>注解在 Dao 文件中的表现形式:</p>
-<pre><code class="java">public interface IUserDao{
-
-    @Select(&quot;select * from User where id=#{id}&quot;)
-    @Results(id=&quot;userMap&quot;, 
-            value={
-                @Result(id=true, colume=&quot;id&quot;, property=&quot;userId&quot;),
-                @Result(colume=&quot;username&quot;, property=&quot;userName&quot;)
-            })
-    List&lt;User&gt; findUser(Integer id);
-
-    @Select(&quot;select * from User&quot;)
-    @ResultMap(value={&quot;userMap&quot;, })
-    List&lt;User&gt; findAllUser();
-}</code></pre>
-<h5 id="一对一查询"><a href="#一对一查询" class="headerlink" title="一对一查询"></a>一对一查询</h5><p>通常使用 EAGER。</p>
-<pre><code class="java">public interface IAccountDao{
-
-    @Select(&quot;select * from account&quot;)
-    @Results(id=&quot;accountMap&quot;, 
-            value={
-                @Result(id=true, colume=&quot;id&quot;, property=&quot;Id&quot;),
-                @Result(colume=&quot;uid&quot;, property=&quot;uid&quot;),
-                @Result(property=&quot;user&quot;, column=&quot;uid&quot;, one=@One(select=&quot;*.IUserDao.findUser&quot;, 
-                                                                fetchType=FetchType.EAGER))
-            })
-    List&lt;Account&gt; findAccount(Integer id);
-}</code></pre>
-<h5 id="一对多查询"><a href="#一对多查询" class="headerlink" title="一对多查询"></a>一对多查询</h5><p>通常使用 LAZY。</p>
-<pre><code class="java">public interface IAccountDao{
-
-    @Select(&quot;select * from account&quot;)
-    @Results(id=&quot;accountMap&quot;, 
-            value={
-                @Result(id=true, colume=&quot;id&quot;, property=&quot;Id&quot;),
-                @Result(colume=&quot;uid&quot;, property=&quot;uid&quot;),
-                @Result(property=&quot;user&quot;, column=&quot;uid&quot;, many=@Many(select=&quot;*.IUserDao.findUser&quot;, 
-                                                                fetchType=FetchType.LAZY))
-            })
-    List&lt;Account&gt; findAccount(Integer id);
-}</code></pre>
-<h5 id="二级缓存"><a href="#二级缓存" class="headerlink" title="二级缓存"></a>二级缓存</h5><pre><code class="java">public interface IAccountDao{
-
-    @Select(&quot;select * from account&quot;)
-    @Results(id=&quot;accountMap&quot;, 
-            value={
-                @Result(id=true, colume=&quot;id&quot;, property=&quot;Id&quot;),
-                @Result(colume=&quot;uid&quot;, property=&quot;uid&quot;),
-                @Result(property=&quot;user&quot;, column=&quot;uid&quot;, many=@Many(select=&quot;*.IUserDao.findUser&quot;, 
-                                                                fetchType=FetchType.LAZY))
-            })
-    List&lt;Account&gt; findAccount(Integer id);
-}</code></pre>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p>[1] <a href="https://blog.csdn.net/weixin_42618873/article/details/90694514" target="_blank" rel="noopener">https://blog.csdn.net/weixin_42618873/article/details/90694514</a></p>
+<p>[2] <a href="https://blog.csdn.net/youyaecho/article/details/51179023" target="_blank" rel="noopener">https://blog.csdn.net/youyaecho/article/details/51179023</a></p>
 
             <hr>
           </div>
@@ -408,8 +225,6 @@
                 <i class="iconfont icon-tag"></i>
                 
                   <a class="hover-with-bg" href="/tags/Java">Java</a>
-                
-                  <a class="hover-with-bg" href="/tags/Mybatis">Mybatis</a>
                 
                   <a class="hover-with-bg" href="/tags/CS">CS</a>
                 
@@ -612,7 +427,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Mybatis 笔记&nbsp;",
+        "项目命名宝典&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

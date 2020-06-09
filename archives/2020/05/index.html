@@ -18,7 +18,7 @@
   <meta name="description" content="">
   <meta name="author" content="aiinirii">
   <meta name="keywords" content="Technology">
-  <title>项目命名宝典 ~ aiinirii&#39;s blog</title>
+  <title>归档 ~ aiinirii&#39;s blog</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -41,7 +41,7 @@
 
 
 <body>
-  <header style="height: 70vh;">
+  <header style="height: 80vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -100,7 +100,7 @@
   </div>
 </nav>
 
-    <div class="view intro-2" id="background" false
+    <div class="view intro-2" id="background" parallax=true
          style="background: url('/image/head.jpg')no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
@@ -110,41 +110,6 @@
               
             </span>
 
-            
-              <br>
-              
-                <p class="mt-3">
-                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  星期一, 六月 8日 2020, 1:13 下午
-                </p>
-              
-
-              <p>
-                
-                  
-                  &nbsp;<i class="far fa-chart-bar"></i>
-                  <span class="post-count">
-                    660 字
-                  </span>&nbsp;
-                
-
-                
-                  
-                  &nbsp;<i class="far fa-clock"></i>
-                  <span class="post-count">
-                      2 分钟
-                  </span>&nbsp;
-                
-
-                
-                  <!-- 不蒜子统计文章PV -->
-                  
-                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
-                  <span id="busuanzi_container_page_pv">
-                    <span id="busuanzi_value_page_pv"></span> 次
-                  </span>&nbsp;
-                
-              </p>
             
           </div>
 
@@ -156,121 +121,35 @@
 
   <main>
     
+      <div class="container nopadding-md">
+        <div class="py-5 z-depth-3" id="board">
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+<div class="list-group">
+  <p class="h4">共计 12 篇文章</p>
+  <hr>
+  
+    
       
+      <p class="h5">2020</p>
+    
+    <a href="/2020/05/30/Mybatis-notes/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">Mybatis 笔记</span>
+      <span style="float: right;">05-30</span>
+    </a>
+  
+</div>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-md">
-      <div class="py-5 z-depth-3" id="board">
-        <div class="post-content mx-auto" id="post">
-          <div class="markdown-body">
-            <p>如何给项目命名？想必各位 coder 都常为此苦恼不已。这里我稍微整理了一下几个比较规范的命名规则，主要还是自己看啦！</p>
-<p>欢迎大家补充哦 :-)</p>
-<hr>
-<h2 id="一、项目名"><a href="#一、项目名" class="headerlink" title="一、项目名"></a>一、项目名</h2><p>全部小写，比如 cms、workdesk、jobserver 等</p>
-<h2 id="二、java相关命名"><a href="#二、java相关命名" class="headerlink" title="二、java相关命名"></a>二、java相关命名</h2><ol>
-<li><p>类命名：每音节单词前的第一个字母大写，比如 FieldInfo、Expression 等</p>
-</li>
-<li><p>普通变量(包括spring里的变量引用命名)：第一个单词前小写，以后每个单词第一个字母大写，比如：password、primaryFlag</p>
-</li>
-<li><p>静态变量：全部大写，多个单词则以_分开，比如BOOLEAN_FLAG</p>
-</li>
-<li><p>包package命名：全部小写,比如 com.joinspider.workdesk</p>
-</li>
-<li><p>类名、变量名是名字组合，多名词顺序和中文顺序一样，比如 ScriptEngine</p>
-</li>
-<li><p>属性也可以是形容词 + 名词</p>
-</li>
-<li><p>常量可使用上述规则，如果为了体现多个常量是一组的概念，也可以被修饰前置，比如：VAR_START，VAR_END.</p>
-</li>
-<li><p>方法是动词 + 名字或者只有动词</p>
-</li>
-<li><p>Import 需要指出 import 哪一个类，禁止 import 整个 package</p>
-</li>
-</ol>
-<pre><code>```java
-import java.util.*; //错误
 
-import java.util.HashMap; //正确
-```</code></pre><ol start="10">
-<li>Test Class 名的格式为“测试对象 Class 名 *<em>+ Test *</em>”</li>
-<li>进行测试或 Package 测试的所有的 Class 名的格式为“<strong>AllTest *<em>”或“Package 名 *</em>+ Test</strong>”</li>
-<li>生成 Object 的 Method 名的格式是“**”create” + **Object 名”</li>
-<li>转换 Method 名的格式是“<strong>“to” +</strong> Object 名”</li>
-<li>在查询方法中应使用find作为前缀</li>
-</ol>
-<h2 id="三、属性文件-properties定义变量命名"><a href="#三、属性文件-properties定义变量命名" class="headerlink" title="三、属性文件.properties定义变量命名"></a>三、属性文件.properties定义变量命名</h2><p>object.a_b_c 格式，全部小写，其中 object 是宿主，a_b_c 多个单词下划线分开。</p>
-<p>例：hibernate.cache.use_second_level_cache、hibernate.cache.provider_class、hibernate.cache.provider_configuration_file_resource_path</p>
-<h2 id="四、xml-文件命名"><a href="#四、xml-文件命名" class="headerlink" title="四、xml 文件命名"></a>四、xml 文件命名</h2><p>全部小写，-符号是其 xml 的用途说明，类似 applicationContext 属习惯命名。比如 springmvc-servlet.xml、workdesk-manager.xml、workdesk-servlet.xml、applicationContext-basic.xml 等<br>xml里的内容多个字符间以-隔开，比如 param-name、filter-mapping等</p>
-<h2 id="五、普通文件命名-jsp-js-img-等"><a href="#五、普通文件命名-jsp-js-img-等" class="headerlink" title="五、普通文件命名( jsp, js, img 等)"></a>五、普通文件命名( jsp, js, img 等)</h2><p>和 Java 普通变量规范相同</p>
-<h2 id="六、属性文件-properties"><a href="#六、属性文件-properties" class="headerlink" title="六、属性文件 properties"></a>六、属性文件 properties</h2><p>以下划线隔开：errors_zh_CN.properties，hibernate_test.properties</p>
-<h2 id="七、数据库命名："><a href="#七、数据库命名：" class="headerlink" title="七、数据库命名："></a>七、数据库命名：</h2><p>表、字段命名全部大写，多个单词以_隔开</p>
-<h2 id="八、包名命名规范"><a href="#八、包名命名规范" class="headerlink" title="八、包名命名规范"></a>八、包名命名规范</h2><p>我们知道，一般公司命名为“com.公司名.项目名.模块名…”。</p>
-<p>这里事实上 “com” 代表的是该公司的域名。</p>
-<p>除了 com 之外，域又分为 org、com、cn 等等许多，其中 org 为非营利组织，com 为商业组织。</p>
-<p><strong>如果没有域名的话，你可以以自创的独一无二的域名开头，最重要的其实是防止发生冲突。</strong></p>
-<hr>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p>[1] <a href="https://blog.csdn.net/weixin_42618873/article/details/90694514" target="_blank" rel="noopener">https://blog.csdn.net/weixin_42618873/article/details/90694514</a></p>
-<p>[2] <a href="https://blog.csdn.net/youyaecho/article/details/51179023" target="_blank" rel="noopener">https://blog.csdn.net/youyaecho/article/details/51179023</a></p>
-
-            <hr>
-          </div>
-          <br>
-          <div>
-            <p>
-            
-            
-              <span>
-                <i class="iconfont icon-tag"></i>
-                
-                  <a class="hover-with-bg" href="/tags/Java">Java</a>
-                
-                  <a class="hover-with-bg" href="/tags/CS">CS</a>
-                
-              </span>
-            
-            </p>
-            
-              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
-            
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="d-none d-lg-block col-lg-2 toc-container">
-      
-  <div id="toc">
-    <p class="h5"><i class="far fa-list-alt"></i>&nbsp;目录</p>
-    <div id="tocbot"></div>
-  </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- custom -->
-
-
-<!-- Comments -->
-<div class="col-lg-7 mx-auto nopadding-md">
-  <div class="container comments mx-auto" id="comments">
-    
-      <br><br>
-      
-      <script src="https://utteranc.es/client.js"
-        repo="AIINIRII/repo"
-        issue-term="title"
-        label="Comment"
-        theme="github-light"
-        crossorigin="anonymous"
-        async>
-</script>
-
-    
-  </div>
-</div>
-
     
   </main>
 
@@ -349,26 +228,6 @@ import java.util.HashMap; //正确
 
 
 
-  <script src="/js/post.js" ></script>
-  
-    <script src="/lib/tocbot/tocbot.min.js" ></script>
-    <script>
-      $(document).ready(function () {
-        tocbot.init({
-          tocSelector: '#tocbot',
-          contentSelector: '.post-content',
-          headingSelector: 'h1,h2,h3,h4,h5,h6',
-          linkClass: 'tocbot-link',
-          activeLinkClass: 'tocbot-active-link',
-          listClass: 'tocbot-list',
-          isCollapsedClass: 'tocbot-is-collapsed',
-          collapsibleClass: 'tocbot-is-collapsible',
-          scrollSmooth: true,
-        });
-      });
-    </script>
-  
-
 
 
   <script src="/lib/smoothscroll/SmoothScroll.min.js" ></script>
@@ -427,7 +286,7 @@ import java.util.HashMap; //正确
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "项目命名宝典&nbsp;",
+        "归档&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
