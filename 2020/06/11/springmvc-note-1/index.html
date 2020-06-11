@@ -18,7 +18,7 @@
   <meta name="description" content="">
   <meta name="author" content="aiinirii">
   <meta name="keywords" content="Technology">
-  <title>归档 ~ aiinirii&#39;s blog</title>
+  <title>Spring MVC 笔记（一） ~ aiinirii&#39;s blog</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -41,7 +41,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -100,7 +100,7 @@
   </div>
 </nav>
 
-    <div class="view intro-2" id="background" parallax=true
+    <div class="view intro-2" id="background" false
          style="background: url('/image/head.jpg')no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
@@ -110,6 +110,41 @@
               
             </span>
 
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期四, 六月 11日 2020, 11:47 中午
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    495 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      2 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
             
           </div>
 
@@ -121,77 +156,206 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">共计 16 篇文章</p>
-  <hr>
-  
-    
       
-      <p class="h5">2020</p>
-    
-    <a href="/2020/04/13/Jupyter-Pycharm-anaconda-Bug/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Jupyter+Pycharm+anaconda 环境搭建时的报错</span>
-      <span style="float: right;">04-13</span>
-    </a>
-  
-    
-    <a href="/2020/04/08/DeepLearning-Journal/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">深度学习日记-卷积神经网络实现</span>
-      <span style="float: right;">04-08</span>
-    </a>
-  
-    
-    <a href="/2020/04/06/Housing-Evaluation-AUTO-Part-3/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">房地产自动定价（三）</span>
-      <span style="float: right;">04-06</span>
-    </a>
-  
-    
-    <a href="/2020/04/05/Housing-Evaluation-AUTO-Part-2/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">房地产自动定价（二）</span>
-      <span style="float: right;">04-05</span>
-    </a>
-  
-    
-    <a href="/2020/04/04/Housing-Evaluation-AUTO-Part-1/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">房地产自动定价（一）</span>
-      <span style="float: right;">04-04</span>
-    </a>
-  
-    
-    <a href="/2020/04/02/preorder-inorder-and-postorder/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">二叉树的先序遍历、中序遍历以及后序遍历</span>
-      <span style="float: right;">04-02</span>
-    </a>
-  
-</div>
 
-  <nav aria-label="index posts navigation">
-    <span class="pagination pg-blue justify-content-center mt-5" id="pagination">
-      <a class="extend prev" rel="prev" href="/archives/"><i class="fas fa-angle-double-left"></i></a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
-    </span>
-  </nav>
-  
-  <script>
-    for (ele of document.getElementById("pagination").getElementsByClassName("page-number")) {
-      ele.href += '#board';
-    }
-  </script>
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <h1 id="三层架构-REVIEW"><a href="#三层架构-REVIEW" class="headerlink" title="三层架构 REVIEW"></a>三层架构 REVIEW</h1><ul>
+<li>表现层<ul>
+<li>Spring MVC</li>
+</ul>
+</li>
+<li>业务层<ul>
+<li>Spring</li>
+</ul>
+</li>
+<li>持久层<ul>
+<li>Mybatis</li>
+</ul>
+</li>
+</ul>
+<p>表现层需要做：</p>
+<ol>
+<li>接收请求</li>
+<li>响应结果</li>
+</ol>
+<hr>
+<h1 id="MVC-REVIEW"><a href="#MVC-REVIEW" class="headerlink" title="MVC REVIEW"></a>MVC REVIEW</h1><ul>
+<li>Model （模型）<ul>
+<li>java bean</li>
+</ul>
+</li>
+<li>View （视图）<ul>
+<li>jsp || HTML</li>
+</ul>
+</li>
+<li>Controller （控制器）<ul>
+<li>servlet</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="Spring-MVC-优势"><a href="#Spring-MVC-优势" class="headerlink" title="Spring MVC 优势"></a>Spring MVC 优势</h1><h2 id="角色划分清晰"><a href="#角色划分清晰" class="headerlink" title="角色划分清晰"></a>角色划分清晰</h2><ul>
+<li>前端控制器（DispatcherServlet）</li>
+<li>请求到处理器映射（HandlerMapping）</li>
+<li>处理器适配器（HandlerAdapter）</li>
+<li>视图解析器（ViewResolver）</li>
+<li>处理器或页面控制器（Controller）</li>
+<li>验证器（ Validator）</li>
+<li>命令对象（Command 请求参数绑定到的对象就叫命令对象）</li>
+<li>表单对象（Form Object 提供给表单展示和提交到的对象就叫表单对象）</li>
+</ul>
+<hr>
+<h1 id="执行流程"><a href="#执行流程" class="headerlink" title="执行流程"></a>执行流程</h1><ol>
+<li>Client – Request -&gt; DispatcherServlet</li>
+<li>DispatcherServlet – Request for Handler -&gt; HandlerMapping</li>
+<li>HandllerMapping find the Method position</li>
+<li>HandlerMapping – Response an executable chain -&gt; DispatcherServlet</li>
+<li>DispatcherServlet – Request for execute -&gt; HandlerAdapter</li>
+<li>HandlerAdapter – Execute -&gt; Handler/Controller</li>
+<li>Handler/Controller – Response Model and View -&gt; HandlerAdapter</li>
+<li>HandlerAdapter – Response Model and View -&gt; DispatcherServlet</li>
+<li>DispatcherServlet – Request for view resolve -&gt; ViewResolver</li>
+<li>ViewResolver – Response the View -&gt; DispatcherServlet</li>
+<li>DispatcherServlet – Apply Colors to a Drawing -&gt; View</li>
+<li>DispatcherServlet – Response -&gt; Client</li>
+</ol>
+<hr>
+<h1 id="常用注解"><a href="#常用注解" class="headerlink" title="常用注解"></a>常用注解</h1><h3 id="RequestParam"><a href="#RequestParam" class="headerlink" title="@RequestParam"></a>@RequestParam</h3><pre><code class="java">@RequestMapping(&quot;/Path&quot;)
+public String method(@RequestParam(name = &quot;nameInRequest&quot;) String username) {
+    ...
+}</code></pre>
+<h3 id="RequestBody"><a href="#RequestBody" class="headerlink" title="@RequestBody"></a>@RequestBody</h3><pre><code class="java">// get 不适用；异步时传json有用
+// 获得类似(&quot;username=name&amp;age=20&quot;)
+@RequestMapping(&quot;/Path&quot;)
+public String method(@RequestBody String body) {
+    ...
+}</code></pre>
+<h3 id="PathVariable"><a href="#PathVariable" class="headerlink" title="@PathVariable"></a>@PathVariable</h3><pre><code class="java">// REST 风格
+@RequestMapping(&quot;/Path/{id}&quot;)
+public String method(@PathVariable(name = &quot;id&quot;) String id) {
+    ...
+}</code></pre>
+<h3 id="RequestHeader"><a href="#RequestHeader" class="headerlink" title="@RequestHeader"></a>@RequestHeader</h3><pre><code class="java">// 获得请求头的值
+@RequestMapping(&quot;/Path&quot;)
+public String method(@RequestHeader(value = &quot;HeaderName&quot;) String header) {
+    ...
+}</code></pre>
+<h3 id="CookieValue"><a href="#CookieValue" class="headerlink" title="@CookieValue"></a>@CookieValue</h3><pre><code class="java">// 获得cookie
+@RequestMapping(&quot;/Path&quot;)
+public String method(@CookieValue(value = &quot;CookieName&quot;) String cookie) {
+    ...
+}</code></pre>
+<h3 id="ModelAttribute"><a href="#ModelAttribute" class="headerlink" title="@ModelAttribute"></a>@ModelAttribute</h3><pre><code class="java">// 放在方法上，该方法会先执行
+@ModelAttribute
+public String attributeMethod(String id) {
+    ...
+    return attribute;
+}
 
+// 获得attribute
+@RequestMapping(&quot;/Path&quot;)
+public String method(Attribute attribute) {
+    ...
+}</code></pre>
+<pre><code class="java">// 第二种写法，利用Map
+@ModelAttribute
+public void attributeMethod(String id, Map&lt;String, Attribute&gt; map) {
+    ...
+    map.put(id, attribute);
+}
 
-              </div>
-            </div>
+@RequestMapping(&quot;/Path&quot;)
+public String method(@ModelAttribute(value = id) Attribute attribute) {
+    ...
+}</code></pre>
+<h3 id="SessionAttribute"><a href="#SessionAttribute" class="headerlink" title="@SessionAttribute"></a>@SessionAttribute</h3><pre><code class="java">// add attribute to session
+@RequestMapping(&quot;/Path&quot;)
+public String setSessionAttribute(Model model) {
+    model.addAttribute(&quot;key&quot;, value);
+    ...
+}
+
+// get attribute from session
+@RequestMapping(&quot;/path&quot;)
+public String getSessionAttribute(ModelMap modelMap) {
+    result = (String) modelMap.get(&quot;key&quot;);
+    ...
+}
+
+// delete attribute from session
+@RequestMapping(&quot;/path&quot;)
+public String deleteSessionAttribute(SessionStatus status) {
+    status.setComplete();
+    ...
+}</code></pre>
+<hr>
+<h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><h3 id="REST-风格："><a href="#REST-风格：" class="headerlink" title="REST 风格："></a>REST 风格：</h3><p><em>restfule</em>: 对多个方法来说请求地址相同，根据不同的请求方式来做不同的功能。</p>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/Java">Java</a>
+                
+                  <a class="hover-with-bg" href="/tags/CS">CS</a>
+                
+                  <a class="hover-with-bg" href="/tags/Spring%20MVC">Spring MVC</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h5"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      <script src="https://utteranc.es/client.js"
+        repo="AIINIRII/repo"
+        issue-term="title"
+        label="Comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -270,6 +434,26 @@
 
 
 
+  <script src="/js/post.js" ></script>
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+    <script>
+      $(document).ready(function () {
+        tocbot.init({
+          tocSelector: '#tocbot',
+          contentSelector: '.post-content',
+          headingSelector: 'h1,h2,h3,h4,h5,h6',
+          linkClass: 'tocbot-link',
+          activeLinkClass: 'tocbot-active-link',
+          listClass: 'tocbot-list',
+          isCollapsedClass: 'tocbot-is-collapsed',
+          collapsibleClass: 'tocbot-is-collapsible',
+          scrollSmooth: true,
+        });
+      });
+    </script>
+  
+
 
 
   <script src="/lib/smoothscroll/SmoothScroll.min.js" ></script>
@@ -328,7 +512,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "归档&nbsp;",
+        "Spring MVC 笔记（一）&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
