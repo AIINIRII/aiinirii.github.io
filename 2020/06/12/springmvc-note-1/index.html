@@ -18,7 +18,7 @@
   <meta name="description" content="">
   <meta name="author" content="aiinirii">
   <meta name="keywords" content="Technology">
-  <title>Spring MVC 笔记（一） ~ aiinirii&#39;s blog</title>
+  <title>Spring MVC ~ aiinirii&#39;s blog</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -115,7 +115,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  星期四, 六月 11日 2020, 11:47 中午
+                  星期五, 六月 12日 2020, 11:47 中午
                 </p>
               
 
@@ -124,7 +124,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    495 字
+                    632 字
                   </span>&nbsp;
                 
 
@@ -132,7 +132,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      2 分钟
+                      3 分钟
                   </span>&nbsp;
                 
 
@@ -296,6 +296,21 @@ public String deleteSessionAttribute(SessionStatus status) {
 }</code></pre>
 <hr>
 <h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><h3 id="REST-风格："><a href="#REST-风格：" class="headerlink" title="REST 风格："></a>REST 风格：</h3><p><em>restfule</em>: 对多个方法来说请求地址相同，根据不同的请求方式来做不同的功能。</p>
+<hr>
+<h1 id="拦截器和过滤器的区别"><a href="#拦截器和过滤器的区别" class="headerlink" title="拦截器和过滤器的区别"></a>拦截器和过滤器的区别</h1><p>拦截器为SpringMVC特有，过滤器是Sevrlet的一部分。</p>
+<ul>
+<li>过滤器：<ul>
+<li>在url-pattern配置/*之后，可以对所有要访问的资源拦截。</li>
+</ul>
+</li>
+<li>拦截器：<ul>
+<li>只会拦截访问的控制器方法，如果是jsp，html之类就不会拦截。</li>
+</ul>
+</li>
+</ul>
+<p>理解：拦截器是弱化版的拦截器。</p>
+<h3 id="拦截器中拦截方法的顺序："><a href="#拦截器中拦截方法的顺序：" class="headerlink" title="拦截器中拦截方法的顺序："></a>拦截器中拦截方法的顺序：</h3><p>preHandle - &gt; method - &gt; postHandle - &gt; jsp - &gt; afterCompletion</p>
+<h3 id="如果有两个拦截器（1-gt-2-gt-Controller）："><a href="#如果有两个拦截器（1-gt-2-gt-Controller）：" class="headerlink" title="如果有两个拦截器（1 -&gt; 2 -&gt; Controller）："></a>如果有两个拦截器（1 -&gt; 2 -&gt; Controller）：</h3><p>preHandle1 - &gt; preHandle2 - &gt; method - &gt; postHandle2 - &gt; postHandle1 - &gt; jsp - &gt; afterCompletion2 - &gt; afterCompletion1</p>
 
             <hr>
           </div>
@@ -512,7 +527,7 @@ public String deleteSessionAttribute(SessionStatus status) {
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Spring MVC 笔记（一）&nbsp;",
+        "Spring MVC&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
