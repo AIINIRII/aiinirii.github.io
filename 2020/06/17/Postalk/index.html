@@ -132,7 +132,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    4.3k 字
+                    4.5k 字
                   </span>&nbsp;
                 
 
@@ -140,7 +140,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      23 分钟
+                      24 分钟
                   </span>&nbsp;
                 
 
@@ -174,7 +174,7 @@
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
             <h1 id="Postalk"><a href="#Postalk" class="headerlink" title="Postalk"></a>Postalk</h1><h2 id="0-简介"><a href="#0-简介" class="headerlink" title="0. 简介"></a>0. 简介</h2><p>这个项目是一个基于Spring boot, Mybatis, Druid, MySQL技术的web应用，其功能为发帖+聊天。该文章将会记录开发过程以及在过程之中所遇到的问题。</p>
-<h2 id="1-数据库设计"><a href="#1-数据库设计" class="headerlink" title="1. 数据库设计"></a>1. 数据库设计</h2><p>为了使开发更为顺利，我首先按照各实体类之间的关系，设计了该ER图。</p>
+<h2 id="1-设计部分"><a href="#1-设计部分" class="headerlink" title="1. 设计部分"></a>1. 设计部分</h2><h3 id="数据库设计"><a href="#数据库设计" class="headerlink" title="数据库设计"></a>数据库设计</h3><p>为了使开发更为顺利，我首先按照各实体类之间的关系，设计了该ER图。</p>
 <p><img src="/image/egZaYQPko9BK851.png" srcset="/img/loading.gif" alt="Postalk_ER"></p>
 <p>User表：</p>
 <table>
@@ -293,7 +293,101 @@
 <td>是否已读</td>
 </tr>
 </tbody></table>
-<h2 id="2-搭建Mybatis-SpringBoot基础框架"><a href="#2-搭建Mybatis-SpringBoot基础框架" class="headerlink" title="2. 搭建Mybatis+SpringBoot基础框架"></a>2. 搭建Mybatis+SpringBoot基础框架</h2><h3 id="1-配置Druid数据源"><a href="#1-配置Druid数据源" class="headerlink" title="1. 配置Druid数据源"></a>1. 配置Druid数据源</h3><ol>
+<h3 id="RESTful风格架构设计"><a href="#RESTful风格架构设计" class="headerlink" title="RESTful风格架构设计"></a>RESTful风格架构设计</h3><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>请求URI</th>
+<th>请求方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>用户登录</td>
+<td>/user/login</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>跳转到添加用户界面</td>
+<td>/user/</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>查询用户</td>
+<td>/user/{id}</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>用户注册</td>
+<td>/user/</td>
+<td>POST</td>
+</tr>
+<tr>
+<td>跳转到对应用户的主页</td>
+<td>/user/myPage</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>跳转到添加帖子界面</td>
+<td>/post/</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>添加帖子</td>
+<td>/post/</td>
+<td>POST</td>
+</tr>
+<tr>
+<td>查询所有帖子</td>
+<td>/posts/</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>查询所有该id对应的用户发的帖子</td>
+<td>/post/{id}</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>修改帖子</td>
+<td>/post/</td>
+<td>PUT</td>
+</tr>
+<tr>
+<td>删除帖子</td>
+<td>/post/{id}</td>
+<td>DELETE</td>
+</tr>
+<tr>
+<td>点赞或取消赞</td>
+<td>/like/</td>
+<td>POST</td>
+</tr>
+<tr>
+<td>获得当前登录用户对应的所有朋友名单</td>
+<td>/friends/</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>跳转到朋友搜索界面</td>
+<td>/friend/</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>根据输入条件查找用户</td>
+<td>/friend/search/</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>添加朋友</td>
+<td>/friend/</td>
+<td>POST</td>
+</tr>
+<tr>
+<td>删除朋友</td>
+<td>/friend/{id}</td>
+<td>DELETE</td>
+</tr>
+</tbody></table>
+<h2 id="2-搭建Mybatis-SpringBoot基础框架"><a href="#2-搭建Mybatis-SpringBoot基础框架" class="headerlink" title="2. 搭建Mybatis+SpringBoot基础框架"></a>2. 搭建Mybatis+SpringBoot基础框架</h2><h3 id="配置Druid数据源"><a href="#配置Druid数据源" class="headerlink" title="配置Druid数据源"></a>配置Druid数据源</h3><ol>
 <li><p>首先引入Druid的Maven依赖</p>
 <pre><code class="xml"> &lt;dependency&gt;
      &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
@@ -338,7 +432,7 @@
          enabled: true</code></pre>
 </li>
 </ol>
-<h3 id="2-实现各实体类"><a href="#2-实现各实体类" class="headerlink" title="2. 实现各实体类"></a>2. 实现各实体类</h3><pre><code class="java">package xyz.aiinirii.postalk.bean;
+<h3 id="实现各实体类"><a href="#实现各实体类" class="headerlink" title="实现各实体类"></a>实现各实体类</h3><pre><code class="java">package xyz.aiinirii.postalk.bean;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -406,7 +500,7 @@ public class Conversation {
     private String content;
     private boolean read;
 }</code></pre>
-<h2 id="3-用户模块"><a href="#3-用户模块" class="headerlink" title="3. 用户模块"></a>3. 用户模块</h2><h3 id="1-实现User的CURD操作"><a href="#1-实现User的CURD操作" class="headerlink" title="1. 实现User的CURD操作"></a>1. 实现User的CURD操作</h3><h4 id="Mapper-实现"><a href="#Mapper-实现" class="headerlink" title="Mapper 实现"></a>Mapper 实现</h4><pre><code class="java">package xyz.aiinirii.postalk.mapper;
+<h2 id="3-用户模块"><a href="#3-用户模块" class="headerlink" title="3. 用户模块"></a>3. 用户模块</h2><h3 id="实现User的CURD操作"><a href="#实现User的CURD操作" class="headerlink" title="实现User的CURD操作"></a>实现User的CURD操作</h3><h4 id="Mapper-实现"><a href="#Mapper-实现" class="headerlink" title="Mapper 实现"></a>Mapper 实现</h4><pre><code class="java">package xyz.aiinirii.postalk.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -437,36 +531,7 @@ public interface UserMapper {
     @Insert(&quot;update user set username=#{username}, password=#{password}, sex=#{sex}, age=#{age}, phone_number=#{phoneNumber}, email=#{email}, registration_date=#{registration_date} where id=#{id}&quot;)
     int updateUser(User user);
 }</code></pre>
-<h3 id="2-登录注册功能实现"><a href="#2-登录注册功能实现" class="headerlink" title="2. 登录注册功能实现"></a>2. 登录注册功能实现</h3><h4 id="RESTFUL-风格架构设计"><a href="#RESTFUL-风格架构设计" class="headerlink" title="RESTFUL 风格架构设计"></a>RESTFUL 风格架构设计</h4><table>
-<thead>
-<tr>
-<th>功能</th>
-<th>请求URI</th>
-<th>请求方式</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>用户登录</td>
-<td>/user/login</td>
-<td>GET</td>
-</tr>
-<tr>
-<td>跳转到添加用户界面</td>
-<td>/user/</td>
-<td>GET</td>
-</tr>
-<tr>
-<td>查询用户</td>
-<td>/user/{id}</td>
-<td>GET</td>
-</tr>
-<tr>
-<td>用户注册</td>
-<td>/user/</td>
-<td>POST</td>
-</tr>
-</tbody></table>
-<h4 id="Controller类代码实现"><a href="#Controller类代码实现" class="headerlink" title="Controller类代码实现"></a>Controller类代码实现</h4><pre><code class="java">package xyz.aiinirii.postalk.controller;
+<h3 id="登录注册功能实现"><a href="#登录注册功能实现" class="headerlink" title="登录注册功能实现"></a>登录注册功能实现</h3><h4 id="Controller类代码实现"><a href="#Controller类代码实现" class="headerlink" title="Controller类代码实现"></a>Controller类代码实现</h4><pre><code class="java">package xyz.aiinirii.postalk.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -708,7 +773,7 @@ public class UserController {
     })();
 &lt;/script&gt;
 &lt;/html&gt;</code></pre>
-<h2 id="4-帖子模块"><a href="#4-帖子模块" class="headerlink" title="4. 帖子模块"></a>4. 帖子模块</h2><h3 id="1-基本的增删改查"><a href="#1-基本的增删改查" class="headerlink" title="1. 基本的增删改查"></a>1. 基本的增删改查</h3><p>先贴上效果图：</p>
+<h2 id="4-帖子模块"><a href="#4-帖子模块" class="headerlink" title="4. 帖子模块"></a>4. 帖子模块</h2><h3 id="基本的增删改查"><a href="#基本的增删改查" class="headerlink" title="基本的增删改查"></a>基本的增删改查</h3><p>先贴上效果图：</p>
 <ul>
 <li><p>主页面：可以看到平台上所有用户的帖子 -  <img src="/image/image-20200620132434280.png" srcset="/img/loading.gif" alt="image-20200620132434280"></p>
 </li>
@@ -749,7 +814,7 @@ public class UserController {
          enabled: true</code></pre>
 </li>
 </ol>
-<h3 id="2-点赞功能实现"><a href="#2-点赞功能实现" class="headerlink" title="2. 点赞功能实现"></a>2. 点赞功能实现</h3><ul>
+<h3 id="点赞功能实现"><a href="#点赞功能实现" class="headerlink" title="点赞功能实现"></a>点赞功能实现</h3><ul>
 <li><p>赞数显示</p>
 <p>  思路：每次加载页面时自动查询赞数，并显示在页面上。</p>
 <p>  相关LikeMapper代码：</p>
@@ -858,7 +923,7 @@ public class UserController {
   }</code></pre>
 </li>
 </ul>
-<h3 id="3-匿名显示"><a href="#3-匿名显示" class="headerlink" title="3. 匿名显示"></a>3. 匿名显示</h3><p>只需要稍微对前端代码进行修改就可以了：</p>
+<h3 id="匿名显示"><a href="#匿名显示" class="headerlink" title="匿名显示"></a>匿名显示</h3><p>只需要稍微对前端代码进行修改就可以了：</p>
 <pre><code class="html">&lt;a href=&quot;#&quot; class=&quot;badge badge-light&quot; th:text=&quot;${!post.anonymous?post.user.username:&#39;anonymous&#39;}&quot;&gt;&lt;/a&gt;</code></pre>
 <p>这里加入一处判断，倘若post是匿名的，则不会显示用户的名字。</p>
 <h2 id="5-好友模块"><a href="#5-好友模块" class="headerlink" title="5. 好友模块"></a>5. 好友模块</h2><p>有了之前的基础，这一模块就相对简单了，主要是实现以下几个特性：</p>
@@ -870,7 +935,7 @@ public class UserController {
 <p>好友相关界面一览：</p>
 <p><img src="/image/image-20200621121414466.png" srcset="/img/loading.gif" alt="image-20200621121414466"></p>
 <p><img src="/image/image-20200621115555366.png" srcset="/img/loading.gif" alt="image-20200621115555366"></p>
-<h3 id="1-根据ID或用户名查找好友"><a href="#1-根据ID或用户名查找好友" class="headerlink" title="1. 根据ID或用户名查找好友"></a>1. 根据ID或用户名查找好友</h3><p>这一部分主要使用的是<code>userService</code>有关的接口去操作，以下是controller层代码：</p>
+<h3 id="根据ID或用户名查找好友"><a href="#根据ID或用户名查找好友" class="headerlink" title="根据ID或用户名查找好友"></a>根据ID或用户名查找好友</h3><p>这一部分主要使用的是<code>userService</code>有关的接口去操作，以下是controller层代码：</p>
 <pre><code class="java">@GetMapping(&quot;/friends/&quot;)
 public ModelAndView toMyFriendPage(ModelAndView modelAndView,
                                    @SessionAttribute(&quot;loginUser&quot;) User user) {
@@ -898,7 +963,7 @@ public ModelAndView findFriend(ModelAndView modelAndView,
     return modelAndView;
 }
 </code></pre>
-<h3 id="2-添加好友"><a href="#2-添加好友" class="headerlink" title="2. 添加好友"></a>2. 添加好友</h3><pre><code class="java">@PostMapping(&quot;/friend/&quot;)
+<h3 id="添加好友"><a href="#添加好友" class="headerlink" title="添加好友"></a>添加好友</h3><pre><code class="java">@PostMapping(&quot;/friend/&quot;)
 private ModelAndView addFriend(ModelAndView modelAndView,
                                Integer id,
                                @SessionAttribute(&quot;loginUser&quot;) User user) {
@@ -909,7 +974,7 @@ private ModelAndView addFriend(ModelAndView modelAndView,
     return modelAndView;
 }</code></pre>
 <p>可以看到，这里主要是调用了service层的addFriend方法。具体操作便是向friend表单中插入字段。</p>
-<h3 id="3-删除好友"><a href="#3-删除好友" class="headerlink" title="3. 删除好友"></a>3. 删除好友</h3><pre><code class="java">@DeleteMapping(&quot;/friend/{id}&quot;)
+<h3 id="删除好友"><a href="#删除好友" class="headerlink" title="删除好友"></a>删除好友</h3><pre><code class="java">@DeleteMapping(&quot;/friend/{id}&quot;)
 public ModelAndView deleteFriend(ModelAndView modelAndView,
                                  @PathVariable(&quot;id&quot;) Integer id,
                                  @SessionAttribute(&quot;loginUser&quot;) User user) throws Exception {
@@ -924,7 +989,13 @@ public ModelAndView deleteFriend(ModelAndView modelAndView,
     return modelAndView;
 }</code></pre>
 <p>这里用了delete方法，倘若搜索不到该用户，该方法会发出异常。</p>
-<hr>
+<h2 id="6-评论模块"><a href="#6-评论模块" class="headerlink" title="6. 评论模块"></a>6. 评论模块</h2><p>评论模块需要实现以下几个功能：</p>
+<ul>
+<li>评论的创建删除修改和匿名</li>
+<li>评论的层级显示</li>
+<li>贴主可以管理评论，可以对评论进行删除操作</li>
+</ul>
+<h3 id="评论的创建删除修改和匿名"><a href="#评论的创建删除修改和匿名" class="headerlink" title="评论的创建删除修改和匿名"></a>评论的创建删除修改和匿名</h3><hr>
 <h3 id="未完待续。。。"><a href="#未完待续。。。" class="headerlink" title="未完待续。。。"></a>未完待续。。。</h3><hr>
 <p>下面是github项目传送门：</p>
 <p><a href="https://github.com/AIINIRII/postalk" target="_blank" rel="noopener">https://github.com/AIINIRII/postalk</a></p>
