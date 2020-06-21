@@ -132,7 +132,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    4.2k 字
+                    4.3k 字
                   </span>&nbsp;
                 
 
@@ -858,6 +858,9 @@ public class UserController {
   }</code></pre>
 </li>
 </ul>
+<h3 id="3-匿名显示"><a href="#3-匿名显示" class="headerlink" title="3. 匿名显示"></a>3. 匿名显示</h3><p>只需要稍微对前端代码进行修改就可以了：</p>
+<pre><code class="html">&lt;a href=&quot;#&quot; class=&quot;badge badge-light&quot; th:text=&quot;${!post.anonymous?post.user.username:&#39;anonymous&#39;}&quot;&gt;&lt;/a&gt;</code></pre>
+<p>这里加入一处判断，倘若post是匿名的，则不会显示用户的名字。</p>
 <h2 id="5-好友模块"><a href="#5-好友模块" class="headerlink" title="5. 好友模块"></a>5. 好友模块</h2><p>有了之前的基础，这一模块就相对简单了，主要是实现以下几个特性：</p>
 <ul>
 <li>根据ID或用户名查找好友</li>
