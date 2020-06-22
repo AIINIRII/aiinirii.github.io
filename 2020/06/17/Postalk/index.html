@@ -132,7 +132,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    4.9k 字
+                    5.2k 字
                   </span>&nbsp;
                 
 
@@ -140,7 +140,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      26 分钟
+                      27 分钟
                   </span>&nbsp;
                 
 
@@ -1042,9 +1042,24 @@ public ModelAndView deleteFriend(ModelAndView modelAndView,
             throw new Exception(&quot;the user do not have right to delete the comment&quot;);
         }
     }</code></pre>
-<h3 id="贴主可以管理评论，可以对评论进行删除操作"><a href="#贴主可以管理评论，可以对评论进行删除操作" class="headerlink" title="贴主可以管理评论，可以对评论进行删除操作"></a>贴主可以管理评论，可以对评论进行删除操作</h3><hr>
-<h3 id="未完待续。。。"><a href="#未完待续。。。" class="headerlink" title="未完待续。。。"></a>未完待续。。。</h3><hr>
-<p>下面是github项目传送门：</p>
+<h3 id="贴主可以管理评论，可以对评论进行删除操作"><a href="#贴主可以管理评论，可以对评论进行删除操作" class="headerlink" title="贴主可以管理评论，可以对评论进行删除操作"></a>贴主可以管理评论，可以对评论进行删除操作</h3><p>效果图</p>
+<p><img src="/image/image-20200622111802772.png" srcset="/img/loading.gif" alt="image-20200622111802772"></p>
+<p>同之前的评论删除相似，这里仅仅是调整了各个评论的删除权限：</p>
+<pre><code class="html">&lt;!-- 前端代码调整，调整了按钮出现的逻辑 --&gt;
+&lt;form th:action=&quot;@{&#39;/comment/&#39; + ${comment.id}}&quot; method=&quot;post&quot; th:if=&quot;${session.loginUser.id} == ${comment.user.id} or ${session.loginUser.id} == ${comment.text.user.id}&quot;&gt;</code></pre>
+<pre><code class="java">// 后端service 层删除代码调整
+@Transactional(propagation = Propagation.REQUIRED)
+public boolean deleteCommentById(Integer id, User user) throws Exception {
+    if (commentMapper.findCommentById(id).getUser().getId().equals(user.getId()) || commentMapper.findCommentById(id).getText().getUser().getId().equals(user.getId())) { // 加入了判断该评论的父贴子的用户是否为登录用户的逻辑
+        return commentMapper.deleteCommentById(id) == 1 &amp;&amp;
+            textMapper.deleteTextById(id) == 1;
+    } else {
+        throw new Exception(&quot;the user do not have right to delete the comment&quot;);
+    }
+}</code></pre>
+<hr>
+<p>那么到此为止，一个基础的贴吧就做好了，但其实还和计划时差了一点（没有聊天模块）。随着项目的进行，我也才发现，如果要完成聊天模块的话自己欠缺的知识其实还有许多，那就先欠着吧:-D，等以后闲下来再去学，然后再把这个瘸腿项目给完善了。</p>
+<p>另注：该项目已开源，下面是github项目传送门，来一起进步啊~</p>
 <p><a href="https://github.com/AIINIRII/postalk" target="_blank" rel="noopener">https://github.com/AIINIRII/postalk</a></p>
 
             <hr>
