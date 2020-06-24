@@ -18,7 +18,7 @@
   <meta name="description" content="">
   <meta name="author" content="aiinirii">
   <meta name="keywords" content="Technology">
-  <title>标签 - CS ~ aiinirii&#39;s blog</title>
+  <title>Notes for: A Simple Semi-Supervised Learning Framework for Object Detection ~ aiinirii&#39;s blog</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -41,7 +41,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -108,7 +108,7 @@
   </div>
 </nav>
 
-    <div class="view intro-2" id="background" parallax=true
+    <div class="view intro-2" id="background" false
          style="background: url('/image/head.jpg')no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
@@ -118,6 +118,41 @@
               
             </span>
 
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期三, 六月 24日 2020, 11:41 晚上
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    693 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      2 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
             
           </div>
 
@@ -129,96 +164,190 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-<!--  <p class="h4">共计 9 篇文章</p>-->
-  <hr>
-  
-    
       
-      <p class="h5">2020</p>
-    
-    <a href="/2020/05/30/Mybatis-notes/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Mybatis 笔记</span>
-      <span style="float: right;">05-30</span>
-    </a>
-  
-    
-    <a href="/2020/04/14/ModuleNotFoundError/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">ModuleNotFoundError</span>
-      <span style="float: right;">04-14</span>
-    </a>
-  
-    
-    <a href="/2020/04/14/lack-of-cl-exe/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">「解决」anaconda下cl.exe缺失的报错</span>
-      <span style="float: right;">04-14</span>
-    </a>
-  
-    
-    <a href="/2020/04/13/Jupyter-Pycharm-anaconda-Bug/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Jupyter+Pycharm+anaconda 环境搭建时的报错</span>
-      <span style="float: right;">04-13</span>
-    </a>
-  
-    
-    <a href="/2020/04/08/DeepLearning-Journal/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">深度学习日记-卷积神经网络实现</span>
-      <span style="float: right;">04-08</span>
-    </a>
-  
-    
-    <a href="/2020/04/06/Housing-Evaluation-AUTO-Part-3/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">房地产自动定价（三）</span>
-      <span style="float: right;">04-06</span>
-    </a>
-  
-    
-    <a href="/2020/04/05/Housing-Evaluation-AUTO-Part-2/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">房地产自动定价（二）</span>
-      <span style="float: right;">04-05</span>
-    </a>
-  
-    
-    <a href="/2020/04/04/Housing-Evaluation-AUTO-Part-1/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">房地产自动定价（一）</span>
-      <span style="float: right;">04-04</span>
-    </a>
-  
-    
-    <a href="/2020/04/02/preorder-inorder-and-postorder/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">二叉树的先序遍历、中序遍历以及后序遍历</span>
-      <span style="float: right;">04-02</span>
-    </a>
-  
-</div>
 
-  <nav aria-label="index posts navigation">
-    <span class="pagination pg-blue justify-content-center mt-5" id="pagination">
-      <a class="extend prev" rel="prev" href="/tags/CS/"><i class="fas fa-angle-double-left"></i></a><a class="page-number" href="/tags/CS/">1</a><span class="page-number current">2</span>
-    </span>
-  </nav>
-  
-  <script>
-    for (ele of document.getElementById("pagination").getElementsByClassName("page-number")) {
-      ele.href += '#board';
-    }
-  </script>
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>STAC：</p>
+<ul>
+<li><p>半监督学习（SSL）</p>
+</li>
+<li><p>从未标记的图像中部署高度自信的本地化对象伪标签</p>
+</li>
+<li><p>通过增强数据来增强一致性，从而更新模型</p>
+</li>
+</ul>
+<h2 id="SSL简介"><a href="#SSL简介" class="headerlink" title="SSL简介"></a>SSL简介</h2><ul>
+<li><p>提供了在没有大规模注释数据时使用未标记数据来提高模型性能的方法</p>
+<ul>
+<li>首先为未标记的数据提供人工标签。</li>
+<li>然后使用语义保留的方法用其他的标签来对这个标签进行预测和更新。</li>
+</ul>
+</li>
+<li><p>数据增强</p>
+<ul>
+<li>提高神经网络的鲁棒性</li>
+<li>对SSL的图像分类功能非常强大！</li>
+</ul>
+</li>
+<li><p>在对象检测问题中也需要这种方法，因为标记成本比较昂贵</p>
+</li>
+</ul>
+<h2 id="方法流程"><a href="#方法流程" class="headerlink" title="方法流程"></a>方法流程</h2><ol>
+<li><p>对数据集进行阶段性培训</p>
+<ul>
+<li>使用所有可用的标记数据训练教师模型</li>
+<li>使用标记和未标记的数据训练STAC</li>
+<li>使用高阈值来控制伪标签的质量</li>
+</ul>
+<blockquote>
+<ol>
+<li><p>Train a teacher model on available labeled images. </p>
+</li>
+<li><p>Generate pseudo labels of unlabeled images (i.e., bounding boxes and their class labels) using the trained teacher model.</p>
+</li>
+<li><p>Apply strong data augmentations to unlabeled images, and augment pseudo labels (i.e. bounding boxes) correspondingly when global geometric transformations are applied.</p>
+</li>
+<li><p>Compute unsupervised loss and supervised loss to train a detector.</p>
+</li>
+</ol>
+</blockquote>
+</li>
+<li><p>训练教师模型</p>
+<ul>
+<li><p>基于FASTER RCNN</p>
+</li>
+<li><p>supervised loss function:</p>
+<p><img src="/image/image-20200624231335427.png" srcset="/img/loading.gif" alt="image-20200624231335427"></p>
+</li>
+<li><p>unsupervised loss function:</p>
+<p><img src="/image/image-20200624231531750.png" srcset="/img/loading.gif" alt="image-20200624231531750"></p>
+</li>
+<li><p>after join two function*:</p>
+<p><img src="/image/image-20200624231555036.png" srcset="/img/loading.gif" alt="image-20200624231555036"></p>
+</li>
+<li><p>其中A是应用与未标记图像的强数据增强。</p>
+</li>
+</ul>
+</li>
+<li><p>数据增强</p>
+<ul>
+<li><p>有以下三种增强方式：</p>
+<ol>
+<li>全局色彩变换（C）：使用[7]中的色彩变换操作和每个操作的建议幅度范围。</li>
+<li>全局几何变换（G）：使用[7]中的几何变换操作，即x-y平移，旋转和x-y剪切。</li>
+<li>盒级变换[69]（B）：使用了来自全局几何变换的三个变换操作，但是幅度范围较小。</li>
+</ol>
+</li>
+<li><p>增强方法：</p>
+<p>C -&gt; G/B -&gt; Random Cutout</p>
+</li>
+</ul>
+</li>
+</ol>
+<p><img src="/image/image-20200624232304092.png" srcset="/img/loading.gif" alt="image-20200624232304092"></p>
+<h2 id="Details"><a href="#Details" class="headerlink" title="Details"></a>Details</h2><ul>
+<li>基于Faster RCNN和FPN</li>
+<li>使用了ResNet-50</li>
+<li>λu 和 τ 的使用：<ul>
+<li>λu：无监督损失的正则化系数</li>
+<li>τ：置信度阈值</li>
+<li>当λu= 2且τ= 0.9时，STAC的性能最佳</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>虽然STAC使用伪标记可大大提高mAP的使用率，但我们的结果表明，伪标记质量的逐步提高可能不会带来显着的额外收益</p>
+</blockquote>
+<h2 id="不足"><a href="#不足" class="headerlink" title="不足"></a>不足</h2><ul>
+<li><p>投入不足，需要更高级别的标签进行有效培训。</p>
+</li>
+<li><p>嘈杂的伪标签会过度使用！！</p>
+<blockquote>
+<p>While STAC demonstrates an impressive performance gain already without taking confirmation bias [66,1] issue into ac- count, it could be problematic when using a detection framework with a stronger form of hard negative mining [47,29] because noisy pseudo labels can be overly- used. Further investigation in learning with noisy labels, confidence calibration, and uncertainty estimation in the context of object detection are few important topics to further enhance the performance of SSL object detection.</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p>[1] K. Sohn, Z. Zhang, C.-L. Li, H. Zhang, C.-Y. Lee, and T. Pfister, “A Simple Semi-Supervised Learning Framework for Object Detection,” 2020, [Online]. Available: <a href="http://arxiv.org/abs/2005.04757" target="_blank" rel="noopener">http://arxiv.org/abs/2005.04757</a>.</p>
 
-
-
-              </div>
-            </div>
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/Python">Python</a>
+                  &nbsp;
+                
+                  <a class="hover-with-bg" href="/categories/DL">DL</a>
+                  &nbsp;
+                
+                  <a class="hover-with-bg" href="/categories/Object%20Detection">Object Detection</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/CS">CS</a>
+                
+                  <a class="hover-with-bg" href="/tags/DL">DL</a>
+                
+                  <a class="hover-with-bg" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86">图像处理</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h5"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      <script src="https://utteranc.es/client.js"
+        repo="AIINIRII/repo"
+        issue-term="title"
+        label="Comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -297,6 +426,26 @@
 
 
 
+  <script src="/js/post.js" ></script>
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+    <script>
+      $(document).ready(function () {
+        tocbot.init({
+          tocSelector: '#tocbot',
+          contentSelector: '.post-content',
+          headingSelector: 'h1,h2,h3,h4,h5,h6',
+          linkClass: 'tocbot-link',
+          activeLinkClass: 'tocbot-active-link',
+          listClass: 'tocbot-list',
+          isCollapsedClass: 'tocbot-is-collapsed',
+          collapsibleClass: 'tocbot-is-collapsible',
+          scrollSmooth: true,
+        });
+      });
+    </script>
+  
+
 
 
   <script src="/lib/smoothscroll/SmoothScroll.min.js" ></script>
@@ -355,7 +504,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "标签 - CS&nbsp;",
+        "Notes for: A Simple Semi-Supervised Learning Framework for Object Detection&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
