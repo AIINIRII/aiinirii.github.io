@@ -4,6 +4,35 @@
   
   
   <entry>
+    <title>透明状态栏实现过程中遇到的问题</title>
+    <link href="/2020/08/13/Transparency-state-bar-problem/"/>
+    <url>/2020/08/13/Transparency-state-bar-problem/</url>
+    
+    <content type="html"><![CDATA[<h1 id="问题（解决办法在文章末尾）"><a href="#问题（解决办法在文章末尾）" class="headerlink" title="问题（解决办法在文章末尾）"></a>问题（解决办法在文章末尾）</h1><pre><code class="xml">&lt;!-- file inner.xml --&gt;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;    android:id=&quot;@+id/innerLayout&quot;    android:layout_width=&quot;match_parent&quot;    android:layout_height=&quot;530dp&quot;    android:fitsSystemWindows=&quot;true&quot;    android:orientation=&quot;vertical&quot;&gt;    ...&lt;/RelativeLayout&gt;</code></pre><pre><code class="xml">&lt;!-- file outer.xml --&gt;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;ScrollView xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;    android:id=&quot;@+id/outerLayout&quot;    android:layout_width=&quot;match_parent&quot;    android:layout_height=&quot;match_parent&quot;    android:overScrollMode=&quot;never&quot;    android:scrollbars=&quot;none&quot;    android:visibility=&quot;invisible&quot;    android:fitsSystemWindows=&quot;true&quot;&gt;    &lt;LinearLayout        android:layout_width=&quot;match_parent&quot;        android:layout_height=&quot;wrap_content&quot;        android:orientation=&quot;vertical&quot;        android:fitsSystemWindows=&quot;true&quot;&gt;        &lt;include layout=&quot;@layout/inner&quot; /&gt;    &lt;/LinearLayout&gt;&lt;/ScrollView&gt;</code></pre><pre><code class="kotlin">// file activity.ktclass Activity : AppCompatActivity() {    override fun onCreate(savedInstanceState: Bundle?) {        ...        nowLayout.setBackgroundResource(ImageId)        ...    }}</code></pre><pre><code class="xml">&lt;!-- file AndroidManifest.xml --&gt;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;    package=&quot;xyz.aiinirii.xxx&quot;&gt;    &lt;application        android:name=&quot;.xxxApplication&quot;        android:allowBackup=&quot;true&quot;        android:icon=&quot;@mipmap/ic_launcher&quot;        android:label=&quot;@string/app_name&quot;        android:roundIcon=&quot;@mipmap/ic_launcher_round&quot;        android:supportsRtl=&quot;true&quot;        android:theme=&quot;@style/AppTheme&quot;&gt;        ...        &lt;activity android:name=&quot;.Activity&quot; android:theme=&quot;@style/ActivityTheme&quot;/&gt;        ...    &lt;/application&gt;&lt;/manifest&gt;</code></pre><pre><code class="xml">&lt;!-- file styles.xml --&gt;&lt;resources&gt;    &lt;style name=&quot;AppTheme&quot; parent=&quot;Theme.AppCompat.Light.NoActionBar&quot;&gt;        &lt;!-- Customize your theme here. --&gt;        &lt;item name=&quot;colorPrimary&quot;&gt;@color/colorPrimary&lt;/item&gt;        &lt;item name=&quot;colorPrimaryDark&quot;&gt;@color/colorPrimaryDark&lt;/item&gt;        &lt;item name=&quot;colorAccent&quot;&gt;@color/colorAccent&lt;/item&gt;    &lt;/style&gt;    &lt;style name=&quot;ActivityTheme&quot; parent=&quot;AppTheme&quot;&gt;        &lt;item name=&quot;android:statusBarColor&quot;&gt;@android:color/transparent&lt;/item&gt;    &lt;/style&gt;&lt;/resources&gt;</code></pre><p>上面放出来的是几个相关的文件，理论上按照上面这样设定，是可以实现状态栏的透明的，但是事实上，在实际操作时是这样的效果：</p><p><img src="/image/image-20200813212736743.png" srcset="/img/loading.gif" alt="image-20200813212736743"></p><p>可以看到，上面的状态栏是白色的，暂时还不知道问题出在那里，接下来打算做几个实验。</p><h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><ol><li>将background改为xml内静态设置，即加入<code>android:background=&quot;@color/colorPrimary&quot;</code>字段，发现并无用。</li><li>猜测是因为需要设置透明框属性的view的<code>android:layout_height=&quot;530dp&quot;</code>被定死出的问题，改为<code>match_parent</code>之后依然无用。</li><li>猜测是因为<code>&lt;include&gt;</code> 标签导致的问题，于是在<code>&lt;include&gt;</code>标签上方加入了一张图片并设置<code>android:fitsSystemWindows=&quot;true&quot;</code>，发现问题依然存在。</li><li>猜测是<code>&lt;ScrollView&gt;</code>标签不支持透明模式，事实上并不是。。。</li></ol><h1 id="问题所在"><a href="#问题所在" class="headerlink" title="问题所在"></a>问题所在</h1><p>终于找到问题所在了，在查遍资料之后在这里整理一下：</p><ol><li><p>首先是有关<code>android:fitsSystemWindows</code>这个属性，是我之前理解错了。对于一个组件来说，如果让这个值等于<code>true</code>的话，那么就会避开系统组件，具体避开方式为增加padding，下面靠更改北京市<code>TextView</code>组件的<code>fitsSystemWindows</code>字段来进行试验。</p><ul><li><p><code>fitsSystemWindows = false</code>：</p><p>  <img src="/image/image-20200813231215979.png" srcset="/img/loading.gif" alt="image-20200813231215979"></p></li><li><p><code>fitsSystemWindows = true</code></p><p>  <img src="/image/image-20200813231024882.png" srcset="/img/loading.gif" alt="image-20200813231024882"></p></li></ul></li><li><p>如果要解决上面的问题，有两个办法：</p><ul><li><p><code>&lt;item name=&quot;android:windowDrawsSystemBarBackgrounds&quot;&gt;true&lt;/item&gt;</code> 这个办法我最喜欢，它的效果图是这样的：</p><p>  <img src="/image/image-20200813230852013.png" srcset="/img/loading.gif" alt="image-20200813230852013"></p></li><li><p><code>&lt;item name=&quot;android:windowTranslucentStatus&quot;&gt;true&lt;/item&gt;</code>这个对应半透明的效果：</p><p>  <img src="/image/image-20200813231024882.png" srcset="/img/loading.gif" alt="image-20200813231024882"></p></li></ul></li></ol>]]></content>
+    
+    
+    <categories>
+      
+      <category>Android</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>CS</tag>
+      
+      <tag>Android</tag>
+      
+      <tag>Kotlin</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Notes for: IterDet: Iterative Scheme for Object Detection in Crowded Environments</title>
     <link href="/2020/06/24/Notes-for-IterDet-Iterative-Scheme-for-Object-Detection-in-Crowded-Environments/"/>
     <url>/2020/06/24/Notes-for-IterDet-Iterative-Scheme-for-Object-Detection-in-Crowded-Environments/</url>
