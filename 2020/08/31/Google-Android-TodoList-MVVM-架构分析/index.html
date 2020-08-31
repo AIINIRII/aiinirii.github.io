@@ -18,7 +18,7 @@
   <meta name="description" content="">
   <meta name="author" content="aiinirii">
   <meta name="keywords" content="Technology">
-  <title>归档 ~ aiinirii&#39;s blog</title>
+  <title>Google Android TodoList MVVM 架构分析 ~ aiinirii&#39;s blog</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -41,7 +41,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -108,7 +108,7 @@
   </div>
 </nav>
 
-    <div class="view intro-2" id="background" parallax=true
+    <div class="view intro-2" id="background" false
          style="background: url('/image/head.jpg')no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
@@ -118,6 +118,41 @@
               
             </span>
 
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期一, 八月 31日 2020, 9:24 晚上
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    411 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      1 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
             
           </div>
 
@@ -129,101 +164,111 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">共计 22 篇文章</p>
-  <hr>
-  
-    
       
-      <p class="h5">2020</p>
-    
-    <a href="/2020/06/24/Notes-for-IterDet-Iterative-Scheme-for-Object-Detection-in-Crowded-Environments/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Notes for: IterDet: Iterative Scheme for Object Detection in Crowded Environments</span>
-      <span style="float: right;">06-24</span>
-    </a>
-  
-    
-    <a href="/2020/06/24/Notes-for-A-Simple-Semi-Supervised-Learning-Framework-for-Object-Detection/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Notes for: A Simple Semi-Supervised Learning Framework for Object Detection</span>
-      <span style="float: right;">06-24</span>
-    </a>
-  
-    
-    <a href="/2020/06/17/Postalk/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Postalk</span>
-      <span style="float: right;">06-17</span>
-    </a>
-  
-    
-    <a href="/2020/06/13/spring-boot-note/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">spring-boot-note</span>
-      <span style="float: right;">06-13</span>
-    </a>
-  
-    
-    <a href="/2020/06/12/springmvc-note-1/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Spring MVC</span>
-      <span style="float: right;">06-12</span>
-    </a>
-  
-    
-    <a href="/2020/06/10/spring-note-4/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Spring 笔记（四）</span>
-      <span style="float: right;">06-10</span>
-    </a>
-  
-    
-    <a href="/2020/06/10/spring-note-3/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Spring 笔记（三）</span>
-      <span style="float: right;">06-10</span>
-    </a>
-  
-    
-    <a href="/2020/06/09/spring-note-2/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Spring 笔记（二）</span>
-      <span style="float: right;">06-09</span>
-    </a>
-  
-    
-    <a href="/2020/06/07/spring-note/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Spring 笔记（一）</span>
-      <span style="float: right;">06-07</span>
-    </a>
-  
-    
-    <a href="/2020/06/05/maven-catalogue/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Maven 项目目录管理</span>
-      <span style="float: right;">06-05</span>
-    </a>
-  
-</div>
 
-  <nav aria-label="index posts navigation">
-    <span class="pagination pg-blue justify-content-center mt-5" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/2020/06/page/2/">2</a><a class="extend next" rel="next" href="/archives/2020/06/page/2/"><i class="fas fa-angle-double-right"></i></a>
-    </span>
-  </nav>
-  
-  <script>
-    for (ele of document.getElementById("pagination").getElementsByClassName("page-number")) {
-      ele.href += '#board';
-    }
-  </script>
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p>这几天打算写个android程序，但建好项目之后油然而生的无从下手感，让我意识到，作为一名追求程序极致美学的搬砖人民，还是先摸清楚目前主流的android程序结构再下手吧。</p>
+<p>逛了一圈CSDN之后，作为一个小白我了解到，目前市场上比较成熟的两种架构思想分别是MVP和MVVM。斟酌之后，我选择了MVVM架构作为我的第一个android程序的架构。</p>
+<p>于是我顺藤摸瓜，终于发现了，原来android官方早在GitHub上公布了官方对于MVVM这个架构的理解（GitHub传送门：<a href="https://github.com/android/architecture-samples" target="_blank" rel="noopener">https://github.com/android/architecture-samples</a>）。</p>
+<h1 id="整体架构"><a href="#整体架构" class="headerlink" title="整体架构"></a>整体架构</h1><p>我们首先从整体看这个程序的结构（这里不关注Test代码）：</p>
+<p><img src="/image/image-20200831204959627.png" srcset="/img/loading.gif" alt="image-20200831204959627"></p>
+<p>可以发现，android官方把整个程序分成了几个部分：</p>
+<ol>
+<li><p>data - 有关数据处理的package</p>
+</li>
+<li><p>util - 各种自定义工具类</p>
+</li>
+<li><p>tasks, taskdetail, statistics, addedittask - 各种以功能划分的包含ViewModel和Activity的package</p>
+</li>
+<li><p>ViewModelFactory - ViewModel工厂</p>
+</li>
+<li><p>ScrollChildSwipeRefreshLayout - 自定义组件</p>
+</li>
+<li><p>SingleLiveEvent - 这个很奇怪，里面全是注释，下面是google对这个类的解释：</p>
+<blockquote>
+<p>Looking for the SingleLiveEvent class? We are now using the Event class.</p>
+</blockquote>
+</li>
+<li><p>Event - 对数据进行事件性封装</p>
+</li>
+</ol>
+<h1 id="Data包分析"><a href="#Data包分析" class="headerlink" title="Data包分析"></a>Data包分析</h1><p>其实其他的都好理解，但data包中的安排需要分析一波：</p>
+<p><img src="/image/image-20200831203339387.png" srcset="/img/loading.gif" alt="image-20200831203339387"></p>
+<p>我们可以发现，其实对于一个数据来说，它的生命周期可以根据下面的流程图来进行分析：</p>
+<p><img src="/image/image-20200831212018062.png" srcset="/img/loading.gif" alt="image-20200831212018062"></p>
+<p>这么一来，google的官方MVVM架构就分析得差不多了。纸上得来终觉浅，绝知此事要躬行，实践去了（逃</p>
 
-
-              </div>
-            </div>
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/Android">Android</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/Android">Android</a>
+                
+                  <a class="hover-with-bg" href="/tags/Kotlin">Kotlin</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h5"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      <script src="https://utteranc.es/client.js"
+        repo="AIINIRII/repo"
+        issue-term="title"
+        label="Comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -302,6 +347,26 @@
 
 
 
+  <script src="/js/post.js" ></script>
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+    <script>
+      $(document).ready(function () {
+        tocbot.init({
+          tocSelector: '#tocbot',
+          contentSelector: '.post-content',
+          headingSelector: 'h1,h2,h3,h4,h5,h6',
+          linkClass: 'tocbot-link',
+          activeLinkClass: 'tocbot-active-link',
+          listClass: 'tocbot-list',
+          isCollapsedClass: 'tocbot-is-collapsed',
+          collapsibleClass: 'tocbot-is-collapsible',
+          scrollSmooth: true,
+        });
+      });
+    </script>
+  
+
 
 
   <script src="/lib/smoothscroll/SmoothScroll.min.js" ></script>
@@ -360,7 +425,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "归档&nbsp;",
+        "Google Android TodoList MVVM 架构分析&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
