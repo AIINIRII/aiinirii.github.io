@@ -18,7 +18,7 @@
   <meta name="description" content="">
   <meta name="author" content="aiinirii">
   <meta name="keywords" content="Technology">
-  <title>归档 ~ aiinirii&#39;s blog</title>
+  <title>MySQL 致命错误 ~ aiinirii&#39;s blog</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -41,7 +41,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -108,7 +108,7 @@
   </div>
 </nav>
 
-    <div class="view intro-2" id="background" parallax=true
+    <div class="view intro-2" id="background" false
          style="background: url('/image/head.jpg')no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
@@ -118,6 +118,41 @@
               
             </span>
 
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期一, 五月 10日 2021, 4:58 下午
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    226 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      1 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
             
           </div>
 
@@ -129,101 +164,106 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">共计 23 篇文章</p>
-  <hr>
-  
-    
       
-      <p class="h5">2020</p>
-    
-    <a href="/2020/06/09/spring-note-2/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Spring 笔记（二）</span>
-      <span style="float: right;">06-09</span>
-    </a>
-  
-    
-    <a href="/2020/06/07/spring-note/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Spring 笔记（一）</span>
-      <span style="float: right;">06-07</span>
-    </a>
-  
-    
-    <a href="/2020/06/05/maven-catalogue/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Maven 项目目录管理</span>
-      <span style="float: right;">06-05</span>
-    </a>
-  
-    
-    <a href="/2020/06/02/name-the-project/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">项目命名宝典</span>
-      <span style="float: right;">06-02</span>
-    </a>
-  
-    
-    <a href="/2020/05/30/Mybatis-notes/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Mybatis 笔记</span>
-      <span style="float: right;">05-30</span>
-    </a>
-  
-    
-    <a href="/2020/04/14/ModuleNotFoundError/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">ModuleNotFoundError</span>
-      <span style="float: right;">04-14</span>
-    </a>
-  
-    
-    <a href="/2020/04/14/lack-of-cl-exe/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">「解决」anaconda下cl.exe缺失的报错</span>
-      <span style="float: right;">04-14</span>
-    </a>
-  
-    
-    <a href="/2020/04/13/Jupyter-Pycharm-anaconda-Bug/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Jupyter+Pycharm+anaconda 环境搭建时的报错</span>
-      <span style="float: right;">04-13</span>
-    </a>
-  
-    
-    <a href="/2020/04/08/DeepLearning-Journal/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">深度学习日记-卷积神经网络实现</span>
-      <span style="float: right;">04-08</span>
-    </a>
-  
-    
-    <a href="/2020/04/06/Housing-Evaluation-AUTO-Part-3/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">房地产自动定价（三）</span>
-      <span style="float: right;">04-06</span>
-    </a>
-  
-</div>
 
-  <nav aria-label="index posts navigation">
-    <span class="pagination pg-blue justify-content-center mt-5" id="pagination">
-      <a class="extend prev" rel="prev" href="/archives/"><i class="fas fa-angle-double-left"></i></a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/page/3/">3</a><a class="extend next" rel="next" href="/archives/page/3/"><i class="fas fa-angle-double-right"></i></a>
-    </span>
-  </nav>
-  
-  <script>
-    for (ele of document.getElementById("pagination").getElementsByClassName("page-number")) {
-      ele.href += '#board';
-    }
-  </script>
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p>今天遇到了一个MySQL有关的错误，记录一下。</p>
+<pre><code class="bash">root@iZ2ze2hwhau036810z3eyrZ:/opt/web# systemctl start mysql
+Job for mysql.service failed because the control process exited with error code.
+See &quot;systemctl status mysql.service&quot; and &quot;journalctl -xe&quot; for details.
+● mysql.service - MySQL Community Server
+   Loaded: loaded (/lib/systemd/system/mysql.service; enabled; vendor preset: enabled)
+   Active: failed (Result: exit-code) since Mon 2021-05-10 15:58:54 CST; 3min 28s ago
+  Process: 3330 ExecStartPre=/usr/share/mysql/mysql-systemd-start pre (code=exited, status=0/SUCCESS)
+  Process: 3368 ExecStart=/usr/sbin/mysqld --daemonize --pid-file=/var/run/mysqld/mysqld.pid (code=exited, status=1/F
 
+</code></pre>
+<p>后来无论如何重启都无法运行MySQL服务。</p>
+<p>最后转了一圈论坛也没发现自己的问题所在。</p>
+<p>结果：</p>
+<pre><code class="bash">root@iZ2ze2hwhau036810z3eyrZ:~# df
+Filesystem     1K-blocks     Used Available Use% Mounted on
+udev              953472        0    953472   0% /dev
+tmpfs             193720      484    193236   1% /run
+/dev/vda1       41152812 41115388         0 100% /
+tmpfs             968596        0    968596   0% /dev/shm
+tmpfs               5120        0      5120   0% /run/lock
+tmpfs             968596        0    968596   0% /sys/fs/cgroup
+tmpfs             193716        0    193716   0% /run/user/0
+</code></pre>
+<p>好吧，原来是硬盘占用的问题。。。</p>
 
-              </div>
-            </div>
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/MySQL">MySQL</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/MySQL">MySQL</a>
+                
+                  <a class="hover-with-bg" href="/tags/Linux">Linux</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h5"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      <script src="https://utteranc.es/client.js"
+        repo="AIINIRII/repo"
+        issue-term="title"
+        label="Comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -302,6 +342,26 @@
 
 
 
+  <script src="/js/post.js" ></script>
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+    <script>
+      $(document).ready(function () {
+        tocbot.init({
+          tocSelector: '#tocbot',
+          contentSelector: '.post-content',
+          headingSelector: 'h1,h2,h3,h4,h5,h6',
+          linkClass: 'tocbot-link',
+          activeLinkClass: 'tocbot-active-link',
+          listClass: 'tocbot-list',
+          isCollapsedClass: 'tocbot-is-collapsed',
+          collapsibleClass: 'tocbot-is-collapsible',
+          scrollSmooth: true,
+        });
+      });
+    </script>
+  
+
 
 
   <script src="/lib/smoothscroll/SmoothScroll.min.js" ></script>
@@ -360,7 +420,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "归档&nbsp;",
+        "MySQL 致命错误&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
