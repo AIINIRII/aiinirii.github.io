@@ -1,0 +1,549 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/image/A.jpg">
+  <link rel="icon" href="/image/A.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="设计模式-单例模式">
+  <meta name="author" content="aiinirii">
+  <meta name="keywords" content="Technology">
+  <meta name="description" content="设计模式-单例模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式-单例模式">
+<meta property="og:url" content="http://aiinirii.github.io/2021/10/25/design-pattern-prototype-pattern/index.html">
+<meta property="og:site_name" content="aiinirii&#39;s blog">
+<meta property="og:description" content="设计模式-单例模式">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://aiinirii.github.io/image/1920px-Prototype_UML.svg.png">
+<meta property="article:published_time" content="2021-10-25T08:00:51.000Z">
+<meta property="article:modified_time" content="2021-10-25T10:30:41.595Z">
+<meta property="article:author" content="aiinirii">
+<meta property="article:tag" content="design pattern">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://aiinirii.github.io/image/1920px-Prototype_UML.svg.png">
+  
+  <title>设计模式-单例模式 ~ aiinirii&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/tomorrow-night-bright.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"aiinirii.github.io","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":"UA-162280636-1","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 80vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>aiinirii&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/image/head.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="设计模式-单例模式">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-25 16:00" pubdate>
+        2021年10月25日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.1k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      16 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">设计模式-单例模式</h1>
+            
+            <div class="markdown-body">
+              <h1 id="01-Prototype-Pattern"><a href="#01-Prototype-Pattern" class="headerlink" title="01 Prototype Pattern"></a>01 Prototype Pattern</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在写代码时，我们也许会碰到这些情景：</p>
+<ol>
+<li>在进行一次数据库查询后，我们成功地创建出了一个实体，而此时，我们需要从同一个数据源以同样方法取得另一个实体，如果已知其他人并未对数据源进行任何写入操作，那么此时最好的办法就是不经过数据源，我们直接复制已经查询到的数据。这样一来就能避免再次占用昂贵的数据库链接资源，并避免高耗时的数据库查询请求。</li>
+<li>或者，在千辛万苦经过了多次递归反射后，我们成功分析了一个类，并得到了它的解析结果对应的对象。这时如果我们需要去使用这个解析对应的对象，最好的办法就是将这个对象作为一个原型，直接复制其中的各个属性，从而跳过极其耗时的 Java 反射过程，快速生成解析结果对象。</li>
+<li>又或者，作为一个程序员，我们在对 Excel 表的其中一个格子进行了各种 style 的装饰，虽然我们很享受这个美化的过程，但是在美化结束后，如果需要我们去对第二个格子，或是另一个 Excel 文件中的另一个相同 style 的格子重新赋值一次，我们会感到相当痛苦。这个时候最好的方法就是去通过之前已经美化完成的格子复制一次，之后只需稍微改一下格子中的文字就好啦。</li>
+</ol>
+<p>因此，Prototype Pattern 就应运而生了，作为创建模式之一，它可以省去创建过程中的一些昂贵的消耗，并以简单无脑的复制（clone）代替。</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>下面是它的 UML 图：</p>
+<p><img src="/image/1920px-Prototype_UML.svg.png" srcset="/img/loading.gif" lazyload alt="Prototype UML"></p>
+<p>它本质上是进行了一次克隆的操作，借用已经有的实体，进行一次克隆，从而创建出一个一模一样的实体。UML 图非常简单，但是平常我们一般不会将其单独使用，而往往作为一种辅助工具，实现快速无误地创建一个新对象的作用。</p>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>在 Spring Boot 中，我们有一个类叫做 BeanDefinition，这个类所对应的对象，都和 Bean 的创建有关，可以说是一个非常核心的类了。例如：</p>
+<ul>
+<li><p>在 Spring 的核心方法 org.springframework.beans.factory.support.AbstractBeanFactory#doGetBean 中，当我们需要去新创建一个 Bean 对象供程序使用的时候，我们首先需要解析 class，生成对应的 BeanDefinition 对象 mbd (RootBeanDefinition) 。</p>
+<blockquote>
+<p>对于那些不了解 mdb 的小伙伴们：mdb 是一个 BeanDefinition 对象，其中包含了许多在配置时期所需要指定的该 Bean 的属性 - 例如 isPrototype, isSingleton, resolvedTargetType 等等等等。</p>
+<p>而 mdb 将会参加下面这个重要的流水线：</p>
+<p>我们通过 xml 文件或者 Java annotation 去设置这个 Bean 的一些特性，比如它对应的 class，它是否是单例。之后我们会创建一个 MutablePropertyValues 对象，将之前的配置变成一个 key-value 的 map。而这个 map 中，key 是 Bean Definition 中的属性的 Java 字段名称，value 是我们所指定的值。再成功生成 MutablePropertyValues 之后，我们通过 new RootBeanDefinition(className, null, mutablePropertyValues) 的方式生成 beanDefinition，并将它注入到ApplicationContext 里。这样一来，下次需要 Bean 的时候，我们就只需要去执行 applicationContext.getBean(className) 就可以让 beanFactory 这个工厂根据 beanDefinition 的定义来生成对应的 bean Object 了。</p>
+<pre><code class=" mermaid">flowchart LR
+	1(xml/Java annotation) --&gt;|文件解析和赋值| 2(MutablePropertyValues - a map)
+	2 --&gt;|构造 BeanDefinition 实例| 3(beanDefinition)
+	3 --&gt;|注入容器| 4(application context)
+	4 --&gt;|getBean| 5(bean Object)
+</code></pre>
+</blockquote>
+<p>在这之中，由于 xml/Java annotation 解析涉及到相当耗时的文件解析和 Java 反射过程，且在后面的 MutablePropertyValues -&gt; beanDefinition 的过程中也需要使用 Java 反射技术去对 beanDefinition 进行赋值操作。因此在 beanDefinition 生成之前的耗时是非常可观的。聪明的你可能发现了，这是可以避免的，因为我们的配置文件并不会改变。当然 Spring 也不笨，在它的源码中，对于每个类，它只会生成一次 beanDefinition 对象，在那之后，它都会使用 org.springframework.beans.factory.support.RootBeanDefinition#RootBeanDefinition(org.springframework.beans.factory.support.RootBeanDefinition) 这个方法将 RootBeanDefinition 复制一遍，进行使用。</p>
+<p>有人可能就问了，这个是一个 constructor 方法呀，我们讲的 Prototype Pattern 不应该是使用 clone 来实现的吗？别急，请你仔细看看这个方法的实现，它其实就是干了 clone 这件事情：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RootBeanDefinition</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractBeanDefinition</span> </span>&#123;<br>    ...<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">RootBeanDefinition</span><span class="hljs-params">(RootBeanDefinition original)</span> </span>&#123;<br>		<span class="hljs-keyword">super</span>(original);<br>		<span class="hljs-keyword">this</span>.decoratedDefinition = original.decoratedDefinition;<br>		<span class="hljs-keyword">this</span>.qualifiedElement = original.qualifiedElement;<br>		<span class="hljs-keyword">this</span>.allowCaching = original.allowCaching;<br>		<span class="hljs-keyword">this</span>.isFactoryMethodUnique = original.isFactoryMethodUnique;<br>		<span class="hljs-keyword">this</span>.targetType = original.targetType;<br>		<span class="hljs-keyword">this</span>.factoryMethodToIntrospect = original.factoryMethodToIntrospect;<br>	&#125;<br>    ...<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AbstractBeanDefinition</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BeanMetadataAttributeAccessor</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">BeanDefinition</span>, <span class="hljs-title">Cloneable</span> </span>&#123;<br>    ...<br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-title">AbstractBeanDefinition</span><span class="hljs-params">(BeanDefinition original)</span> </span>&#123;<br>		setParentName(original.getParentName());<br>		setBeanClassName(original.getBeanClassName());<br>		setScope(original.getScope());<br>		setAbstract(original.isAbstract());<br>		setFactoryBeanName(original.getFactoryBeanName());<br>		setFactoryMethodName(original.getFactoryMethodName());<br>		setRole(original.getRole());<br>		setSource(original.getSource());<br>		copyAttributesFrom(original);<br><br>		<span class="hljs-keyword">if</span> (original <span class="hljs-keyword">instanceof</span> AbstractBeanDefinition) &#123;<br>			AbstractBeanDefinition originalAbd = (AbstractBeanDefinition) original;<br>			<span class="hljs-keyword">if</span> (originalAbd.hasBeanClass()) &#123;<br>				setBeanClass(originalAbd.getBeanClass());<br>			&#125;<br>			<span class="hljs-keyword">if</span> (originalAbd.hasConstructorArgumentValues()) &#123;<br>				setConstructorArgumentValues(<span class="hljs-keyword">new</span> ConstructorArgumentValues(original.getConstructorArgumentValues()));<br>			&#125;<br>			<span class="hljs-keyword">if</span> (originalAbd.hasPropertyValues()) &#123;<br>				setPropertyValues(<span class="hljs-keyword">new</span> MutablePropertyValues(original.getPropertyValues()));<br>			&#125;<br>			<span class="hljs-keyword">if</span> (originalAbd.hasMethodOverrides()) &#123;<br>				setMethodOverrides(<span class="hljs-keyword">new</span> MethodOverrides(originalAbd.getMethodOverrides()));<br>			&#125;<br>			Boolean lazyInit = originalAbd.getLazyInit();<br>			<span class="hljs-keyword">if</span> (lazyInit != <span class="hljs-keyword">null</span>) &#123;<br>				setLazyInit(lazyInit);<br>			&#125;<br>			setAutowireMode(originalAbd.getAutowireMode());<br>			setDependencyCheck(originalAbd.getDependencyCheck());<br>			setDependsOn(originalAbd.getDependsOn());<br>			setAutowireCandidate(originalAbd.isAutowireCandidate());<br>			setPrimary(originalAbd.isPrimary());<br>			copyQualifiersFrom(originalAbd);<br>			setInstanceSupplier(originalAbd.getInstanceSupplier());<br>			setNonPublicAccessAllowed(originalAbd.isNonPublicAccessAllowed());<br>			setLenientConstructorResolution(originalAbd.isLenientConstructorResolution());<br>			setInitMethodName(originalAbd.getInitMethodName());<br>			setEnforceInitMethod(originalAbd.isEnforceInitMethod());<br>			setDestroyMethodName(originalAbd.getDestroyMethodName());<br>			setEnforceDestroyMethod(originalAbd.isEnforceDestroyMethod());<br>			setSynthetic(originalAbd.isSynthetic());<br>			setResource(originalAbd.getResource());<br>		&#125;<br>		<span class="hljs-keyword">else</span> &#123;<br>			setConstructorArgumentValues(<span class="hljs-keyword">new</span> ConstructorArgumentValues(original.getConstructorArgumentValues()));<br>			setPropertyValues(<span class="hljs-keyword">new</span> MutablePropertyValues(original.getPropertyValues()));<br>			setLazyInit(original.isLazyInit());<br>			setResourceDescription(original.getResourceDescription());<br>		&#125;<br>	&#125;<br>    ...<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>可见，这么一来，开销确实小了很多，不需要解析文件，也不需要 Java 反射了。</p>
+</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/design-pattern/">design pattern</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/design-pattern/">design pattern</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/05/10/mysql-deadly-problem/">
+                        <span class="hidden-mobile">MySQL 致命错误</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-dark-orange';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'AIINIRII/repo');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'Comment');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://www.github.com/AIINIRII" target="_blank" rel="nofollow noopener"><span>AIINIRII</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js" ></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({"theme":"default"});
+    }
+  </script>
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

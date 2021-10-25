@@ -1,0 +1,874 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/image/A.jpg">
+  <link rel="icon" href="/image/A.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="SpringMVC的基本框架搭建">
+  <meta name="author" content="aiinirii">
+  <meta name="keywords" content="Technology">
+  <meta name="description" content="SpringMVC的基本框架搭建">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Postalk">
+<meta property="og:url" content="http://aiinirii.github.io/2020/06/17/Postalk/index.html">
+<meta property="og:site_name" content="aiinirii&#39;s blog">
+<meta property="og:description" content="SpringMVC的基本框架搭建">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://aiinirii.github.io/image/egZaYQPko9BK851.png">
+<meta property="og:image" content="http://aiinirii.github.io/image/image-20200620132434280.png">
+<meta property="og:image" content="http://aiinirii.github.io/image/image-20200620133505658.png">
+<meta property="og:image" content="http://aiinirii.github.io/image/image-20200620133609830.png">
+<meta property="og:image" content="http://aiinirii.github.io/image/image-20200620133748133.png">
+<meta property="og:image" content="http://aiinirii.github.io/image/image-20200621121414466.png">
+<meta property="og:image" content="http://aiinirii.github.io/image/image-20200621115555366.png">
+<meta property="og:image" content="http://aiinirii.github.io/image/image-20200621225300015.png">
+<meta property="og:image" content="http://aiinirii.github.io/image/image-20200622111802772.png">
+<meta property="article:published_time" content="2020-06-17T03:05:52.000Z">
+<meta property="article:modified_time" content="2021-10-25T07:54:18.616Z">
+<meta property="article:author" content="aiinirii">
+<meta property="article:tag" content="CS">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Mybatis">
+<meta property="article:tag" content="Spring boot">
+<meta property="article:tag" content="druid">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://aiinirii.github.io/image/egZaYQPko9BK851.png">
+  
+  <title>Postalk ~ aiinirii&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/tomorrow-night-bright.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"aiinirii.github.io","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":"UA-162280636-1","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 80vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>aiinirii&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/image/head.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Postalk">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-06-17 11:05" pubdate>
+        2020年6月17日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      27k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      83 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Postalk</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Postalk"><a href="#Postalk" class="headerlink" title="Postalk"></a>Postalk</h1><h2 id="0-简介"><a href="#0-简介" class="headerlink" title="0. 简介"></a>0. 简介</h2><p>这个项目是一个基于Spring boot, Mybatis, Druid, MySQL技术的web应用，其功能为发帖+聊天。该文章将会记录开发过程以及在过程之中所遇到的问题。</p>
+<h2 id="1-设计部分"><a href="#1-设计部分" class="headerlink" title="1. 设计部分"></a>1. 设计部分</h2><h3 id="数据库设计"><a href="#数据库设计" class="headerlink" title="数据库设计"></a>数据库设计</h3><p>为了使开发更为顺利，我首先按照各实体类之间的关系，设计了该ER图。</p>
+<p><img src="/image/egZaYQPko9BK851.png" srcset="/img/loading.gif" lazyload alt="Postalk_ER"></p>
+<p>User表：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>username</th>
+<th>password</th>
+<th>sex</th>
+<th>age</th>
+<th>phone_number</th>
+<th>email</th>
+<th>registration_date</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>序号</td>
+<td>用户名</td>
+<td>密码</td>
+<td>性别（F表示女性，M表示男性）</td>
+<td>年龄</td>
+<td>电话号码</td>
+<td>电子邮箱</td>
+<td>注册时间</td>
+</tr>
+</tbody></table>
+<p>Text表：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>uid</th>
+<th>content</th>
+<th>time</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>序号</td>
+<td>用户序号</td>
+<td>文本内容</td>
+<td>发文时间</td>
+</tr>
+</tbody></table>
+<p>Comment表：</p>
+<table>
+<thead>
+<tr>
+<th>tid</th>
+<th>pid</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>对应文本的序号</td>
+<td>对应评价文本的序号</td>
+</tr>
+</tbody></table>
+<p>Post表：</p>
+<table>
+<thead>
+<tr>
+<th>tid</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>对应文本的序号</td>
+</tr>
+</tbody></table>
+<p>Like表：</p>
+<table>
+<thead>
+<tr>
+<th>uid</th>
+<th>tid</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>对应用户的序号</td>
+<td>对应文本的序号</td>
+</tr>
+</tbody></table>
+<p>Friend表：</p>
+<table>
+<thead>
+<tr>
+<th>uid_1</th>
+<th>uid_2</th>
+<th>since_time</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>用户1的序号</td>
+<td>用户2的序号</td>
+<td>从何时开始成为朋友</td>
+</tr>
+</tbody></table>
+<p>Conversation表：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>to_user</th>
+<th>from_user</th>
+<th>conversation_id</th>
+<th>time</th>
+<th>content</th>
+<th>read</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>该段对话的序号</td>
+<td>发送人序号</td>
+<td>接收人序号</td>
+<td>相同两人之间的对话集合的序号</td>
+<td>对话时间</td>
+<td>对话内容</td>
+<td>是否已读</td>
+</tr>
+</tbody></table>
+<h3 id="RESTful风格架构设计"><a href="#RESTful风格架构设计" class="headerlink" title="RESTful风格架构设计"></a>RESTful风格架构设计</h3><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>请求URI</th>
+<th>请求方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>用户登录</td>
+<td>/user/login</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>跳转到添加用户界面</td>
+<td>/user/</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>查询用户</td>
+<td>/user/{id}</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>用户注册</td>
+<td>/user/</td>
+<td>POST</td>
+</tr>
+<tr>
+<td>跳转到对应用户的主页</td>
+<td>/user/myPage</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>跳转到添加帖子界面</td>
+<td>/post/</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>添加帖子</td>
+<td>/post/</td>
+<td>POST</td>
+</tr>
+<tr>
+<td>查询所有帖子</td>
+<td>/posts/</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>查询所有该id对应的用户发的帖子</td>
+<td>/post/{id}</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>修改帖子</td>
+<td>/post/</td>
+<td>PUT</td>
+</tr>
+<tr>
+<td>删除帖子</td>
+<td>/post/{id}</td>
+<td>DELETE</td>
+</tr>
+<tr>
+<td>点赞或取消赞</td>
+<td>/like/</td>
+<td>POST</td>
+</tr>
+<tr>
+<td>获得当前登录用户对应的所有朋友名单</td>
+<td>/friends/</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>跳转到朋友搜索界面</td>
+<td>/friend/</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>根据输入条件查找用户</td>
+<td>/friend/search/</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>添加朋友</td>
+<td>/friend/</td>
+<td>POST</td>
+</tr>
+<tr>
+<td>删除朋友</td>
+<td>/friend/{id}</td>
+<td>DELETE</td>
+</tr>
+</tbody></table>
+<h2 id="2-搭建Mybatis-SpringBoot基础框架"><a href="#2-搭建Mybatis-SpringBoot基础框架" class="headerlink" title="2. 搭建Mybatis+SpringBoot基础框架"></a>2. 搭建Mybatis+SpringBoot基础框架</h2><h3 id="配置Druid数据源"><a href="#配置Druid数据源" class="headerlink" title="配置Druid数据源"></a>配置Druid数据源</h3><ol>
+<li><p>首先引入Druid的Maven依赖</p>
+ <figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>druid-spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.1.22<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+</li>
+<li><p>然后在<code>application.yml</code>中配置Datasource</p>
+ <figure class="highlight yml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yml"><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">datasource:</span><br>    <span class="hljs-attr">type:</span> <span class="hljs-string">com.alibaba.druid.pool.DruidDataSource</span><br>    <span class="hljs-attr">driver-class-name:</span> <span class="hljs-string">com.mysql.cj.jdbc.Driver</span><br>    <span class="hljs-attr">url:</span> <span class="hljs-string">jdbc:mysql://localhost:3306/postalk?useUnicode=true&amp;characterEncoding=utf-8&amp;relaxAutoCommit=true&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true&amp;serverTimezone=GMT%2B8</span><br>    <span class="hljs-attr">password:</span> <span class="hljs-string">root</span><br>    <span class="hljs-attr">username:</span> <span class="hljs-string">root</span><br>    <span class="hljs-attr">druid:</span><br>      <span class="hljs-attr">initial-size:</span> <span class="hljs-number">5</span><br>      <span class="hljs-attr">min-idle:</span> <span class="hljs-number">5</span><br>      <span class="hljs-attr">maxActive:</span> <span class="hljs-number">20</span><br>      <span class="hljs-attr">maxWait:</span> <span class="hljs-number">60000</span><br>      <span class="hljs-attr">timeBetweenEvictionRunsMillis:</span> <span class="hljs-number">60000</span><br>      <span class="hljs-attr">minEvictableIdleTimeMillis:</span> <span class="hljs-number">300000</span><br>      <span class="hljs-attr">validationQuery:</span> <span class="hljs-string">SELECT</span> <span class="hljs-number">1</span><br>      <span class="hljs-attr">testWhileIdle:</span> <span class="hljs-literal">true</span><br>      <span class="hljs-attr">testOnBorrow:</span> <span class="hljs-literal">false</span><br>      <span class="hljs-attr">testOnReturn:</span> <span class="hljs-literal">false</span><br>      <span class="hljs-attr">poolPreparedStatements:</span> <span class="hljs-literal">true</span><br>      <span class="hljs-attr">maxPoolPreparedStatementPerConnectionSize:</span> <span class="hljs-number">20</span><br>      <span class="hljs-attr">filters:</span> <span class="hljs-string">stat,wall,slf4j</span><br>      <span class="hljs-attr">connectionProperties:</span> <span class="hljs-string">druid.stat.mergeSql\=true;druid.stat.slowSqlMillis\=5000</span><br>      <span class="hljs-attr">web-stat-filter:</span><br>        <span class="hljs-attr">enabled:</span> <span class="hljs-literal">true</span><br>        <span class="hljs-attr">url-pattern:</span> <span class="hljs-string">&quot;/*&quot;</span><br>        <span class="hljs-attr">exclusions:</span> <span class="hljs-string">&quot;*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*&quot;</span><br>      <span class="hljs-attr">stat-view-servlet:</span><br>        <span class="hljs-attr">url-pattern:</span> <span class="hljs-string">&quot;/druid/*&quot;</span><br>        <span class="hljs-attr">reset-enable:</span> <span class="hljs-literal">false</span><br>        <span class="hljs-attr">login-username:</span> <span class="hljs-string">admin</span><br>        <span class="hljs-attr">login-password:</span> <span class="hljs-number">123456</span><br>        <span class="hljs-attr">enabled:</span> <span class="hljs-literal">true</span><br></code></pre></div></td></tr></table></figure></li>
+</ol>
+<h3 id="实现各实体类"><a href="#实现各实体类" class="headerlink" title="实现各实体类"></a>实现各实体类</h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> xyz.aiinirii.postalk.bean;<br><br><span class="hljs-keyword">import</span> lombok.Data;<br><span class="hljs-keyword">import</span> lombok.EqualsAndHashCode;<br><br><span class="hljs-keyword">import</span> java.util.Date;<br><br><span class="hljs-meta">@Data</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> id;<br>    <span class="hljs-keyword">private</span> String username;<br>    <span class="hljs-keyword">private</span> String password;<br>    <span class="hljs-keyword">private</span> String sex;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> age;<br>    <span class="hljs-keyword">private</span> String phoneNumber;<br>    <span class="hljs-keyword">private</span> String email;<br>    <span class="hljs-keyword">private</span> Date registrationDate;<br>&#125;<br><br><span class="hljs-meta">@Data</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Text</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> id;<br>    <span class="hljs-keyword">private</span> String content;<br>    <span class="hljs-keyword">private</span> Date time;<br><br>    <span class="hljs-keyword">private</span> User user;<br>&#125;<br><br><span class="hljs-meta">@EqualsAndHashCode(callSuper = true)</span><br><span class="hljs-meta">@Data</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Comment</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Text</span></span>&#123;<br><br>    <span class="hljs-keyword">private</span> Text text;<br>&#125;<br><br><span class="hljs-meta">@EqualsAndHashCode(callSuper = true)</span><br><span class="hljs-meta">@Data</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Post</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Text</span></span>&#123;<br>&#125;<br><br><span class="hljs-meta">@Data</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Like</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> User user;<br>    <span class="hljs-keyword">private</span> Text text;<br>&#125;<br><br><span class="hljs-meta">@Data</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Friend</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> User user1;<br>    <span class="hljs-keyword">private</span> User user2;<br>    <span class="hljs-keyword">private</span> Data sinceTime;<br>&#125;<br><br><span class="hljs-meta">@Data</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Conversation</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> id;<br>    <span class="hljs-keyword">private</span> User toUser;<br>    <span class="hljs-keyword">private</span> User fromUser;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> conversationId;<br>    <span class="hljs-keyword">private</span> Date time;<br>    <span class="hljs-keyword">private</span> String content;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> read;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="3-用户模块"><a href="#3-用户模块" class="headerlink" title="3. 用户模块"></a>3. 用户模块</h2><h3 id="实现User的CURD操作"><a href="#实现User的CURD操作" class="headerlink" title="实现User的CURD操作"></a>实现User的CURD操作</h3><h4 id="Mapper-实现"><a href="#Mapper-实现" class="headerlink" title="Mapper 实现"></a>Mapper 实现</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> xyz.aiinirii.postalk.mapper;<br><br><span class="hljs-keyword">import</span> org.apache.ibatis.annotations.*;<br><span class="hljs-keyword">import</span> org.springframework.stereotype.Repository;<br><span class="hljs-keyword">import</span> xyz.aiinirii.postalk.bean.User;<br><br><span class="hljs-keyword">import</span> java.util.List;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> AIINIRII</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Mapper</span><br><span class="hljs-meta">@Repository</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">UserMapper</span> </span>&#123;<br><br>    <span class="hljs-meta">@Select(&quot;select * from user&quot;)</span><br>    <span class="hljs-function">List&lt;User&gt; <span class="hljs-title">findAllUser</span><span class="hljs-params">()</span></span>;<br><br>    <span class="hljs-meta">@Select(&quot;select * from user where id=#&#123;id&#125;&quot;)</span><br>    <span class="hljs-function">User <span class="hljs-title">findUserById</span><span class="hljs-params">(Integer id)</span></span>;<br><br>    <span class="hljs-meta">@Select(&quot;delete from user where id=#&#123;id&#125;&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">deleteUserById</span><span class="hljs-params">(Integer id)</span></span>;<br><br>    <span class="hljs-meta">@Options(useGeneratedKeys = true, keyProperty = &quot;id&quot;)</span><br>    <span class="hljs-meta">@Insert(&quot;insert into user(username, password, sex, age, phone_number, email, registration_date) values (#&#123;username&#125;, #&#123;password&#125;, #&#123;sex&#125;, #&#123;age&#125;, #&#123;phoneNumber&#125;, #&#123;email&#125;, #&#123;registrationDate&#125;)&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">insertUser</span><span class="hljs-params">(User user)</span></span>;<br><br>    <span class="hljs-meta">@Insert(&quot;update user set username=#&#123;username&#125;, password=#&#123;password&#125;, sex=#&#123;sex&#125;, age=#&#123;age&#125;, phone_number=#&#123;phoneNumber&#125;, email=#&#123;email&#125;, registration_date=#&#123;registration_date&#125; where id=#&#123;id&#125;&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">updateUser</span><span class="hljs-params">(User user)</span></span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="登录注册功能实现"><a href="#登录注册功能实现" class="headerlink" title="登录注册功能实现"></a>登录注册功能实现</h3><h4 id="Controller类代码实现"><a href="#Controller类代码实现" class="headerlink" title="Controller类代码实现"></a>Controller类代码实现</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> xyz.aiinirii.postalk.controller;<br><br><span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;<br><span class="hljs-keyword">import</span> org.springframework.stereotype.Controller;<br><span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.GetMapping;<br><span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.PathVariable;<br><span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.PostMapping;<br><span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;<br><span class="hljs-keyword">import</span> org.springframework.web.servlet.ModelAndView;<br><span class="hljs-keyword">import</span> xyz.aiinirii.postalk.bean.User;<br><span class="hljs-keyword">import</span> xyz.aiinirii.postalk.service.UserService;<br><br><span class="hljs-keyword">import</span> java.util.LinkedList;<br><span class="hljs-keyword">import</span> java.util.List;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> AIINIRII</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Controller</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserController</span> </span>&#123;<br><br>    UserService userService = <span class="hljs-keyword">new</span> UserService();<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setUserService</span><span class="hljs-params">(UserService userService)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.userService = userService;<br>    &#125;<br><br>    <span class="hljs-meta">@PostMapping(&quot;/user/login&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> ModelAndView <span class="hljs-title">checkUser</span><span class="hljs-params">(User user, ModelAndView modelAndView)</span></span>&#123;<br>        <span class="hljs-keyword">int</span> res = userService.checkUser(user);<br>        modelAndView.addObject(<span class="hljs-string">&quot;checkResult&quot;</span>, res);<br>        <span class="hljs-keyword">if</span> (res == <span class="hljs-number">0</span>) &#123;<br>            modelAndView.setViewName(<span class="hljs-string">&quot;/post/index&quot;</span>);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            modelAndView.setViewName(<span class="hljs-string">&quot;/index&quot;</span>);<br>        &#125;<br>        <span class="hljs-keyword">return</span> modelAndView;<br>    &#125;<br><br>    <span class="hljs-meta">@GetMapping(&quot;/user/&#123;id&#125;&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> ModelAndView <span class="hljs-title">findUserById</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable(&quot;id&quot;)</span> Integer id, ModelAndView modelAndView)</span> </span>&#123;<br>        User user = userService.findUserById(id);<br>        modelAndView.setViewName(<span class="hljs-string">&quot;user/list&quot;</span>);<br>        List&lt;User&gt; users = <span class="hljs-keyword">new</span> LinkedList&lt;&gt;();<br>        users.add(user);<br>        modelAndView.addObject(<span class="hljs-string">&quot;users&quot;</span>, users);<br>        <span class="hljs-keyword">return</span> modelAndView;<br>    &#125;<br><br>    <span class="hljs-meta">@GetMapping(&quot;/user&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toRegisterPage</span><span class="hljs-params">()</span></span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;user/update&quot;</span>;<br>    &#125;<br><br>    <span class="hljs-meta">@PostMapping(&quot;/user&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> ModelAndView <span class="hljs-title">registerUser</span><span class="hljs-params">(User user, ModelAndView modelAndView)</span> </span>&#123;<br><br>        <span class="hljs-keyword">int</span> res = userService.registerUser(user);<br>        <span class="hljs-keyword">if</span> (res == <span class="hljs-number">0</span>) &#123;<br>            <span class="hljs-comment">// success insert, go to login page</span><br>            modelAndView.setViewName(<span class="hljs-string">&quot;/index&quot;</span>);<br>        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (res == <span class="hljs-number">1</span>)&#123;<br>            <span class="hljs-comment">// the username is used, go back to the register page</span><br>            modelAndView.addObject(<span class="hljs-string">&quot;userR&quot;</span>, user);<br>            modelAndView.setViewName(<span class="hljs-string">&quot;/user/update&quot;</span>);<br>        &#125;<br>        <span class="hljs-keyword">return</span> modelAndView;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="前端代码实现（首页）"><a href="#前端代码实现（首页）" class="headerlink" title="前端代码实现（首页）"></a>前端代码实现（首页）</h4><figure class="highlight html"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span> <span class="hljs-attr">xmlns:th</span>=<span class="hljs-string">&quot;http://www.thymeleaf.org&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">&quot;Content-Type&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;text/html; charset=UTF-8&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;viewport&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;width=device-width, initial-scale=1, shrink-to-fit=no&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;description&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;author&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Signin Template for Bootstrap<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- Bootstrap core CSS --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/asserts/css/bootstrap.min.css&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- Custom styles for this template --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/asserts/css/signin.css&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">body</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-center&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;form-signin&quot;</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;post&quot;</span> <span class="hljs-attr">th:action</span>=<span class="hljs-string">&quot;@&#123;/user/login&#125;&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mb-4&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/asserts/img/bootstrap-solid.svg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;72&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;72&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;h3 mb-3 font-weight-normal&quot;</span>&gt;</span>Please sign in<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;color: #b21f2d&quot;</span> <span class="hljs-attr">th:if</span>=<span class="hljs-string">&quot;$&#123;checkResult == 1&#125;&quot;</span>&gt;</span>wrong password<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;color: #b21f2d&quot;</span> <span class="hljs-attr">th:if</span>=<span class="hljs-string">&quot;$&#123;checkResult == 2&#125;&quot;</span>&gt;</span>no such user<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;sr-only&quot;</span>&gt;</span>Username<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">label</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;username&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;form-control&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Username&quot;</span> <span class="hljs-attr">required</span>=<span class="hljs-string">&quot;&quot;</span> <span class="hljs-attr">autofocus</span>=<span class="hljs-string">&quot;&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;sr-only&quot;</span>&gt;</span>Password<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">label</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;password&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;password&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;form-control&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Password&quot;</span> <span class="hljs-attr">required</span>=<span class="hljs-string">&quot;&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;checkbox mb-3&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">label</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;checkbox&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;remember-me&quot;</span>/&gt;</span> Remember me<br>        <span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;btn btn-lg btn-primary btn-block&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span>&gt;</span>Sign in<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;form-signin&quot;</span> <span class="hljs-attr">action</span>=<span class="hljs-string">&quot;/user/&quot;</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;get&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;btn btn-lg btn-success btn-block&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span>&gt;</span>Register<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mt-5 mb-3 text-muted&quot;</span>&gt;</span>© 2019-2020<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="前端代码实现（注册界面）"><a href="#前端代码实现（注册界面）" class="headerlink" title="前端代码实现（注册界面）"></a>前端代码实现（注册界面）</h4><figure class="highlight html"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span> <span class="hljs-attr">xmlns:th</span>=<span class="hljs-string">&quot;http://www.thymeleaf.org&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="css"></span><br><span class="css">    <span class="hljs-selector-id">#wrapper</span> &#123;</span><br><span class="css">        <span class="hljs-attribute">width</span>: <span class="hljs-number">60%</span>;</span><br><span class="css">        <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span> auto;</span><br><span class="css">        <span class="hljs-attribute">border</span>: <span class="hljs-number">0</span>;</span><br><span class="css">    &#125;</span><br><span class="css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">&quot;Content-Type&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;text/html; charset=UTF-8&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Register<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- Bootstrap core CSS --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/asserts/css/bootstrap.min.css&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- Custom styles for this template --&gt;</span><br>    <span class="hljs-comment">&lt;!--&lt;link href=&quot;/asserts/css/signin.css&quot; rel=&quot;stylesheet&quot;&gt;--&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;wrapper&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;needs-validation&quot;</span> <span class="hljs-attr">novalidate</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;post&quot;</span> <span class="hljs-attr">action</span>=<span class="hljs-string">&quot;/user&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;form-group row&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;inputUsername&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;col-sm-2 col-form-label&quot;</span>&gt;</span>User name*<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;col-sm-10 mb-3&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;username&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;form-control&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;inputUsername&quot;</span> <span class="hljs-attr">th:value</span>=<span class="hljs-string">&quot;$&#123;userR!=null&#125;?$&#123;userR.username&#125;&quot;</span> <span class="hljs-attr">required</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;valid-feedback&quot;</span>&gt;</span><br>                    Looks good!<br>                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;invalid-feedback&quot;</span>&gt;</span><br>                    Please enter a valid username.<br>                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;form-group row&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;inputPassword&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;col-sm-2 col-form-label&quot;</span>&gt;</span>Password*<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;col-sm-10&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;password&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;password&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;form-control&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;inputPassword&quot;</span> <span class="hljs-attr">required</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;valid-feedback&quot;</span>&gt;</span><br>                    Looks good!<br>                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;invalid-feedback&quot;</span>&gt;</span><br>                    Please enter a valid password.<br>                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">fieldset</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;form-group&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;row&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">legend</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;col-form-label col-sm-2 pt-0&quot;</span>&gt;</span>Gender*<span class="hljs-tag">&lt;/<span class="hljs-name">legend</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;col-sm-10&quot;</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;form-check&quot;</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;form-check-input&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;radio&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;sex&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;gridRadios1&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;M&quot;</span>  <span class="hljs-attr">th:checked</span>=<span class="hljs-string">&quot;$&#123;userR!=null&#125;?$&#123;userR.sex==&#x27;M&#x27;&#125;&quot;</span> <span class="hljs-attr">checked</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;form-check-label&quot;</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;gridRadios1&quot;</span>&gt;</span><br>                            Male<br>                        <span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br>                    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;form-check&quot;</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;form-check-input&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;radio&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;sex&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;gridRadios2&quot;</span> <span class="hljs-attr">th:checked</span>=<span class="hljs-string">&quot;$&#123;userR!=null&#125;?$&#123;userR.sex==&#x27;F&#x27;&#125;&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;F&quot;</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;form-check-label&quot;</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;gridRadios2&quot;</span>&gt;</span><br>                            Female<br>                        <span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br>                    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">fieldset</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;form-group row&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;inputAge&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;col-sm-2 col-form-label&quot;</span>&gt;</span>Age*<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;col-sm-10&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;age&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;number&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;form-control&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;inputAge&quot;</span> <span class="hljs-attr">th:value</span>=<span class="hljs-string">&quot;$&#123;userR!=null&#125;?$&#123;userR.age&#125;&quot;</span> <span class="hljs-attr">required</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;valid-feedback&quot;</span>&gt;</span><br>                    Looks good!<br>                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;invalid-feedback&quot;</span>&gt;</span><br>                    Please enter a valid age.<br>                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;form-group row&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;inputPhoneNumber&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;col-sm-2 col-form-label&quot;</span>&gt;</span>Phone number<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;col-sm-10&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;phoneNumber&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;form-control&quot;</span> <span class="hljs-attr">th:value</span>=<span class="hljs-string">&quot;$&#123;userR!=null&#125;?$&#123;userR.phoneNumber&#125;&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;inputPhoneNumber&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;valid-feedback&quot;</span>&gt;</span><br>                    Looks good!<br>                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;invalid-feedback&quot;</span>&gt;</span><br>                    Please enter a valid phone number.<br>                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;form-group row&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;inputEmail&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;col-sm-2 col-form-label&quot;</span>&gt;</span>Email<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;col-sm-10&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;form-control&quot;</span> <span class="hljs-attr">th:value</span>=<span class="hljs-string">&quot;$&#123;userR!=null&#125;?$&#123;userR.email&#125;&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;inputEmail&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;valid-feedback&quot;</span>&gt;</span><br>                    Looks good!<br>                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;invalid-feedback&quot;</span>&gt;</span><br>                    Please enter a valid email.<br>                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;form-group row&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;col-sm-10&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;btn btn-primary&quot;</span>&gt;</span>Sign in<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"></span><br><span class="javascript">    <span class="hljs-comment">// Example starter JavaScript for disabling form submissions if there are invalid fields</span></span><br><span class="javascript">    (<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;</span><br><span class="javascript"><span class="hljs-meta">        &#x27;use strict&#x27;</span>;</span><br><span class="javascript">        <span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">&#x27;load&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;</span><br><span class="javascript">            <span class="hljs-comment">// Fetch all the forms we want to apply custom Bootstrap validation styles to</span></span><br><span class="javascript">            <span class="hljs-keyword">var</span> forms = <span class="hljs-built_in">document</span>.getElementsByClassName(<span class="hljs-string">&#x27;needs-validation&#x27;</span>);</span><br><span class="javascript">            <span class="hljs-comment">// Loop over them and prevent submission</span></span><br><span class="javascript">            <span class="hljs-keyword">var</span> validation = <span class="hljs-built_in">Array</span>.prototype.filter.call(forms, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">form</span>) </span>&#123;</span><br><span class="javascript">                form.addEventListener(<span class="hljs-string">&#x27;submit&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>&#123;</span><br><span class="javascript">                    <span class="hljs-keyword">if</span> (form.checkValidity() === <span class="hljs-literal">false</span>) &#123;</span><br><span class="javascript">                        event.preventDefault();</span><br><span class="javascript">                        event.stopPropagation();</span><br><span class="javascript">                    &#125;</span><br><span class="javascript">                    form.classList.add(<span class="hljs-string">&#x27;was-validated&#x27;</span>);</span><br><span class="javascript">                &#125;, <span class="hljs-literal">false</span>);</span><br><span class="javascript">            &#125;);</span><br><span class="javascript">        &#125;, <span class="hljs-literal">false</span>);</span><br><span class="javascript">    &#125;)();</span><br><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="4-帖子模块"><a href="#4-帖子模块" class="headerlink" title="4. 帖子模块"></a>4. 帖子模块</h2><h3 id="基本的增删改查"><a href="#基本的增删改查" class="headerlink" title="基本的增删改查"></a>基本的增删改查</h3><p>先贴上效果图：</p>
+<ul>
+<li><p>主页面：可以看到平台上所有用户的帖子 -  <img src="/image/image-20200620132434280.png" srcset="/img/loading.gif" lazyload alt="image-20200620132434280"></p>
+</li>
+<li><p>用户主页面：可以看到自己发的所有帖子，而且能够进行修改和删除 - <img src="/image/image-20200620133505658.png" srcset="/img/loading.gif" lazyload alt="image-20200620133505658"></p>
+</li>
+<li><p>修改界面：这里用户可以编辑内容并提交 - <img src="/image/image-20200620133609830.png" srcset="/img/loading.gif" lazyload alt="image-20200620133609830"></p>
+</li>
+<li><p>发帖页面：这里可以发帖 - <img src="/image/image-20200620133748133.png" srcset="/img/loading.gif" lazyload alt="image-20200620133748133"></p>
+</li>
+</ul>
+<p>因为代码太多，这里就不贴出来了，主要说几个遇到的问题：</p>
+<ol>
+<li><p>基于注解的懒加载</p>
+ <figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Select(&quot;select * from post left join text t on post.tid = t.id where tid = #&#123;id&#125;&quot;)</span><br><span class="hljs-meta">@Results(id = &quot;findPostById&quot;,</span><br><span class="hljs-meta">        value = &#123;</span><br><span class="hljs-meta">                @Result(id = true, column = &quot;tid&quot;, property = &quot;id&quot;),</span><br><span class="hljs-meta">                @Result(column = &quot;content&quot;, property = &quot;content&quot;),</span><br><span class="hljs-meta">                @Result(column = &quot;time&quot;, property = &quot;time&quot;),</span><br><span class="hljs-meta">                @Result(column = &quot;uid&quot;, property = &quot;user&quot;, </span><br><span class="hljs-meta">                        one = @One(select = &quot;xyz.aiinirii.postalk.mapper.UserMapper.findUserById&quot;, </span><br><span class="hljs-meta">                                   fetchType = FetchType.LAZY))</span><br><span class="hljs-meta">        &#125;</span><br><span class="hljs-meta">)</span><br><span class="hljs-function">Post <span class="hljs-title">findPostById</span><span class="hljs-params">(Integer id)</span></span>;<br></code></pre></div></td></tr></table></figure>
+
+<p> 其中<code>@Result(column = &quot;uid&quot;, property = &quot;user&quot;, one = @One(select = &quot;xyz.aiinirii.postalk.mapper.UserMapper.findUserById&quot;, fetchType = FetchType.LAZY))</code>所实现的效果是根据<code>findUserById</code>这个类，根据提供的<code>uid</code>查询到<code>user</code>对象，并且只有当<code>user</code>被使用了，即调用了<code>getUser()</code>方法后才会执行查询。</p>
+</li>
+<li><p>如何使用HTML发送put、delete请求</p>
+<p> 其中前端代码为：</p>
+ <figure class="highlight html"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">&quot;/post/&quot;</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;post&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;needs-validation&quot;</span> <span class="hljs-attr">novalidate</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;hidden&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;_method&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;put&quot;</span> <span class="hljs-attr">th:if</span>=<span class="hljs-string">&quot;$&#123;post!=null&#125;&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;hidden&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;id&quot;</span> <span class="hljs-attr">th:value</span>=<span class="hljs-string">&quot;$&#123;post.getId()&#125;&quot;</span> <span class="hljs-attr">th:if</span>=<span class="hljs-string">&quot;$&#123;post!=null&#125;&quot;</span>/&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<p> 这里给的是一个发送put请求的例子，其实form表单是不支持发送put请求的，但是我们可以加一个<code>&lt;input type=&quot;hidden&quot; name=&quot;_method&quot; value=&quot;put&quot; th:if=&quot;$&#123;post!=null&#125;&quot;/&gt;</code>在form表单中，其中字段名必须为<code>_method</code>而<code>value</code>应该为希望的请求方式。而这种发送请求的方式，则需要服务端进行form表单的解析，而spring则可以做到这一点，但是需要配置，在<code>application.yml</code>文件中：</p>
+ <figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">mvc:</span><br>    <span class="hljs-attr">hiddenmethod:</span><br>      <span class="hljs-attr">filter:</span><br>        <span class="hljs-attr">enabled:</span> <span class="hljs-literal">true</span><br></code></pre></div></td></tr></table></figure></li>
+</ol>
+<h3 id="点赞功能实现"><a href="#点赞功能实现" class="headerlink" title="点赞功能实现"></a>点赞功能实现</h3><ul>
+<li><p>赞数显示</p>
+<p>  思路：每次加载页面时自动查询赞数，并显示在页面上。</p>
+<p>  相关LikeMapper代码：</p>
+  <figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Mapper</span><br><span class="hljs-meta">@Repository</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">LikeMapper</span> </span>&#123;<br><br>    <span class="hljs-meta">@Select(&quot;select * from `like` where tid = #&#123;tid&#125;&quot;)</span><br>    <span class="hljs-meta">@Results(</span><br><span class="hljs-meta">            id = &quot;findLikeByTId&quot;,</span><br><span class="hljs-meta">            value = &#123;</span><br><span class="hljs-meta">                    @Result(id = true, column = &quot;tid&quot;, property = &quot;text&quot;, one = @One(select = &quot;xyz.aiinirii.postalk.mapper.TextMapper.findTextById&quot;, fetchType = FetchType.LAZY)),</span><br><span class="hljs-meta">                    @Result(id = true, column = &quot;uid&quot;, property = &quot;user&quot;, one = @One(select = &quot;xyz.aiinirii.postalk.mapper.UserMapper.findUserById&quot;, fetchType = FetchType.LAZY))</span><br><span class="hljs-meta">            &#125;</span><br><span class="hljs-meta">    )</span><br>    <span class="hljs-function">List&lt;Like&gt; <span class="hljs-title">findLikeByTId</span><span class="hljs-params">(Integer tid)</span></span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>  除此之外我们还需将<code>Post</code>和<code>PostMapper</code>进行调整，每次查询<code>Post</code>时使用懒加载的方式（因为其实需要用到<code>Like</code>的情况并不多）去加载<code>Post</code>中的<code>likes</code>。</p>
+  <figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Data</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Text</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Serializable</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> Integer id;<br>    <span class="hljs-keyword">private</span> String content;<br>    <span class="hljs-keyword">private</span> Date time;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> anonymous = <span class="hljs-keyword">false</span>;<br><br>    <span class="hljs-keyword">private</span> User user;<br>    <span class="hljs-comment">// 新加入likes属性</span><br>    <span class="hljs-keyword">private</span> List&lt;Like&gt; likes;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>  下面是<code>PostMapper</code>类，主要改动是在每个查询方法上的<code>@Result</code>内加入了<code>@Result(id = true, column = &quot;tid&quot;, property = &quot;likes&quot;, many = @Many(select = &quot;xyz.aiinirii.postalk.mapper.LikeMapper.findLikeByTId&quot;, fetchType = FetchType.LAZY))</code>。</p>
+  <figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Mapper</span><br><span class="hljs-meta">@Repository</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">PostMapper</span> </span>&#123;<br>	<span class="hljs-meta">@Select(&quot;select * from post p left join text t on p.tid = t.id where uid = #&#123;id&#125; ORDER BY t.time DESC&quot;)</span><br>    <span class="hljs-meta">@Results(id = &quot;findAllPostByUId&quot;,</span><br><span class="hljs-meta">            value = &#123;</span><br><span class="hljs-meta">                    @Result(id = true, column = &quot;tid&quot;, property = &quot;id&quot;),</span><br><span class="hljs-meta">                    @Result(column = &quot;content&quot;, property = &quot;content&quot;),</span><br><span class="hljs-meta">                    @Result(column = &quot;time&quot;, property = &quot;time&quot;),</span><br><span class="hljs-meta">                    @Result(column = &quot;uid&quot;, property = &quot;user&quot;, one = @One(select = &quot;xyz.aiinirii.postalk.mapper.UserMapper.findUserById&quot;, fetchType = FetchType.LAZY)),</span><br><span class="hljs-meta">                    @Result(id = true, column = &quot;tid&quot;, property = &quot;likes&quot;, many = @Many(select = &quot;xyz.aiinirii.postalk.mapper.LikeMapper.findLikeByTId&quot;, fetchType = FetchType.LAZY))</span><br><span class="hljs-meta">            &#125;</span><br><span class="hljs-meta">    )</span><br>    <span class="hljs-function">List&lt;Post&gt; <span class="hljs-title">findAllPostByUId</span><span class="hljs-params">(Integer id)</span></span>;<br><br>    <span class="hljs-meta">@Select(&quot;select * from post left join text t on post.tid = t.id where tid = #&#123;id&#125;&quot;)</span><br>    <span class="hljs-meta">@Results(id = &quot;findPostById&quot;,</span><br><span class="hljs-meta">            value = &#123;</span><br><span class="hljs-meta">                    @Result(id = true, column = &quot;tid&quot;, property = &quot;id&quot;),</span><br><span class="hljs-meta">                    @Result(column = &quot;content&quot;, property = &quot;content&quot;),</span><br><span class="hljs-meta">                    @Result(column = &quot;time&quot;, property = &quot;time&quot;),</span><br><span class="hljs-meta">                    @Result(column = &quot;uid&quot;, property = &quot;user&quot;, one = @One(select = &quot;xyz.aiinirii.postalk.mapper.UserMapper.findUserById&quot;, fetchType = FetchType.LAZY)),</span><br><span class="hljs-meta">                    @Result(id = true, column = &quot;tid&quot;, property = &quot;likes&quot;, many = @Many(select = &quot;xyz.aiinirii.postalk.mapper.LikeMapper.findLikeByTId&quot;, fetchType = FetchType.LAZY))</span><br><span class="hljs-meta">            &#125;</span><br><span class="hljs-meta">    )</span><br>    <span class="hljs-function">Post <span class="hljs-title">findPostById</span><span class="hljs-params">(Integer id)</span></span>;<br><br>    <span class="hljs-meta">@Select(&quot;select * from post p left join text t on p.tid = t.id ORDER BY t.time DESC&quot;)</span><br>    <span class="hljs-meta">@Results(id = &quot;findAllPost&quot;,</span><br><span class="hljs-meta">            value = &#123;</span><br><span class="hljs-meta">                    @Result(id = true, column = &quot;tid&quot;, property = &quot;id&quot;),</span><br><span class="hljs-meta">                    @Result(column = &quot;content&quot;, property = &quot;content&quot;),</span><br><span class="hljs-meta">                    @Result(column = &quot;time&quot;, property = &quot;time&quot;),</span><br><span class="hljs-meta">                    @Result(column = &quot;uid&quot;, property = &quot;user&quot;, one = @One(select = &quot;xyz.aiinirii.postalk.mapper.UserMapper.findUserById&quot;, fetchType = FetchType.LAZY)),</span><br><span class="hljs-meta">                    @Result(id = true, column = &quot;tid&quot;, property = &quot;likes&quot;, many = @Many(select = &quot;xyz.aiinirii.postalk.mapper.LikeMapper.findLikeByTId&quot;, fetchType = FetchType.LAZY))</span><br><span class="hljs-meta">            &#125;</span><br><span class="hljs-meta">    )</span><br>    <span class="hljs-function">List&lt;Post&gt; <span class="hljs-title">findAllPost</span><span class="hljs-params">()</span></span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>  这样一来，每次我们需要查询Post的赞数时，我们只需要调用<code>post.getLikes().size()</code>方法。</p>
+</li>
+<li><p>点击按钮增加赞数</p>
+<p>  思路：点击按钮时调用<code>LikeService</code>中的<code>like</code>方法，对传入的<code>uid</code>和<code>tid</code>进行查询，如果发现在<code>like</code>表中没有字段，则执行insert方法。</p>
+</li>
+<li><p>再次点击按钮减少赞数</p>
+<p>  思路：同增加赞数的思想，只是如果发现<code>like</code>表中有字段时才会执行delete方法。</p>
+<p>  以下是service层方法。</p>
+  <figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LikeService</span> </span>&#123;<br><br>    LikeMapper likeMapper;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setLikeMapper</span><span class="hljs-params">(LikeMapper likeMapper)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.likeMapper = likeMapper;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * add like if the user haven&#x27;t liked,</span><br><span class="hljs-comment">     * delete like if the user already have liked</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> tid text&#x27;s id</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> uid user&#x27;s id</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> true if the operation is success</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Transactional(propagation = Propagation.REQUIRED)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">like</span><span class="hljs-params">(Integer tid, Integer uid)</span> </span>&#123;<br>        Like like = likeMapper.findLikeByTIdUId(tid, uid);<br>        <span class="hljs-keyword">if</span> (like == <span class="hljs-keyword">null</span>) &#123;<br>            <span class="hljs-keyword">return</span> likeMapper.insertLike(tid, uid) == <span class="hljs-number">1</span>;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">return</span> likeMapper.deleteLike(tid, uid) == <span class="hljs-number">1</span>;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure></li>
+</ul>
+<h3 id="匿名显示"><a href="#匿名显示" class="headerlink" title="匿名显示"></a>匿名显示</h3><p>只需要稍微对前端代码进行修改就可以了：</p>
+<figure class="highlight html"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;badge badge-light&quot;</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string">&quot;$&#123;!post.anonymous?post.user.username:&#x27;anonymous&#x27;&#125;&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>这里加入一处判断，倘若post是匿名的，则不会显示用户的名字。</p>
+<h2 id="5-好友模块"><a href="#5-好友模块" class="headerlink" title="5. 好友模块"></a>5. 好友模块</h2><p>有了之前的基础，这一模块就相对简单了，主要是实现以下几个特性：</p>
+<ul>
+<li>根据ID或用户名查找好友</li>
+<li>添加好友</li>
+<li>删除好友</li>
+</ul>
+<p>好友相关界面一览：</p>
+<p><img src="/image/image-20200621121414466.png" srcset="/img/loading.gif" lazyload alt="image-20200621121414466"></p>
+<p><img src="/image/image-20200621115555366.png" srcset="/img/loading.gif" lazyload alt="image-20200621115555366"></p>
+<h3 id="根据ID或用户名查找好友"><a href="#根据ID或用户名查找好友" class="headerlink" title="根据ID或用户名查找好友"></a>根据ID或用户名查找好友</h3><p>这一部分主要使用的是<code>userService</code>有关的接口去操作，以下是controller层代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping(&quot;/friends/&quot;)</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> ModelAndView <span class="hljs-title">toMyFriendPage</span><span class="hljs-params">(ModelAndView modelAndView,</span></span><br><span class="hljs-params"><span class="hljs-function">                                   <span class="hljs-meta">@SessionAttribute(&quot;loginUser&quot;)</span> User user)</span> </span>&#123;<br>    List&lt;User&gt; friends = friendService.findAllFriendsByUId(user.getId());<br>    modelAndView.addObject(<span class="hljs-string">&quot;friends&quot;</span>, friends);<br>    modelAndView.setViewName(<span class="hljs-string">&quot;friend/myFriend&quot;</span>);<br>    <span class="hljs-keyword">return</span> modelAndView;<br>&#125;<br><br><span class="hljs-meta">@GetMapping(&quot;/friend/search/&quot;)</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> ModelAndView <span class="hljs-title">findFriend</span><span class="hljs-params">(ModelAndView modelAndView,</span></span><br><span class="hljs-params"><span class="hljs-function">                               <span class="hljs-meta">@Param(&quot;findWay&quot;)</span> String findWay,</span></span><br><span class="hljs-params"><span class="hljs-function">                               <span class="hljs-meta">@Param(&quot;inputSearch&quot;)</span> String inputSearch,</span></span><br><span class="hljs-params"><span class="hljs-function">                               <span class="hljs-meta">@SessionAttribute(&quot;loginUser&quot;)</span> User user)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>    List&lt;User&gt; friends = <span class="hljs-keyword">new</span> LinkedList&lt;&gt;();<br>    <span class="hljs-keyword">if</span> (findWay.equals(<span class="hljs-string">&quot;id&quot;</span>) &amp;&amp; !user.getId().equals(Integer.valueOf(inputSearch))) &#123;<br>        friends.add(userService.findUserById(Integer.valueOf(inputSearch)));<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (findWay.equals(<span class="hljs-string">&quot;username&quot;</span>) &amp;&amp; !user.getUsername().equals(inputSearch)) &#123;<br>        friends = userService.findUserByUsername(inputSearch);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Exception(<span class="hljs-string">&quot;Wrong with the findWay&quot;</span>);<br>    &#125;<br>    modelAndView.setViewName(<span class="hljs-string">&quot;/friend/result&quot;</span>);<br>    modelAndView.addObject(<span class="hljs-string">&quot;friends&quot;</span>, friends);<br>    <span class="hljs-keyword">return</span> modelAndView;<br>&#125;<br><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="添加好友"><a href="#添加好友" class="headerlink" title="添加好友"></a>添加好友</h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@PostMapping(&quot;/friend/&quot;)</span><br><span class="hljs-function"><span class="hljs-keyword">private</span> ModelAndView <span class="hljs-title">addFriend</span><span class="hljs-params">(ModelAndView modelAndView,</span></span><br><span class="hljs-params"><span class="hljs-function">                               Integer id,</span></span><br><span class="hljs-params"><span class="hljs-function">                               <span class="hljs-meta">@SessionAttribute(&quot;loginUser&quot;)</span> User user)</span> </span>&#123;<br>    friendService.addFriend(user.getId(), id);<br>    List&lt;User&gt; friends = friendService.findAllFriendsByUId(user.getId());<br>    modelAndView.addObject(<span class="hljs-string">&quot;friends&quot;</span>, friends);<br>    modelAndView.setViewName(<span class="hljs-string">&quot;friend/myFriend&quot;</span>);<br>    <span class="hljs-keyword">return</span> modelAndView;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>可以看到，这里主要是调用了service层的addFriend方法。具体操作便是向friend表单中插入字段。</p>
+<h3 id="删除好友"><a href="#删除好友" class="headerlink" title="删除好友"></a>删除好友</h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@DeleteMapping(&quot;/friend/&#123;id&#125;&quot;)</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> ModelAndView <span class="hljs-title">deleteFriend</span><span class="hljs-params">(ModelAndView modelAndView,</span></span><br><span class="hljs-params"><span class="hljs-function">                                 <span class="hljs-meta">@PathVariable(&quot;id&quot;)</span> Integer id,</span></span><br><span class="hljs-params"><span class="hljs-function">                                 <span class="hljs-meta">@SessionAttribute(&quot;loginUser&quot;)</span> User user)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br><br>    <span class="hljs-keyword">if</span> (!friendService.deleteFriendById(user.getId(), id)) &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Exception(<span class="hljs-string">&quot;the delete operation failed&quot;</span>);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        List&lt;User&gt; friends = friendService.findAllFriendsByUId(user.getId());<br>        modelAndView.addObject(<span class="hljs-string">&quot;friends&quot;</span>, friends);<br>        modelAndView.setViewName(<span class="hljs-string">&quot;friend/myFriend&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">return</span> modelAndView;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>这里用了delete方法，倘若搜索不到该用户，该方法会发出异常。</p>
+<h2 id="6-评论模块"><a href="#6-评论模块" class="headerlink" title="6. 评论模块"></a>6. 评论模块</h2><p>评论模块需要实现以下几个功能：</p>
+<ul>
+<li>评论的创建删除修改匿名和显示</li>
+<li>贴主可以管理评论，可以对评论进行删除操作</li>
+</ul>
+<p>效果图：</p>
+<p><img src="/image/image-20200621225300015.png" srcset="/img/loading.gif" lazyload alt="image-20200621225300015"></p>
+<h3 id="评论的创建删除修改和匿名"><a href="#评论的创建删除修改和匿名" class="headerlink" title="评论的创建删除修改和匿名"></a>评论的创建删除修改和匿名</h3><h4 id="Service层"><a href="#Service层" class="headerlink" title="Service层"></a>Service层</h4><p>这里的要点是两个service层的方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Transactional(propagation = Propagation.REQUIRED)</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createComment</span><span class="hljs-params">(Integer pid, Comment comment, User user)</span> </span>&#123;<br>    comment.setUser(user);<br>    comment.setTime(<span class="hljs-keyword">new</span> Date(System.currentTimeMillis()));<br>    textMapper.insertText(comment);<br>    commentMapper.insertComment(pid);<br>&#125;<br><br><span class="hljs-meta">@Transactional(propagation = Propagation.REQUIRED)</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">deleteCommentById</span><span class="hljs-params">(Integer id, User user)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>    <span class="hljs-keyword">if</span> (commentMapper.findCommentById(id).getUser().getId().equals(user.getId())) &#123;<br>        <span class="hljs-keyword">return</span> commentMapper.deleteCommentById(id) == <span class="hljs-number">1</span> &amp;&amp;<br>                textMapper.deleteTextById(id) == <span class="hljs-number">1</span>;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Exception(<span class="hljs-string">&quot;the user do not have right to delete the comment&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><code>createComment</code>在这里扮演的角色是执行comment的创建，这一点和post的创建过程是一样的；</p>
+<p>而<code>deleteCommentById</code>方法则是和post的删除流程一样。</p>
+<h4 id="’仅可删除自己的comment‘功能实现"><a href="#’仅可删除自己的comment‘功能实现" class="headerlink" title="’仅可删除自己的comment‘功能实现"></a>’仅可删除自己的comment‘功能实现</h4><figure class="highlight html"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;commentModule&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;card&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;width: auto&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;list-group list-group-flush&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">th:each</span>=<span class="hljs-string">&quot;comment: $&#123;post.comments&#125;&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;list-group-item&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;row&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;badge badge-light card-text&quot;</span></span><br><span class="hljs-tag">                   <span class="hljs-attr">th:text</span>=<span class="hljs-string">&quot;$&#123;!comment.anonymous?comment.user.username:&#x27;anonymous&#x27;&#125;&quot;</span>&gt;</span>Light<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;card-text col-sm-8&quot;</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string">&quot;$&#123;comment.content&#125;&quot;</span>&gt;</span>content<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">th:action</span>=<span class="hljs-string">&quot;@&#123;&#x27;/comment/&#x27; + $&#123;comment.id&#125;&#125;&quot;</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;post&quot;</span> <span class="hljs-attr">th:if</span>=<span class="hljs-string">&quot;$&#123;session.loginUser.id == comment.user.id&#125;&quot;</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;hidden&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;_method&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;delete&quot;</span>/&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;btn btn-danger&quot;</span>&gt;</span>Delete<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>注意到这里其实做了一个判断，如果登录的用户和该comment所属的用户不同的话，将不会出现表单。</p>
+<p>同时为了防止恶意提交，在后台Service层也有相应的检查。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Transactional(propagation = Propagation.REQUIRED)</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">deleteCommentById</span><span class="hljs-params">(Integer id, User user)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>    <span class="hljs-keyword">if</span> (commentMapper.findCommentById(id).getUser().getId().equals(user.getId())) &#123; <span class="hljs-comment">// 检查该用户是否有权删除</span><br>        <span class="hljs-keyword">return</span> commentMapper.deleteCommentById(id) == <span class="hljs-number">1</span> &amp;&amp;<br>                textMapper.deleteTextById(id) == <span class="hljs-number">1</span>;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Exception(<span class="hljs-string">&quot;the user do not have right to delete the comment&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h3 id="贴主可以管理评论，可以对评论进行删除操作"><a href="#贴主可以管理评论，可以对评论进行删除操作" class="headerlink" title="贴主可以管理评论，可以对评论进行删除操作"></a>贴主可以管理评论，可以对评论进行删除操作</h3><p>效果图</p>
+<p><img src="/image/image-20200622111802772.png" srcset="/img/loading.gif" lazyload alt="image-20200622111802772"></p>
+<p>同之前的评论删除相似，这里仅仅是调整了各个评论的删除权限：</p>
+<figure class="highlight html"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs html"><span class="hljs-comment">&lt;!-- 前端代码调整，调整了按钮出现的逻辑 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">th:action</span>=<span class="hljs-string">&quot;@&#123;&#x27;/comment/&#x27; + $&#123;comment.id&#125;&#125;&quot;</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;post&quot;</span> <span class="hljs-attr">th:if</span>=<span class="hljs-string">&quot;$&#123;session.loginUser.id&#125; == $&#123;comment.user.id&#125; or $&#123;session.loginUser.id&#125; == $&#123;comment.text.user.id&#125;&quot;</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 后端service 层删除代码调整</span><br><span class="hljs-meta">@Transactional(propagation = Propagation.REQUIRED)</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">deleteCommentById</span><span class="hljs-params">(Integer id, User user)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>    <span class="hljs-keyword">if</span> (commentMapper.findCommentById(id).getUser().getId().equals(user.getId()) || commentMapper.findCommentById(id).getText().getUser().getId().equals(user.getId())) &#123; <span class="hljs-comment">// 加入了判断该评论的父贴子的用户是否为登录用户的逻辑</span><br>        <span class="hljs-keyword">return</span> commentMapper.deleteCommentById(id) == <span class="hljs-number">1</span> &amp;&amp;<br>            textMapper.deleteTextById(id) == <span class="hljs-number">1</span>;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Exception(<span class="hljs-string">&quot;the user do not have right to delete the comment&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<hr>
+<p>那么到此为止，一个基础的贴吧就做好了，但其实还和计划时差了一点（没有聊天模块）。随着项目的进行，我也才发现，如果要完成聊天模块的话自己欠缺的知识其实还有许多，那就先欠着吧:-D，等以后闲下来再去学，然后再把这个瘸腿项目给完善了。</p>
+<p>另注：该项目已开源，下面是github项目传送门，来一起进步啊~</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/AIINIRII/postalk">https://github.com/AIINIRII/postalk</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/spring/">spring</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/spring/spring-boot/">spring boot</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/CS/">CS</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Mybatis/">Mybatis</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Spring-boot/">Spring boot</a>
+                    
+                      <a class="hover-with-bg" href="/tags/druid/">druid</a>
+                    
+                      <a class="hover-with-bg" href="/tags/MySQL/">MySQL</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/06/24/Notes-for-A-Simple-Semi-Supervised-Learning-Framework-for-Object-Detection/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Notes for: A Simple Semi-Supervised Learning Framework for Object Detection</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/06/13/spring-boot-note/">
+                        <span class="hidden-mobile">spring-boot-note</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-dark-orange';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'AIINIRII/repo');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'Comment');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://www.github.com/AIINIRII" target="_blank" rel="nofollow noopener"><span>AIINIRII</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
